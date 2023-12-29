@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rwid/core/config/injector.dart';
-import 'package:rwid/features/auth/page/login_page.dart';
+import 'package:rwid/core/config/router.dart';
+import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -10,6 +11,8 @@ void main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1tdnd6a2hodHJpbG9oZmFsb2NsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDM1OTc0OTEsImV4cCI6MjAxOTE3MzQ5MX0.wpKc3YFPe4VhC2_NJ5Z2lJPM02zfsUHtGAeMoX2HSbk',
   );
+
+  initInjector();
   runApp(MultiRepositoryProvider(providers: [
     RepositoryProvider<SupabaseClient>.value(value: locator()),
   ], child: const MyApp()));
@@ -20,13 +23,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(
+          create: (context) => AuthCubit(supabase: context.read()),
+        )
+      ],
+      child: MaterialApp.router(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        routerConfig: routerConfig,
       ),
-      home: const LoginPage(),
     );
   }
 }

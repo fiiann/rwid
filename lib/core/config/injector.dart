@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final GetIt locator = GetIt.instance;
 
 initInjector() async {
-  final supabase = Supabase.instance.client;
+  final SupabaseClient supabase = Supabase.instance.client;
   locator
     ..registerLazySingleton(() => GlobalKey<NavigatorState>())
     ..registerLazySingleton(() => supabase)

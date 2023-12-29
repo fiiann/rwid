@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,10 +15,17 @@ class AuthCubit extends Cubit<AuthState> {
   final SupabaseClient _supabase;
   void loginGoogle() async {
     emit(state.copyWith(status: ProgressStatus.loading));
-    final response = await _supabase.auth.signInWithOAuth(
-      OAuthProvider.google,
-    );
-    emit(state.copyWith(
-        status: response ? ProgressStatus.success : ProgressStatus.failed));
+    try {
+      final response = await _supabase.auth.signInWithOAuth(
+        OAuthProvider.google,
+      );
+      emit(state.copyWith(
+          status: response ? ProgressStatus.success : ProgressStatus.failed));
+    } catch (e) {
+      if (kDebugMode) {
+        print('error google sign in : $e');
+      }
+      emit(state.copyWith(status: ProgressStatus.failed));
+    }
   }
 }

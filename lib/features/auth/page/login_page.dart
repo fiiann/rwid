@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rwid/core/widget/button_icon_widget.dart';
 
 class LoginPage extends StatelessWidget {
+  static const String route = '/login';
   const LoginPage({super.key});
 
   @override

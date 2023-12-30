@@ -21,19 +21,23 @@ class LoginPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: BlocConsumer<AuthCubit, AuthState>(
+              listenWhen: (previous, current) =>
+                  previous.statusLogin != current.statusLogin,
               listener: (context, state) {
-                if (state.status == ProgressStatus.success) {
-                  context.push(DashboardPage.route);
-                } else if (state.status == ProgressStatus.failed) {
+                if (state.statusLogin == ProgressStatus.success) {
+                  context.go(DashboardPage.route);
+                } else if (state.statusLogin == ProgressStatus.failed) {
                   'Gagal Login'.failedBar(context);
                 }
               },
+              buildWhen: (previous, current) =>
+                  previous.statusLogin != current.statusLogin,
               builder: (context, state) {
                 return FormButtonIcon(
-                    label: state.status == ProgressStatus.loading
+                    label: state.statusLogin == ProgressStatus.loading
                         ? 'Loading'
                         : 'Login with Google',
-                    onPressed: state.status == ProgressStatus.loading
+                    onPressed: state.statusLogin == ProgressStatus.loading
                         ? null
                         : () {
                             context.read<AuthCubit>().loginGoogle();

@@ -16,7 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AuthState {
-  ProgressStatus get status => throw _privateConstructorUsedError;
+  ProgressStatus get statusLogin => throw _privateConstructorUsedError;
+  ProgressStatus get statusLogout => throw _privateConstructorUsedError;
+  AuthenticationStatus get authenticationStatus =>
+      throw _privateConstructorUsedError;
+  AuthResponse? get authResponse => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -28,7 +33,12 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({ProgressStatus status});
+  $Res call(
+      {ProgressStatus statusLogin,
+      ProgressStatus statusLogout,
+      AuthenticationStatus authenticationStatus,
+      AuthResponse? authResponse,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -44,13 +54,33 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
+    Object? statusLogin = null,
+    Object? statusLogout = null,
+    Object? authenticationStatus = null,
+    Object? authResponse = freezed,
+    Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+      statusLogin: null == statusLogin
+          ? _value.statusLogin
+          : statusLogin // ignore: cast_nullable_to_non_nullable
               as ProgressStatus,
+      statusLogout: null == statusLogout
+          ? _value.statusLogout
+          : statusLogout // ignore: cast_nullable_to_non_nullable
+              as ProgressStatus,
+      authenticationStatus: null == authenticationStatus
+          ? _value.authenticationStatus
+          : authenticationStatus // ignore: cast_nullable_to_non_nullable
+              as AuthenticationStatus,
+      authResponse: freezed == authResponse
+          ? _value.authResponse
+          : authResponse // ignore: cast_nullable_to_non_nullable
+              as AuthResponse?,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -63,7 +93,12 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ProgressStatus status});
+  $Res call(
+      {ProgressStatus statusLogin,
+      ProgressStatus statusLogout,
+      AuthenticationStatus authenticationStatus,
+      AuthResponse? authResponse,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -77,29 +112,77 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
+    Object? statusLogin = null,
+    Object? statusLogout = null,
+    Object? authenticationStatus = null,
+    Object? authResponse = freezed,
+    Object? errorMessage = freezed,
   }) {
     return _then(_$AuthStateImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+      statusLogin: null == statusLogin
+          ? _value.statusLogin
+          : statusLogin // ignore: cast_nullable_to_non_nullable
               as ProgressStatus,
+      statusLogout: null == statusLogout
+          ? _value.statusLogout
+          : statusLogout // ignore: cast_nullable_to_non_nullable
+              as ProgressStatus,
+      authenticationStatus: null == authenticationStatus
+          ? _value.authenticationStatus
+          : authenticationStatus // ignore: cast_nullable_to_non_nullable
+              as AuthenticationStatus,
+      authResponse: freezed == authResponse
+          ? _value.authResponse
+          : authResponse // ignore: cast_nullable_to_non_nullable
+              as AuthResponse?,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$AuthStateImpl implements _AuthState {
-  const _$AuthStateImpl({this.status = ProgressStatus.initial});
+class _$AuthStateImpl extends _AuthState with DiagnosticableTreeMixin {
+  const _$AuthStateImpl(
+      {this.statusLogin = ProgressStatus.initial,
+      this.statusLogout = ProgressStatus.initial,
+      this.authenticationStatus = AuthenticationStatus.logout,
+      this.authResponse,
+      this.errorMessage})
+      : super._();
 
   @override
   @JsonKey()
-  final ProgressStatus status;
+  final ProgressStatus statusLogin;
+  @override
+  @JsonKey()
+  final ProgressStatus statusLogout;
+  @override
+  @JsonKey()
+  final AuthenticationStatus authenticationStatus;
+  @override
+  final AuthResponse? authResponse;
+  @override
+  final String? errorMessage;
 
   @override
-  String toString() {
-    return 'AuthState(status: $status)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AuthState(statusLogin: $statusLogin, statusLogout: $statusLogout, authenticationStatus: $authenticationStatus, authResponse: $authResponse, errorMessage: $errorMessage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AuthState'))
+      ..add(DiagnosticsProperty('statusLogin', statusLogin))
+      ..add(DiagnosticsProperty('statusLogout', statusLogout))
+      ..add(DiagnosticsProperty('authenticationStatus', authenticationStatus))
+      ..add(DiagnosticsProperty('authResponse', authResponse))
+      ..add(DiagnosticsProperty('errorMessage', errorMessage));
   }
 
   @override
@@ -107,11 +190,21 @@ class _$AuthStateImpl implements _AuthState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthStateImpl &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.statusLogin, statusLogin) ||
+                other.statusLogin == statusLogin) &&
+            (identical(other.statusLogout, statusLogout) ||
+                other.statusLogout == statusLogout) &&
+            (identical(other.authenticationStatus, authenticationStatus) ||
+                other.authenticationStatus == authenticationStatus) &&
+            (identical(other.authResponse, authResponse) ||
+                other.authResponse == authResponse) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status);
+  int get hashCode => Object.hash(runtimeType, statusLogin, statusLogout,
+      authenticationStatus, authResponse, errorMessage);
 
   @JsonKey(ignore: true)
   @override
@@ -120,11 +213,25 @@ class _$AuthStateImpl implements _AuthState {
       __$$AuthStateImplCopyWithImpl<_$AuthStateImpl>(this, _$identity);
 }
 
-abstract class _AuthState implements AuthState {
-  const factory _AuthState({final ProgressStatus status}) = _$AuthStateImpl;
+abstract class _AuthState extends AuthState {
+  const factory _AuthState(
+      {final ProgressStatus statusLogin,
+      final ProgressStatus statusLogout,
+      final AuthenticationStatus authenticationStatus,
+      final AuthResponse? authResponse,
+      final String? errorMessage}) = _$AuthStateImpl;
+  const _AuthState._() : super._();
 
   @override
-  ProgressStatus get status;
+  ProgressStatus get statusLogin;
+  @override
+  ProgressStatus get statusLogout;
+  @override
+  AuthenticationStatus get authenticationStatus;
+  @override
+  AuthResponse? get authResponse;
+  @override
+  String? get errorMessage;
   @override
   @JsonKey(ignore: true)
   _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>

@@ -1,3 +1,3 @@
 enum ProgressStatus { initial, loading, success, failed }
 
-enum AttendanceStatus { checkin, checkout, done }
+enum AuthenticationStatus { login, logout }

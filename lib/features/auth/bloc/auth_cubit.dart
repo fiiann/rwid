@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:rwid/core/config/service.dart';
+import 'package:rwid/core/config/supabase_service.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
@@ -13,11 +13,11 @@ part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit({required Service service})
+  AuthCubit({required SupabaseService service})
       : _service = service,
         super(const AuthState());
 
-  final Service _service;
+  final SupabaseService _service;
 
   void changeEmail(String? email) {
     if (email != null && email.isNotEmpty) {
@@ -33,47 +33,47 @@ class AuthCubit extends Cubit<AuthState> {
 
   void loginGoogle() async {
     emit(state.copyWith(statusLoginGoogle: BaseResponse.loading()));
-      final googleSignIn = GoogleSignIn(
-        clientId: androidClientId,
-        serverClientId: webClientId,
-      );
-      final googleUser = await googleSignIn.signIn();
-      if (googleUser != null) {
-        final googleAuth = await googleUser.authentication;
-        final accessToken = googleAuth.accessToken;
-        final idToken = googleAuth.idToken;
-        if (accessToken == null) {
-          emit(state.copyWith(
-            statusLoginGoogle:
-                BaseResponse.error(message: 'No Access Token Found'),
-          ));
-        }
-        if (idToken == null) {
-          emit(state.copyWith(
-            statusLoginGoogle: BaseResponse.error(message: 'No Id Token Found'),
-          ));
-        }
-
-        final response = await _service.signInWithIdToken(
-          accessToken: accessToken,
-          idToken: idToken!,
-        );
-
-        if (response.data?.user != null) {
-          emit(state.copyWith(
-            statusLoginGoogle: response,
-            authenticationStatus: AuthenticationStatus.login,
-          ));
-        } else {
-          emit(state.copyWith(
-            statusLoginGoogle:
-                BaseResponse.error(message: 'Failed Login, Try Again'),
-          ));
-        }
+    final googleSignIn = GoogleSignIn(
+      clientId: androidClientId,
+      serverClientId: webClientId,
+    );
+    final googleUser = await googleSignIn.signIn();
+    if (googleUser != null) {
+      final googleAuth = await googleUser.authentication;
+      final accessToken = googleAuth.accessToken;
+      final idToken = googleAuth.idToken;
+      if (accessToken == null) {
+        emit(state.copyWith(
+          statusLoginGoogle:
+              BaseResponse.error(message: 'No Access Token Found'),
+        ));
       }
-      emit(state.copyWith(
-        statusLoginGoogle: BaseResponse.error(message: 'User Canceled'),
-      ));
+      if (idToken == null) {
+        emit(state.copyWith(
+          statusLoginGoogle: BaseResponse.error(message: 'No Id Token Found'),
+        ));
+      }
+
+      final response = await _service.signInWithIdToken(
+        accessToken: accessToken,
+        idToken: idToken!,
+      );
+
+      if (response.data?.user != null) {
+        emit(state.copyWith(
+          statusLoginGoogle: response,
+          authenticationStatus: AuthenticationStatus.login,
+        ));
+      } else {
+        emit(state.copyWith(
+          statusLoginGoogle:
+              BaseResponse.error(message: 'Failed Login, Try Again'),
+        ));
+      }
+    }
+    emit(state.copyWith(
+      statusLoginGoogle: BaseResponse.error(message: 'User Canceled'),
+    ));
   }
 
   void registerEmail() async {
@@ -115,9 +115,10 @@ class AuthCubit extends Cubit<AuthState> {
 
   void logout() async {
     emit(state.copyWith(statusLogout: BaseResponse.loading()));
-      await _service.signOut();
-      emit(state.copyWith(
-          statusLogout: BaseResponse.ok(null),
-          authenticationStatus: AuthenticationStatus.logout,));
+    await _service.signOut();
+    emit(state.copyWith(
+      statusLogout: BaseResponse.ok(null),
+      authenticationStatus: AuthenticationStatus.logout,
+    ));
   }
 }

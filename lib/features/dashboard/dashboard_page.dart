@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/extention/string_ext.dart';
 import 'package:rwid/core/widget/button_widget.dart';
@@ -16,12 +17,12 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listenWhen: (previous, current) =>
-          previous.statusLogout != current.statusLogout,
+          previous.statusLogout?.state != current.statusLogout?.state,
       listener: (_, state) {
-        if (state.statusLogout == ProgressStatus.success) {
+        if (state.statusLogout?.state == ResponseState.ok) {
           context.go(LoginPage.route);
-        } else if (state.statusLoginGoogle == ProgressStatus.failed) {
-          state.errorMessage ?? 'Error'.failedBar(context);
+        } else if (state.statusLogout?.state == ResponseState.error) {
+          (state.statusLogout?.message ?? 'Error').failedBar(context);
         }
       },
       buildWhen: (previous, current) =>

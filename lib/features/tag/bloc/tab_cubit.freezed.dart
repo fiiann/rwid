@@ -15,27 +15,27 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$TabState {
-  ProgressStatus get status => throw _privateConstructorUsedError;
-  List<TagModel>? get listTag => throw _privateConstructorUsedError;
+mixin _$TagState {
+  BaseResponse<List<TagModel?>?>? get data =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $TabStateCopyWith<TabState> get copyWith =>
+  $TagStateCopyWith<TagState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TabStateCopyWith<$Res> {
-  factory $TabStateCopyWith(TabState value, $Res Function(TabState) then) =
-      _$TabStateCopyWithImpl<$Res, TabState>;
+abstract class $TagStateCopyWith<$Res> {
+  factory $TagStateCopyWith(TagState value, $Res Function(TagState) then) =
+      _$TagStateCopyWithImpl<$Res, TagState>;
   @useResult
-  $Res call({ProgressStatus status, List<TagModel>? listTag});
+  $Res call({BaseResponse<List<TagModel?>?>? data});
 }
 
 /// @nodoc
-class _$TabStateCopyWithImpl<$Res, $Val extends TabState>
-    implements $TabStateCopyWith<$Res> {
-  _$TabStateCopyWithImpl(this._value, this._then);
+class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
+    implements $TagStateCopyWith<$Res> {
+  _$TagStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -45,116 +45,89 @@ class _$TabStateCopyWithImpl<$Res, $Val extends TabState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
-    Object? listTag = freezed,
+    Object? data = freezed,
   }) {
     return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as ProgressStatus,
-      listTag: freezed == listTag
-          ? _value.listTag
-          : listTag // ignore: cast_nullable_to_non_nullable
-              as List<TagModel>?,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<List<TagModel?>?>?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$TabStateImplCopyWith<$Res>
-    implements $TabStateCopyWith<$Res> {
-  factory _$$TabStateImplCopyWith(
-          _$TabStateImpl value, $Res Function(_$TabStateImpl) then) =
-      __$$TabStateImplCopyWithImpl<$Res>;
+abstract class _$$TagStateImplCopyWith<$Res>
+    implements $TagStateCopyWith<$Res> {
+  factory _$$TagStateImplCopyWith(
+          _$TagStateImpl value, $Res Function(_$TagStateImpl) then) =
+      __$$TagStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ProgressStatus status, List<TagModel>? listTag});
+  $Res call({BaseResponse<List<TagModel?>?>? data});
 }
 
 /// @nodoc
-class __$$TabStateImplCopyWithImpl<$Res>
-    extends _$TabStateCopyWithImpl<$Res, _$TabStateImpl>
-    implements _$$TabStateImplCopyWith<$Res> {
-  __$$TabStateImplCopyWithImpl(
-      _$TabStateImpl _value, $Res Function(_$TabStateImpl) _then)
+class __$$TagStateImplCopyWithImpl<$Res>
+    extends _$TagStateCopyWithImpl<$Res, _$TagStateImpl>
+    implements _$$TagStateImplCopyWith<$Res> {
+  __$$TagStateImplCopyWithImpl(
+      _$TagStateImpl _value, $Res Function(_$TagStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? status = null,
-    Object? listTag = freezed,
+    Object? data = freezed,
   }) {
-    return _then(_$TabStateImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as ProgressStatus,
-      listTag: freezed == listTag
-          ? _value._listTag
-          : listTag // ignore: cast_nullable_to_non_nullable
-              as List<TagModel>?,
+    return _then(_$TagStateImpl(
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<List<TagModel?>?>?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$TabStateImpl implements _TabState {
-  const _$TabStateImpl(
-      {this.status = ProgressStatus.initial, final List<TagModel>? listTag})
-      : _listTag = listTag;
+class _$TagStateImpl implements _TagState {
+  const _$TagStateImpl({this.data});
 
   @override
-  @JsonKey()
-  final ProgressStatus status;
-  final List<TagModel>? _listTag;
-  @override
-  List<TagModel>? get listTag {
-    final value = _listTag;
-    if (value == null) return null;
-    if (_listTag is EqualUnmodifiableListView) return _listTag;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  final BaseResponse<List<TagModel?>?>? data;
 
   @override
   String toString() {
-    return 'TabState(status: $status, listTag: $listTag)';
+    return 'TagState(data: $data)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TabStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other._listTag, _listTag));
+            other is _$TagStateImpl &&
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, const DeepCollectionEquality().hash(_listTag));
+  int get hashCode => Object.hash(runtimeType, data);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$TabStateImplCopyWith<_$TabStateImpl> get copyWith =>
-      __$$TabStateImplCopyWithImpl<_$TabStateImpl>(this, _$identity);
+  _$$TagStateImplCopyWith<_$TagStateImpl> get copyWith =>
+      __$$TagStateImplCopyWithImpl<_$TagStateImpl>(this, _$identity);
 }
 
-abstract class _TabState implements TabState {
-  const factory _TabState(
-      {final ProgressStatus status,
-      final List<TagModel>? listTag}) = _$TabStateImpl;
+abstract class _TagState implements TagState {
+  const factory _TagState({final BaseResponse<List<TagModel?>?>? data}) =
+      _$TagStateImpl;
 
   @override
-  ProgressStatus get status;
-  @override
-  List<TagModel>? get listTag;
+  BaseResponse<List<TagModel?>?>? get data;
   @override
   @JsonKey(ignore: true)
-  _$$TabStateImplCopyWith<_$TabStateImpl> get copyWith =>
+  _$$TagStateImplCopyWith<_$TagStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

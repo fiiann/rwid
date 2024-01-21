@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rwid/core/config/injector.dart';
 import 'package:rwid/core/config/router.dart';
+import 'package:rwid/core/config/supabase_service.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,6 +15,7 @@ void main() async {
 
   initInjector();
   runApp(MultiRepositoryProvider(providers: [
+    RepositoryProvider<SupabaseService>.value(value: locator()),
     RepositoryProvider<SupabaseClient>.value(value: locator()),
   ], child: const MyApp()));
 }
@@ -25,9 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthCubit>(
-          create: (context) => AuthCubit(supabase: context.read()),
-        )
+        BlocProvider<AuthCubit>(create: (_) => locator()),
       ],
       child: MaterialApp.router(
         title: 'Flutter Demo',

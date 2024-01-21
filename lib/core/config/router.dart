@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rwid/core/config/injector.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/dashboard/dashboard_page.dart';
+import 'package:rwid/features/tag/bloc/tab_cubit.dart';
 import 'package:rwid/features/tag/page/tag_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -55,6 +56,9 @@ final GoRouter routerConfig = GoRouter(
       ),
       GoRoute(
         path: TagPage.route,
-        builder: (context, state) => const TagPage(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => TagCubit(supabaseService: context.read()),
+          child: const TagPage(),
+        ),
       ),
     ]);

@@ -1,11 +1,14 @@
+import 'dart:developer' as logger show log;
+
 import 'package:flutter/foundation.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
+import 'package:rwid/features/tag/model/tag_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class Service {
+class SupabaseService {
   final SupabaseClient _client;
 
-  Service({required SupabaseClient client}) : _client = client;
+  SupabaseService({required SupabaseClient client}) : _client = client;
 
   Future<BaseResponse<AuthResponse>> signInWithIdToken(
       {required String? accessToken, required String idToken}) async {
@@ -45,6 +48,19 @@ class Service {
     } catch (e) {
       if (kDebugMode) {
         print('error logout : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  Future<BaseResponse<List<TagModel?>?>?> getTag() async {
+    try {
+      final data = await _client.from('tag').select();
+      logger.log(data.toString());
+      return BaseResponse.ok(parseTagModelsListFromMap(data));
+    } catch (e) {
+      if (kDebugMode) {
+        print('error get list tag : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
     }

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rwid/core/config/injector.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/dashboard/dashboard_page.dart';
+import 'package:rwid/features/tag/page/tag_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final GlobalKey<NavigatorState> _navigatorKey = locator();
@@ -34,7 +35,9 @@ final GoRouter routerConfig = GoRouter(
           // print(session?.user);
           final session = supabase.auth.currentSession;
           if (session != null) {
-            return DashboardPage.route;
+            //TODO CHECK IF USER HAVE BEEN CHOOSE TAG
+            // return DashboardPage.route;
+            return TagPage.route;
           } else {
             return null;
           }
@@ -49,5 +52,9 @@ final GoRouter routerConfig = GoRouter(
       GoRoute(
         path: DashboardPage.route,
         builder: (context, state) => const DashboardPage(),
+      ),
+      GoRoute(
+        path: TagPage.route,
+        builder: (context, state) => const TagPage(),
       ),
     ]);

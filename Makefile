@@ -5,7 +5,7 @@ PATH_APK:=`PWD`/build/app/outputs/flutter-apk
 PATH_APK_GOOGLE:=$(GOOGLE_DRIVE)/Klaster-Pintar/APK
 
 generate:
-	flutter pub run build_runner build --delete-conflicting-outputs
+	dart run build_runner build --delete-conflicting-outputs
 watch:
 	flutter pub run build_runner watch
 clean:
@@ -41,8 +41,8 @@ generate-splash:
 generate-icon:
 	flutter pub get && flutter pub run flutter_launcher_icons
 generate-two:
-	dart run build_runner build --build-filter="lib/src/data/models/visitor/visitor_response.freezed.dart"
-	dart run build_runner build --build-filter="lib/src/data/models/visitor/visitor_response.g.dart"
+	dart run build_runner build --build-filter="lib/features/tag/model/tag_model.freezed.dart"
+	dart run build_runner build --build-filter="lib/features/tag/model/tag_model.g.dart"
 generate-one:
 	dart run build_runner build --build-filter="lib/features/auth/bloc/auth_cubit.freezed.dart"
 generate-service:

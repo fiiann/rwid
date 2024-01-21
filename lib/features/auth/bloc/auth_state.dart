@@ -3,17 +3,19 @@ part of 'auth_cubit.dart';
 @freezed
 class AuthState with _$AuthState {
   const factory AuthState({
-    @Default(ProgressStatus.initial) ProgressStatus statusLogin,
-    @Default(ProgressStatus.initial) ProgressStatus statusLogout,
+    BaseResponse<AuthResponse>? statusLoginGoogle,
+    BaseResponse<AuthResponse>? statusLoginEmail,
+    BaseResponse<AuthResponse>? statusRegisterEmail,
+    BaseResponse<void>? statusLogout,
     @Default(AuthenticationStatus.logout)
     AuthenticationStatus authenticationStatus,
-    AuthResponse? authResponse,
-    String? errorMessage,
+    String? email,
+    String? password,
   }) = _AuthState;
 
   const AuthState._();
   UserRWID get userRwid {
-    User? user = authResponse?.user;
+    User? user = statusLoginGoogle?.data?.user;
     return UserRWID(
         id: user?.id ?? '',
         name: user?.userMetadata?['name'] ?? '',

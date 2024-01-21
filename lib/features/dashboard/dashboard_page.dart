@@ -14,25 +14,44 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('HOME'),
-      ),
-      body: BlocConsumer<AuthCubit, AuthState>(
-        listenWhen: (previous, current) =>
-            previous.statusLogout != current.statusLogout,
-        listener: (_, state) {
-          if (state.statusLogout == ProgressStatus.success) {
-            context.go(LoginPage.route);
-          } else if (state.statusLogin == ProgressStatus.failed) {
-            state.errorMessage ?? 'Error'.failedBar(context);
-          }
-        },
-        buildWhen: (previous, current) =>
-            previous.statusLogout != current.statusLogout,
-        builder: (context, state) {
-          final user = state.userRwid;
-          return Padding(
+    return BlocConsumer<AuthCubit, AuthState>(
+      listenWhen: (previous, current) =>
+          previous.statusLogout != current.statusLogout,
+      listener: (_, state) {
+        if (state.statusLogout == ProgressStatus.success) {
+          context.go(LoginPage.route);
+        } else if (state.statusLoginGoogle == ProgressStatus.failed) {
+          state.errorMessage ?? 'Error'.failedBar(context);
+        }
+      },
+      buildWhen: (previous, current) =>
+          previous.statusLogout != current.statusLogout,
+      builder: (context, state) {
+        final user = state.userRwid;
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'Welcome, ${user.name} !',
+              overflow: TextOverflow.ellipsis,
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: GestureDetector(
+                  onDoubleTap: () => context.read<AuthCubit>().logout(),
+                  child: state.statusLogout == ProgressStatus.loading
+                      ? const SizedBox.square(
+                          dimension: 16,
+                          child: CircularProgressIndicator(),
+                        )
+                      : CircleAvatar(
+                          foregroundImage: NetworkImage(user.photo),
+                        ),
+                ),
+              ),
+            ],
+          ),
+          body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -65,9 +84,9 @@ class DashboardPage extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

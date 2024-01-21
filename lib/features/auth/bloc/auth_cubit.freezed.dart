@@ -16,12 +16,17 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AuthState {
-  ProgressStatus get statusLogin => throw _privateConstructorUsedError;
-  ProgressStatus get statusLogout => throw _privateConstructorUsedError;
+  BaseResponse<AuthResponse>? get statusLoginGoogle =>
+      throw _privateConstructorUsedError;
+  BaseResponse<AuthResponse>? get statusLoginEmail =>
+      throw _privateConstructorUsedError;
+  BaseResponse<AuthResponse>? get statusRegisterEmail =>
+      throw _privateConstructorUsedError;
+  BaseResponse<void>? get statusLogout => throw _privateConstructorUsedError;
   AuthenticationStatus get authenticationStatus =>
       throw _privateConstructorUsedError;
-  AuthResponse? get authResponse => throw _privateConstructorUsedError;
-  String? get errorMessage => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get password => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -34,11 +39,13 @@ abstract class $AuthStateCopyWith<$Res> {
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
   $Res call(
-      {ProgressStatus statusLogin,
-      ProgressStatus statusLogout,
+      {BaseResponse<AuthResponse>? statusLoginGoogle,
+      BaseResponse<AuthResponse>? statusLoginEmail,
+      BaseResponse<AuthResponse>? statusRegisterEmail,
+      BaseResponse<void>? statusLogout,
       AuthenticationStatus authenticationStatus,
-      AuthResponse? authResponse,
-      String? errorMessage});
+      String? email,
+      String? password});
 }
 
 /// @nodoc
@@ -54,32 +61,42 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? statusLogin = null,
-    Object? statusLogout = null,
+    Object? statusLoginGoogle = freezed,
+    Object? statusLoginEmail = freezed,
+    Object? statusRegisterEmail = freezed,
+    Object? statusLogout = freezed,
     Object? authenticationStatus = null,
-    Object? authResponse = freezed,
-    Object? errorMessage = freezed,
+    Object? email = freezed,
+    Object? password = freezed,
   }) {
     return _then(_value.copyWith(
-      statusLogin: null == statusLogin
-          ? _value.statusLogin
-          : statusLogin // ignore: cast_nullable_to_non_nullable
-              as ProgressStatus,
-      statusLogout: null == statusLogout
+      statusLoginGoogle: freezed == statusLoginGoogle
+          ? _value.statusLoginGoogle
+          : statusLoginGoogle // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<AuthResponse>?,
+      statusLoginEmail: freezed == statusLoginEmail
+          ? _value.statusLoginEmail
+          : statusLoginEmail // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<AuthResponse>?,
+      statusRegisterEmail: freezed == statusRegisterEmail
+          ? _value.statusRegisterEmail
+          : statusRegisterEmail // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<AuthResponse>?,
+      statusLogout: freezed == statusLogout
           ? _value.statusLogout
           : statusLogout // ignore: cast_nullable_to_non_nullable
-              as ProgressStatus,
+              as BaseResponse<void>?,
       authenticationStatus: null == authenticationStatus
           ? _value.authenticationStatus
           : authenticationStatus // ignore: cast_nullable_to_non_nullable
               as AuthenticationStatus,
-      authResponse: freezed == authResponse
-          ? _value.authResponse
-          : authResponse // ignore: cast_nullable_to_non_nullable
-              as AuthResponse?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -94,11 +111,13 @@ abstract class _$$AuthStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {ProgressStatus statusLogin,
-      ProgressStatus statusLogout,
+      {BaseResponse<AuthResponse>? statusLoginGoogle,
+      BaseResponse<AuthResponse>? statusLoginEmail,
+      BaseResponse<AuthResponse>? statusRegisterEmail,
+      BaseResponse<void>? statusLogout,
       AuthenticationStatus authenticationStatus,
-      AuthResponse? authResponse,
-      String? errorMessage});
+      String? email,
+      String? password});
 }
 
 /// @nodoc
@@ -112,32 +131,42 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? statusLogin = null,
-    Object? statusLogout = null,
+    Object? statusLoginGoogle = freezed,
+    Object? statusLoginEmail = freezed,
+    Object? statusRegisterEmail = freezed,
+    Object? statusLogout = freezed,
     Object? authenticationStatus = null,
-    Object? authResponse = freezed,
-    Object? errorMessage = freezed,
+    Object? email = freezed,
+    Object? password = freezed,
   }) {
     return _then(_$AuthStateImpl(
-      statusLogin: null == statusLogin
-          ? _value.statusLogin
-          : statusLogin // ignore: cast_nullable_to_non_nullable
-              as ProgressStatus,
-      statusLogout: null == statusLogout
+      statusLoginGoogle: freezed == statusLoginGoogle
+          ? _value.statusLoginGoogle
+          : statusLoginGoogle // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<AuthResponse>?,
+      statusLoginEmail: freezed == statusLoginEmail
+          ? _value.statusLoginEmail
+          : statusLoginEmail // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<AuthResponse>?,
+      statusRegisterEmail: freezed == statusRegisterEmail
+          ? _value.statusRegisterEmail
+          : statusRegisterEmail // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<AuthResponse>?,
+      statusLogout: freezed == statusLogout
           ? _value.statusLogout
           : statusLogout // ignore: cast_nullable_to_non_nullable
-              as ProgressStatus,
+              as BaseResponse<void>?,
       authenticationStatus: null == authenticationStatus
           ? _value.authenticationStatus
           : authenticationStatus // ignore: cast_nullable_to_non_nullable
               as AuthenticationStatus,
-      authResponse: freezed == authResponse
-          ? _value.authResponse
-          : authResponse // ignore: cast_nullable_to_non_nullable
-              as AuthResponse?,
-      errorMessage: freezed == errorMessage
-          ? _value.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -147,30 +176,34 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 
 class _$AuthStateImpl extends _AuthState with DiagnosticableTreeMixin {
   const _$AuthStateImpl(
-      {this.statusLogin = ProgressStatus.initial,
-      this.statusLogout = ProgressStatus.initial,
+      {this.statusLoginGoogle,
+      this.statusLoginEmail,
+      this.statusRegisterEmail,
+      this.statusLogout,
       this.authenticationStatus = AuthenticationStatus.logout,
-      this.authResponse,
-      this.errorMessage})
+      this.email,
+      this.password})
       : super._();
 
   @override
-  @JsonKey()
-  final ProgressStatus statusLogin;
+  final BaseResponse<AuthResponse>? statusLoginGoogle;
   @override
-  @JsonKey()
-  final ProgressStatus statusLogout;
+  final BaseResponse<AuthResponse>? statusLoginEmail;
+  @override
+  final BaseResponse<AuthResponse>? statusRegisterEmail;
+  @override
+  final BaseResponse<void>? statusLogout;
   @override
   @JsonKey()
   final AuthenticationStatus authenticationStatus;
   @override
-  final AuthResponse? authResponse;
+  final String? email;
   @override
-  final String? errorMessage;
+  final String? password;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthState(statusLogin: $statusLogin, statusLogout: $statusLogout, authenticationStatus: $authenticationStatus, authResponse: $authResponse, errorMessage: $errorMessage)';
+    return 'AuthState(statusLoginGoogle: $statusLoginGoogle, statusLoginEmail: $statusLoginEmail, statusRegisterEmail: $statusRegisterEmail, statusLogout: $statusLogout, authenticationStatus: $authenticationStatus, email: $email, password: $password)';
   }
 
   @override
@@ -178,11 +211,13 @@ class _$AuthStateImpl extends _AuthState with DiagnosticableTreeMixin {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'AuthState'))
-      ..add(DiagnosticsProperty('statusLogin', statusLogin))
+      ..add(DiagnosticsProperty('statusLoginGoogle', statusLoginGoogle))
+      ..add(DiagnosticsProperty('statusLoginEmail', statusLoginEmail))
+      ..add(DiagnosticsProperty('statusRegisterEmail', statusRegisterEmail))
       ..add(DiagnosticsProperty('statusLogout', statusLogout))
       ..add(DiagnosticsProperty('authenticationStatus', authenticationStatus))
-      ..add(DiagnosticsProperty('authResponse', authResponse))
-      ..add(DiagnosticsProperty('errorMessage', errorMessage));
+      ..add(DiagnosticsProperty('email', email))
+      ..add(DiagnosticsProperty('password', password));
   }
 
   @override
@@ -190,21 +225,31 @@ class _$AuthStateImpl extends _AuthState with DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthStateImpl &&
-            (identical(other.statusLogin, statusLogin) ||
-                other.statusLogin == statusLogin) &&
+            (identical(other.statusLoginGoogle, statusLoginGoogle) ||
+                other.statusLoginGoogle == statusLoginGoogle) &&
+            (identical(other.statusLoginEmail, statusLoginEmail) ||
+                other.statusLoginEmail == statusLoginEmail) &&
+            (identical(other.statusRegisterEmail, statusRegisterEmail) ||
+                other.statusRegisterEmail == statusRegisterEmail) &&
             (identical(other.statusLogout, statusLogout) ||
                 other.statusLogout == statusLogout) &&
             (identical(other.authenticationStatus, authenticationStatus) ||
                 other.authenticationStatus == authenticationStatus) &&
-            (identical(other.authResponse, authResponse) ||
-                other.authResponse == authResponse) &&
-            (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.password, password) ||
+                other.password == password));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, statusLogin, statusLogout,
-      authenticationStatus, authResponse, errorMessage);
+  int get hashCode => Object.hash(
+      runtimeType,
+      statusLoginGoogle,
+      statusLoginEmail,
+      statusRegisterEmail,
+      statusLogout,
+      authenticationStatus,
+      email,
+      password);
 
   @JsonKey(ignore: true)
   @override
@@ -215,23 +260,29 @@ class _$AuthStateImpl extends _AuthState with DiagnosticableTreeMixin {
 
 abstract class _AuthState extends AuthState {
   const factory _AuthState(
-      {final ProgressStatus statusLogin,
-      final ProgressStatus statusLogout,
+      {final BaseResponse<AuthResponse>? statusLoginGoogle,
+      final BaseResponse<AuthResponse>? statusLoginEmail,
+      final BaseResponse<AuthResponse>? statusRegisterEmail,
+      final BaseResponse<void>? statusLogout,
       final AuthenticationStatus authenticationStatus,
-      final AuthResponse? authResponse,
-      final String? errorMessage}) = _$AuthStateImpl;
+      final String? email,
+      final String? password}) = _$AuthStateImpl;
   const _AuthState._() : super._();
 
   @override
-  ProgressStatus get statusLogin;
+  BaseResponse<AuthResponse>? get statusLoginGoogle;
   @override
-  ProgressStatus get statusLogout;
+  BaseResponse<AuthResponse>? get statusLoginEmail;
+  @override
+  BaseResponse<AuthResponse>? get statusRegisterEmail;
+  @override
+  BaseResponse<void>? get statusLogout;
   @override
   AuthenticationStatus get authenticationStatus;
   @override
-  AuthResponse? get authResponse;
+  String? get email;
   @override
-  String? get errorMessage;
+  String? get password;
   @override
   @JsonKey(ignore: true)
   _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>

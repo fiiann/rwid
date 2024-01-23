@@ -23,6 +23,8 @@ mixin _$TagModel {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: '')
+  bool get isSelected => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,11 @@ abstract class $TagModelCopyWith<$Res> {
   factory $TagModelCopyWith(TagModel value, $Res Function(TagModel) then) =
       _$TagModelCopyWithImpl<$Res, TagModel>;
   @useResult
-  $Res call({int id, String name, DateTime? createdAt});
+  $Res call(
+      {int id,
+      String name,
+      DateTime? createdAt,
+      @JsonKey(name: '') bool isSelected});
 }
 
 /// @nodoc
@@ -54,6 +60,7 @@ class _$TagModelCopyWithImpl<$Res, $Val extends TagModel>
     Object? id = null,
     Object? name = null,
     Object? createdAt = freezed,
+    Object? isSelected = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -68,6 +75,10 @@ class _$TagModelCopyWithImpl<$Res, $Val extends TagModel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isSelected: null == isSelected
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -80,7 +91,11 @@ abstract class _$$TagModelImplCopyWith<$Res>
       __$$TagModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, DateTime? createdAt});
+  $Res call(
+      {int id,
+      String name,
+      DateTime? createdAt,
+      @JsonKey(name: '') bool isSelected});
 }
 
 /// @nodoc
@@ -97,6 +112,7 @@ class __$$TagModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? createdAt = freezed,
+    Object? isSelected = null,
   }) {
     return _then(_$TagModelImpl(
       id: null == id
@@ -111,6 +127,10 @@ class __$$TagModelImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isSelected: null == isSelected
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -118,7 +138,11 @@ class __$$TagModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TagModelImpl implements _TagModel {
-  const _$TagModelImpl({required this.id, required this.name, this.createdAt});
+  const _$TagModelImpl(
+      {required this.id,
+      required this.name,
+      this.createdAt,
+      @JsonKey(name: '') this.isSelected = false});
 
   factory _$TagModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TagModelImplFromJson(json);
@@ -129,10 +153,13 @@ class _$TagModelImpl implements _TagModel {
   final String name;
   @override
   final DateTime? createdAt;
+  @override
+  @JsonKey(name: '')
+  final bool isSelected;
 
   @override
   String toString() {
-    return 'TagModel(id: $id, name: $name, createdAt: $createdAt)';
+    return 'TagModel(id: $id, name: $name, createdAt: $createdAt, isSelected: $isSelected)';
   }
 
   @override
@@ -143,12 +170,14 @@ class _$TagModelImpl implements _TagModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.isSelected, isSelected) ||
+                other.isSelected == isSelected));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, createdAt);
+  int get hashCode => Object.hash(runtimeType, id, name, createdAt, isSelected);
 
   @JsonKey(ignore: true)
   @override
@@ -168,7 +197,8 @@ abstract class _TagModel implements TagModel {
   const factory _TagModel(
       {required final int id,
       required final String name,
-      final DateTime? createdAt}) = _$TagModelImpl;
+      final DateTime? createdAt,
+      @JsonKey(name: '') final bool isSelected}) = _$TagModelImpl;
 
   factory _TagModel.fromJson(Map<String, dynamic> json) =
       _$TagModelImpl.fromJson;
@@ -179,6 +209,9 @@ abstract class _TagModel implements TagModel {
   String get name;
   @override
   DateTime? get createdAt;
+  @override
+  @JsonKey(name: '')
+  bool get isSelected;
   @override
   @JsonKey(ignore: true)
   _$$TagModelImplCopyWith<_$TagModelImpl> get copyWith =>

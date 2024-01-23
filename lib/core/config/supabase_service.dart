@@ -53,7 +53,7 @@ class SupabaseService {
     }
   }
 
-  Future<BaseResponse<List<TagModel?>?>?> getTag() async {
+  Future<BaseResponse<List<TagModel>?>?> getTag() async {
     try {
       final data = await _client.from('tag').select();
       logger.log(data.toString());
@@ -61,6 +61,22 @@ class SupabaseService {
     } catch (e) {
       if (kDebugMode) {
         print('error get list tag : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  Future<BaseResponse<void>> insertTagUser(List<TagModel> tags) async {
+    try {
+      final userId = _client.auth.currentUser?.id ?? '';
+      print(userId);
+      await _client
+          .from('user_tags')
+          .insert(parseTagModelListToUserTagsList(tags, userId));
+      return BaseResponse.ok(null);
+    } catch (e) {
+      if (kDebugMode) {
+        print('error insert tag : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
     }

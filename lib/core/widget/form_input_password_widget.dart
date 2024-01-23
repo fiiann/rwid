@@ -35,26 +35,26 @@ class _FormInputPasswordState extends State<FormInputPassword> {
       onChanged: widget.onChanged,
       obscureText: passwordVisibility,
       style: const TextStyle(
-        color: AppColors.black,
+        color: CustomColors.black,
       ),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
             horizontal: AppSizes.secondary, vertical: AppSizes.primary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusForm),
-          borderSide: const BorderSide(color: AppColors.grey300),
+          borderSide: const BorderSide(color: CustomColors.gray),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusForm),
-          borderSide: const BorderSide(color: AppColors.grey300),
+          borderSide: const BorderSide(color: CustomColors.gray),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusForm),
-          borderSide: const BorderSide(color: AppColors.grey300),
+          borderSide: const BorderSide(color: CustomColors.gray),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusForm),
-          borderSide: const BorderSide(color: AppColors.error500),
+          borderSide: const BorderSide(color: CustomColors.lightErrorMain),
         ),
         labelStyle: const TextStyle(
           color: Colors.black,
@@ -62,12 +62,12 @@ class _FormInputPasswordState extends State<FormInputPassword> {
         floatingLabelBehavior: FloatingLabelBehavior.always,
         labelText: widget.label,
         hintText: widget.hint,
-        hintStyle: const TextStyle(color: AppColors.grey500),
+        hintStyle: const TextStyle(color: CustomColors.gray),
         prefixIcon: Transform.scale(
           scale: 0.5,
           child: const ImageIcon(
             AppIcons.password,
-            color: AppColors.grey500,
+            color: CustomColors.gray,
           ),
         ),
         suffixIcon: IconButton(
@@ -75,7 +75,7 @@ class _FormInputPasswordState extends State<FormInputPassword> {
             passwordVisibility
                 ? AppIcons.disablePassword
                 : AppIcons.enablePassword,
-            color: AppColors.grey500,
+            color: CustomColors.gray,
           ),
           onPressed: () {
             setState(() {

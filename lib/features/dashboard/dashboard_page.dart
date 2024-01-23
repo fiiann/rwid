@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/extention/string_ext.dart';
-import 'package:rwid/core/widget/button_widget.dart';
+import 'package:rwid/core/widget/primary_button.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 
@@ -72,15 +72,13 @@ class DashboardPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: FormButton(
-                    label: state.statusLogout == ProgressStatus.loading
+                  child: PrimaryButton(
+                    label: state.statusLogout?.state == ResponseState.loading
                         ? 'LOADING'
                         : 'LOGOUT',
-                    onPressed: state.statusLogout == ProgressStatus.loading
-                        ? null
-                        : () {
-                            context.read<AuthCubit>().logout();
-                          },
+                    onTap: () {
+                      context.read<AuthCubit>().logout();
+                    },
                   ),
                 ),
               ],

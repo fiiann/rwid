@@ -13,8 +13,34 @@ class TagCubit extends Cubit<TagState> {
         super(const TagState());
   final SupabaseService _service;
   Future<void> getListTag() async {
-    emit(state.copyWith(data: BaseResponse.loading()));
+    emit(state.copyWith(stateList: BaseResponse.loading()));
     final data = await _service.getTag();
-    emit(state.copyWith(data: data));
+    emit(state.copyWith(stateList: data));
+  }
+
+  void selectTag(TagModel clickedTag) {
+    final List<TagModel?>? allTags = state.stateList?.data;
+
+    if (allTags != null) {
+      final List<TagModel> updatedTags = allTags.map((tag) {
+        return tag!.copyWith(
+            isSelected:
+                tag.id == clickedTag.id ? !tag.isSelected : tag.isSelected);
+      }).toList();
+
+      emit(
+        state.copyWith(
+          stateList: state.stateList?.copyWith(
+            data: updatedTags,
+          ),
+        ),
+      );
+    }
+  }
+
+  void insertTag(List<TagModel> tags) async {
+    emit(state.copyWith(stateSubmit: BaseResponse.loading()));
+    final response = await _service.insertTagUser(tags);
+    emit(state.copyWith(stateSubmit: response));
   }
 }

@@ -10,8 +10,8 @@ extension DialogExt on String {
           margin: const EdgeInsets.only(left: 8),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(50)),
-          child: const Icon(Icons.check, color: AppColors.primary600)),
-      backgroundColor: AppColors.primary600,
+          child: const Icon(Icons.check, color: CustomColors.lightPrimaryMain)),
+      backgroundColor: CustomColors.lightSecondaryMain,
       shouldIconPulse: false,
       message: this,
       duration: const Duration(seconds: 3),
@@ -35,8 +35,8 @@ extension DialogExt on String {
           margin: const EdgeInsets.only(left: 8),
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(50)),
-          child: const Icon(Icons.warning, color: AppColors.error500)),
-      backgroundColor: AppColors.error500,
+          child: const Icon(Icons.warning, color: CustomColors.lightErrorMain)),
+      backgroundColor: CustomColors.lightErrorMain,
       shouldIconPulse: false,
       message: this,
       duration: const Duration(seconds: 3),

@@ -16,8 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TagState {
-  BaseResponse<List<TagModel?>?>? get data =>
+  BaseResponse<List<TagModel>?>? get stateList =>
       throw _privateConstructorUsedError;
+  BaseResponse<void>? get stateSubmit => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TagStateCopyWith<TagState> get copyWith =>
@@ -29,7 +30,9 @@ abstract class $TagStateCopyWith<$Res> {
   factory $TagStateCopyWith(TagState value, $Res Function(TagState) then) =
       _$TagStateCopyWithImpl<$Res, TagState>;
   @useResult
-  $Res call({BaseResponse<List<TagModel?>?>? data});
+  $Res call(
+      {BaseResponse<List<TagModel>?>? stateList,
+      BaseResponse<void>? stateSubmit});
 }
 
 /// @nodoc
@@ -45,13 +48,18 @@ class _$TagStateCopyWithImpl<$Res, $Val extends TagState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? stateList = freezed,
+    Object? stateSubmit = freezed,
   }) {
     return _then(_value.copyWith(
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as BaseResponse<List<TagModel?>?>?,
+      stateList: freezed == stateList
+          ? _value.stateList
+          : stateList // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<List<TagModel>?>?,
+      stateSubmit: freezed == stateSubmit
+          ? _value.stateSubmit
+          : stateSubmit // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<void>?,
     ) as $Val);
   }
 }
@@ -64,7 +72,9 @@ abstract class _$$TagStateImplCopyWith<$Res>
       __$$TagStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({BaseResponse<List<TagModel?>?>? data});
+  $Res call(
+      {BaseResponse<List<TagModel>?>? stateList,
+      BaseResponse<void>? stateSubmit});
 }
 
 /// @nodoc
@@ -78,28 +88,35 @@ class __$$TagStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = freezed,
+    Object? stateList = freezed,
+    Object? stateSubmit = freezed,
   }) {
     return _then(_$TagStateImpl(
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as BaseResponse<List<TagModel?>?>?,
+      stateList: freezed == stateList
+          ? _value.stateList
+          : stateList // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<List<TagModel>?>?,
+      stateSubmit: freezed == stateSubmit
+          ? _value.stateSubmit
+          : stateSubmit // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<void>?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$TagStateImpl implements _TagState {
-  const _$TagStateImpl({this.data});
+class _$TagStateImpl extends _TagState {
+  const _$TagStateImpl({this.stateList, this.stateSubmit}) : super._();
 
   @override
-  final BaseResponse<List<TagModel?>?>? data;
+  final BaseResponse<List<TagModel>?>? stateList;
+  @override
+  final BaseResponse<void>? stateSubmit;
 
   @override
   String toString() {
-    return 'TagState(data: $data)';
+    return 'TagState(stateList: $stateList, stateSubmit: $stateSubmit)';
   }
 
   @override
@@ -107,11 +124,14 @@ class _$TagStateImpl implements _TagState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TagStateImpl &&
-            (identical(other.data, data) || other.data == data));
+            (identical(other.stateList, stateList) ||
+                other.stateList == stateList) &&
+            (identical(other.stateSubmit, stateSubmit) ||
+                other.stateSubmit == stateSubmit));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, data);
+  int get hashCode => Object.hash(runtimeType, stateList, stateSubmit);
 
   @JsonKey(ignore: true)
   @override
@@ -120,12 +140,16 @@ class _$TagStateImpl implements _TagState {
       __$$TagStateImplCopyWithImpl<_$TagStateImpl>(this, _$identity);
 }
 
-abstract class _TagState implements TagState {
-  const factory _TagState({final BaseResponse<List<TagModel?>?>? data}) =
-      _$TagStateImpl;
+abstract class _TagState extends TagState {
+  const factory _TagState(
+      {final BaseResponse<List<TagModel>?>? stateList,
+      final BaseResponse<void>? stateSubmit}) = _$TagStateImpl;
+  const _TagState._() : super._();
 
   @override
-  BaseResponse<List<TagModel?>?>? get data;
+  BaseResponse<List<TagModel>?>? get stateList;
+  @override
+  BaseResponse<void>? get stateSubmit;
   @override
   @JsonKey(ignore: true)
   _$$TagStateImplCopyWith<_$TagStateImpl> get copyWith =>

@@ -13,6 +13,7 @@ _$TagModelImpl _$$TagModelImplFromJson(Map<String, dynamic> json) =>
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
+      isSelected: json[''] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$TagModelImplToJson(_$TagModelImpl instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$TagModelImplToJson(_$TagModelImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'created_at': instance.createdAt?.toIso8601String(),
+      '': instance.isSelected,
     };

@@ -1,31 +1,44 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
-  static const Color primary50 = Color(0xffF6FEFA);
-  static const Color primary300 = Color(0xff79D2B7);
-  static const Color primary400 = Color(0xff14B885);
-  static const Color primary500 = Color(0xff059669);
-  static const Color primary600 = Color(0xff036345);
-  static const Color primary700 = Color(0xff023B29);
-  static const Color black = Color(0xff111827);
-  static const Color white = Color(0xffFFFFFF);
-  static const Color grey50 = Color(0xffEEF2F6);
-  static const Color grey500 = Color(0xff737D8C);
-  static const Color grey300 = Color(0xffADB5C2);
-  static const Color grey400 = Color(0xff929AAA);
-  static const Color grey600 = Color(0xff535A65);
-  static const Color grey700 = Color(0xff383E47);
-  static const Color warning300 = Color(0xffFEF08A);
-  static const Color warning500 = Color(0xffFACC15);
-  static const Color warning700 = Color(0xffDC6803);
-  static const Color error500 = Color(0xffC8291E);
-  static const Color error600 = Color(0xffA6170C);
-  static const Color blue50 = Color(0xffABBAD9);
-  static const Color blue100 = Color(0xffDEECFF);
-  static const Color blue200 = Color(0xffC1DCFF);
-  static const Color blue300 = Color(0xff9CDCFF);
-  static const Color blue400 = Color(0xff79BAFF);
-  static const Color blue500 = Color(0xff579AFF);
-  static const Color blue600 = Color(0xff357AFF);
-  static const Color blue700 = Color(0xff1D5AFF);
+class CustomColors {
+  ///Set app colors here
+  static const black = Color(0XFF000000);
+  static const white = Color(0XFFFFFFFF);
+  static const red = Color(0xFFC33335);
+  static const gray = Color(0XFFD2D2D2);
+  static const darkGray = Color(0XFF878787);
+
+  static const lightOtherDivider = Color(0XFFE7E7E8);
+  static const lightOtherChipBackground = Color(0XFFEFEFF0);
+
+  ///mbuh ki podo warnane bedo
+  static const lightActionActive = Color(0XFF959298);
+  static const lightStatesActionMobile1 = Color(0XFF5187E3);
+  static const lightStatesActionMobile2 = Color(0XFF2352A4);
+  static const lightPrimaryMain = Color(0XFF2352A4);
+  static const lightPrimaryLight = Color(0XFF2B6CDC);
+  static const lightGreyGrey = Color(0XFFE0E0E0);
+  static const lightTextPrimary = Color(0XFF544F5A);
+  static const lightTextSecondary = Color(0XFF79767E);
+  static const lightTextDisabled = Color(0XFFB4B2B7);
+  static const lightSecondaryMain = Color(0XFF8A8D93);
+  static const lightOtherOutlinedBorder = Color(0XFFD2D1D3);
+  static const lightCustomBackgroundPrimaryBackground = Color(0XFFE5EAF4);
+  static const lightErrorMain = Color(0XFFFF4C51);
+  static const lightCustomBackgroundErrorBackground = Color(0XFFFEE8E7);
+  static const lightBackgroundBodyBackground = Color(0xFFF4F5FA);
+  static const lightCustomBackgroundWarningBackground = Color(0xFFFDEDE1);
+  static const lightCustomBackgroundInfoBackground = Color(0xFFE3F5FF);
+  static const lightCustomBackgroundSuccessBackground = Color(0xFFEAF5EA);
+  static const lightActionDisabledBackground = Color(0xFFE7E7E8);
+  static const lightWarningMain = Color(0xFFFFB400);
+  static const lightSuccessLight = Color(0xFF6AD01F);
+  static const lightInfoMain = Color(0xFF16B1FF);
+  static const lightSuccessDark = Color(0xFF378100);
+  static const lightSuccessMain = Color(0xFF56CA00);
+  static const purple = Color(0xFFC044EC);
+  static const orange = Color(0xFFF98700);
+  static const blue = Color(0xFF0087CB);
+  static const ligthBlue = Color(0xFFE8EFFB);
+  static const lightAlertInfoContent = Color(0xFF16B1FF);
 }

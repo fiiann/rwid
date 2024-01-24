@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/extention/string_ext.dart';
@@ -93,6 +94,9 @@ class LoginPage extends StatelessWidget {
                 return PrimaryButton(
                     label: 'Login Google',
                     onTap: () {
+                      print(iosClientId);
+                      print('===');
+                      print(androidClientId);
                       context.read<AuthCubit>().loginGoogle();
                     });
               },

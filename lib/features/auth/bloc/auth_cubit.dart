@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -35,8 +37,9 @@ class AuthCubit extends Cubit<AuthState> {
 
   void loginGoogle() async {
     emit(state.copyWith(statusLoginGoogle: BaseResponse.loading()));
+
     final googleSignIn = GoogleSignIn(
-      clientId: androidClientId,
+      clientId: Platform.isAndroid ? androidClientId : iosClientId,
       serverClientId: webClientId,
     );
     final googleUser = await googleSignIn.signIn();

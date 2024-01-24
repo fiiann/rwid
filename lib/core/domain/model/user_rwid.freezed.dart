@@ -14,13 +14,22 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+UserRWID _$UserRWIDFromJson(Map<String, dynamic> json) {
+  return _UserRWID.fromJson(json);
+}
+
 /// @nodoc
 mixin _$UserRWID {
+  @HiveField(0)
   String get id => throw _privateConstructorUsedError;
+  @HiveField(1)
   String get name => throw _privateConstructorUsedError;
+  @HiveField(2)
   String get email => throw _privateConstructorUsedError;
+  @HiveField(3)
   String get photo => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UserRWIDCopyWith<UserRWID> get copyWith =>
       throw _privateConstructorUsedError;
@@ -31,7 +40,11 @@ abstract class $UserRWIDCopyWith<$Res> {
   factory $UserRWIDCopyWith(UserRWID value, $Res Function(UserRWID) then) =
       _$UserRWIDCopyWithImpl<$Res, UserRWID>;
   @useResult
-  $Res call({String id, String name, String email, String photo});
+  $Res call(
+      {@HiveField(0) String id,
+      @HiveField(1) String name,
+      @HiveField(2) String email,
+      @HiveField(3) String photo});
 }
 
 /// @nodoc
@@ -81,7 +94,11 @@ abstract class _$$UserRWIDImplCopyWith<$Res>
       __$$UserRWIDImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String email, String photo});
+  $Res call(
+      {@HiveField(0) String id,
+      @HiveField(1) String name,
+      @HiveField(2) String email,
+      @HiveField(3) String photo});
 }
 
 /// @nodoc
@@ -122,21 +139,29 @@ class __$$UserRWIDImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
+@HiveType(typeId: 1, adapterName: 'UserRWIDAdapter')
 class _$UserRWIDImpl implements _UserRWID {
   const _$UserRWIDImpl(
-      {required this.id,
-      required this.name,
-      required this.email,
-      required this.photo});
+      {@HiveField(0) required this.id,
+      @HiveField(1) required this.name,
+      @HiveField(2) required this.email,
+      @HiveField(3) required this.photo});
+
+  factory _$UserRWIDImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserRWIDImplFromJson(json);
 
   @override
+  @HiveField(0)
   final String id;
   @override
+  @HiveField(1)
   final String name;
   @override
+  @HiveField(2)
   final String email;
   @override
+  @HiveField(3)
   final String photo;
 
   @override
@@ -155,6 +180,7 @@ class _$UserRWIDImpl implements _UserRWID {
             (identical(other.photo, photo) || other.photo == photo));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, email, photo);
 
@@ -163,22 +189,36 @@ class _$UserRWIDImpl implements _UserRWID {
   @pragma('vm:prefer-inline')
   _$$UserRWIDImplCopyWith<_$UserRWIDImpl> get copyWith =>
       __$$UserRWIDImplCopyWithImpl<_$UserRWIDImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserRWIDImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _UserRWID implements UserRWID {
   const factory _UserRWID(
-      {required final String id,
-      required final String name,
-      required final String email,
-      required final String photo}) = _$UserRWIDImpl;
+      {@HiveField(0) required final String id,
+      @HiveField(1) required final String name,
+      @HiveField(2) required final String email,
+      @HiveField(3) required final String photo}) = _$UserRWIDImpl;
+
+  factory _UserRWID.fromJson(Map<String, dynamic> json) =
+      _$UserRWIDImpl.fromJson;
 
   @override
+  @HiveField(0)
   String get id;
   @override
+  @HiveField(1)
   String get name;
   @override
+  @HiveField(2)
   String get email;
   @override
+  @HiveField(3)
   String get photo;
   @override
   @JsonKey(ignore: true)

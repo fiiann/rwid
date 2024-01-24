@@ -174,7 +174,7 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AuthStateImpl extends _AuthState with DiagnosticableTreeMixin {
+class _$AuthStateImpl extends _AuthState {
   const _$AuthStateImpl(
       {this.statusLoginGoogle,
       this.statusLoginEmail,
@@ -202,22 +202,8 @@ class _$AuthStateImpl extends _AuthState with DiagnosticableTreeMixin {
   final String? password;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'AuthState(statusLoginGoogle: $statusLoginGoogle, statusLoginEmail: $statusLoginEmail, statusRegisterEmail: $statusRegisterEmail, statusLogout: $statusLogout, authenticationStatus: $authenticationStatus, email: $email, password: $password)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AuthState'))
-      ..add(DiagnosticsProperty('statusLoginGoogle', statusLoginGoogle))
-      ..add(DiagnosticsProperty('statusLoginEmail', statusLoginEmail))
-      ..add(DiagnosticsProperty('statusRegisterEmail', statusRegisterEmail))
-      ..add(DiagnosticsProperty('statusLogout', statusLogout))
-      ..add(DiagnosticsProperty('authenticationStatus', authenticationStatus))
-      ..add(DiagnosticsProperty('email', email))
-      ..add(DiagnosticsProperty('password', password));
   }
 
   @override

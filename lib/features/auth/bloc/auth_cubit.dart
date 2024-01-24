@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rwid/core/config/supabase_service.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
@@ -64,16 +64,19 @@ class AuthCubit extends Cubit<AuthState> {
           statusLoginGoogle: response,
           authenticationStatus: AuthenticationStatus.login,
         ));
+        final authBox = Hive.box(authBoxName);
+        authBox.put('user', state.userRwid);
       } else {
         emit(state.copyWith(
           statusLoginGoogle:
               BaseResponse.error(message: 'Failed Login, Try Again'),
         ));
       }
+    } else {
+      emit(state.copyWith(
+        statusLoginGoogle: BaseResponse.error(message: 'User Canceled'),
+      ));
     }
-    emit(state.copyWith(
-      statusLoginGoogle: BaseResponse.error(message: 'User Canceled'),
-    ));
   }
 
   void registerEmail() async {

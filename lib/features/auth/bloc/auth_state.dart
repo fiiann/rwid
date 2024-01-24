@@ -16,6 +16,7 @@ class AuthState with _$AuthState {
   const AuthState._();
   UserRWID get userRwid {
     User? user = statusLoginGoogle?.data?.user;
+    print(statusLoginGoogle);
     return UserRWID(
         id: user?.id ?? '',
         name: user?.userMetadata?['name'] ?? '',

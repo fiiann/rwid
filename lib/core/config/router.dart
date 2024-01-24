@@ -2,7 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:rwid/core/config/injector.dart';
+import 'package:rwid/core/constant/constant.dart';
+import 'package:rwid/core/domain/model/user_rwid.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/dashboard/dashboard_page.dart';
 import 'package:rwid/features/tag/bloc/tab_cubit.dart';
@@ -35,10 +38,18 @@ final GoRouter routerConfig = GoRouter(
           // final session = supabase.auth.currentSession;
           // print(session?.user);
           final session = supabase.auth.currentSession;
+          final authBox = Hive.box(authBoxName);
+
           if (session != null) {
+            UserRWID user = UserRWID(
+                id: session.user.id,
+                name: session.user.userMetadata?['name'] ?? '',
+                email: session.user.userMetadata?['email'] ?? '',
+                photo: session.user.userMetadata?['avatar_url'] ?? '');
+            authBox.put('user', user);
             //TODO CHECK IF USER HAVE BEEN CHOOSE TAG
             // return DashboardPage.route;
-            return TagPage.route;
+            return DashboardPage.route;
           } else {
             return null;
           }

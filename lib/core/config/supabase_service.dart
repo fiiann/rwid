@@ -69,10 +69,9 @@ class SupabaseService {
   Future<BaseResponse<void>> insertTagUser(List<TagModel> tags) async {
     try {
       final userId = _client.auth.currentUser?.id ?? '';
-      print(userId);
       await _client
           .from('user_tags')
-          .insert(parseTagModelListToUserTagsList(tags, userId));
+          .upsert(parseTagModelListToUserTagsList(tags, userId));
       return BaseResponse.ok(null);
     } catch (e) {
       if (kDebugMode) {

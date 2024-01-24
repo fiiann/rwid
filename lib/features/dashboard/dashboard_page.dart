@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
-import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/extention/string_ext.dart';
 import 'package:rwid/core/widget/primary_button.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
@@ -28,7 +29,8 @@ class DashboardPage extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.statusLogout != current.statusLogout,
       builder: (context, state) {
-        final user = state.userRwid;
+        final box = Hive.box(authBoxName);
+        final user = box.get('user');
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -40,7 +42,7 @@ class DashboardPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: GestureDetector(
                   onDoubleTap: () => context.read<AuthCubit>().logout(),
-                  child: state.statusLogout == ProgressStatus.loading
+                  child: state.statusLogout?.state == ResponseState.loading
                       ? const SizedBox.square(
                           dimension: 16,
                           child: CircularProgressIndicator(),

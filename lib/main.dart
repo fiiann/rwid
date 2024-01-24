@@ -7,12 +7,8 @@ import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
-  await Supabase.initialize(
-    url: 'https://mmvwzkhhtrilohfalocl.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1tdnd6a2hodHJpbG9oZmFsb2NsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDM1OTc0OTEsImV4cCI6MjAxOTE3MzQ5MX0.wpKc3YFPe4VhC2_NJ5Z2lJPM02zfsUHtGAeMoX2HSbk',
-  );
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeApp();
   initInjector();
   runApp(MultiRepositoryProvider(providers: [
     RepositoryProvider<SupabaseService>.value(value: locator()),
@@ -30,7 +26,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthCubit>(create: (_) => locator()),
       ],
       child: MaterialApp.router(
-        title: 'Flutter Demo',
+        title: 'RWID Medium',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
           useMaterial3: true,

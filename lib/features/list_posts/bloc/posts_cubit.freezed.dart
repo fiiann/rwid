@@ -92,8 +92,8 @@ class __$$PostsStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PostsStateImpl implements _PostsState {
-  const _$PostsStateImpl({this.stateList});
+class _$PostsStateImpl extends _PostsState {
+  const _$PostsStateImpl({this.stateList}) : super._();
 
   @override
   final BaseResponse<List<PostModel>?>? stateList;
@@ -122,9 +122,10 @@ class _$PostsStateImpl implements _PostsState {
       __$$PostsStateImplCopyWithImpl<_$PostsStateImpl>(this, _$identity);
 }
 
-abstract class _PostsState implements PostsState {
+abstract class _PostsState extends PostsState {
   const factory _PostsState({final BaseResponse<List<PostModel>?>? stateList}) =
       _$PostsStateImpl;
+  const _PostsState._() : super._();
 
   @override
   BaseResponse<List<PostModel>?>? get stateList;

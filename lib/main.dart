@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rwid/core/config/injector.dart';
 import 'package:rwid/core/config/router.dart';
-import 'package:rwid/core/config/supabase_service.dart';
+import 'package:rwid/core/domain/service/supabase_service.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

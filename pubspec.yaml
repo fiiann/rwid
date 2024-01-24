@@ -38,7 +38,6 @@ dependencies:
   supabase_flutter: ^2.0.0
   google_sign_in: ^6.1.6
   another_flushbar: ^1.12.30
-  flutter_otp_text_field: ^1.1.1
   bloc: ^8.1.2
   equatable: ^2.0.5
   flutter_bloc: ^8.1.3

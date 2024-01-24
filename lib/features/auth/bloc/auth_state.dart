@@ -7,7 +7,7 @@ class AuthState with _$AuthState {
     BaseResponse<AuthResponse>? statusLoginEmail,
     BaseResponse<AuthResponse>? statusRegisterEmail,
     BaseResponse<void>? statusLogout,
-    @Default(AuthenticationStatus.logout)
+    @Default(AuthenticationStatus.unauthenticated)
     AuthenticationStatus authenticationStatus,
     String? email,
     String? password,

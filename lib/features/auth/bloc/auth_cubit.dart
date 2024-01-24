@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:rwid/core/config/supabase_service.dart';
+import 'package:rwid/core/config/router.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
+import 'package:rwid/core/domain/service/supabase_service.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -13,12 +13,14 @@ part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit({required SupabaseService service})
+  AuthCubit(
+      {required SupabaseService service, required SupabaseClient supabase})
       : _service = service,
+        _supabase = supabase,
         super(const AuthState());
 
   final SupabaseService _service;
-
+  final SupabaseClient _supabase;
   void changeEmail(String? email) {
     if (email != null && email.isNotEmpty) {
       emit(state.copyWith(email: email));
@@ -60,12 +62,19 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (response.data?.user != null) {
-        emit(state.copyWith(
-          statusLoginGoogle: response,
-          authenticationStatus: AuthenticationStatus.login,
-        ));
-        final authBox = Hive.box(authBoxName);
-        authBox.put('user', state.userRwid);
+        updateUser(response.data!.session!);
+        final count = await checkCountTagUser(_supabase);
+        if (count == 0) {
+          emit(state.copyWith(
+            statusLoginGoogle: response,
+            authenticationStatus: AuthenticationStatus.authenticatedWithoutTags,
+          ));
+        } else {
+          emit(state.copyWith(
+            statusLoginGoogle: response,
+            authenticationStatus: AuthenticationStatus.authenticatedWithTags,
+          ));
+        }
       } else {
         emit(state.copyWith(
           statusLoginGoogle:
@@ -121,7 +130,7 @@ class AuthCubit extends Cubit<AuthState> {
     await _service.signOut();
     emit(state.copyWith(
       statusLogout: BaseResponse.ok(null),
-      authenticationStatus: AuthenticationStatus.logout,
+      authenticationStatus: AuthenticationStatus.unauthenticated,
     ));
   }
 }

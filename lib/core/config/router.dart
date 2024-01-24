@@ -6,8 +6,11 @@ import 'package:hive/hive.dart';
 import 'package:rwid/core/config/injector.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
+import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/dashboard/dashboard_page.dart';
+import 'package:rwid/features/list_posts/bloc/posts_cubit.dart';
+import 'package:rwid/features/list_posts/presentation/list_post_page.dart';
 import 'package:rwid/features/tag/bloc/tab_cubit.dart';
 import 'package:rwid/features/tag/page/tag_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -33,37 +36,29 @@ final GoRouter routerConfig = GoRouter(
       GoRoute(
         path: LoginPage.route,
         builder: (context, state) => const LoginPage(),
-        redirect: (context, GoRouterState state) {
-          final supabase = context.read<SupabaseClient>();
-          // final session = supabase.auth.currentSession;
-          // print(session?.user);
-          final session = supabase.auth.currentSession;
-          final authBox = Hive.box(authBoxName);
-
-          if (session != null) {
-            UserRWID user = UserRWID(
-                id: session.user.id,
-                name: session.user.userMetadata?['name'] ?? '',
-                email: session.user.userMetadata?['email'] ?? '',
-                photo: session.user.userMetadata?['avatar_url'] ?? '');
-            authBox.put('user', user);
-            //TODO CHECK IF USER HAVE BEEN CHOOSE TAG
-            // return DashboardPage.route;
-            return DashboardPage.route;
-          } else {
-            return null;
+        redirect: (context, GoRouterState state) async {
+          final status = await getCurrentAuthentication(context);
+          switch (status) {
+            case AuthenticationStatus.unauthenticated:
+              return LoginPage.route;
+            case AuthenticationStatus.authenticatedWithoutTags:
+              return TagPage.route;
+            case AuthenticationStatus.authenticatedWithTags:
+              //TODO CHANGE TO DASHBOARD
+              return ListPostPage.route;
           }
-          // final auth = context.read<AuthCubit>()
-          // Session Management
-          // final session = supabase.auth.currentSession;
-          // if (session != null) {
-          //   return DashboardPage.route;
-          // }
         },
       ),
       GoRoute(
         path: DashboardPage.route,
         builder: (context, state) => const DashboardPage(),
+      ),
+      GoRoute(
+        path: ListPostPage.route,
+        builder: (context, state) => BlocProvider(
+          create: (context) => PostsCubit(supabaseService: context.read()),
+          child: const ListPostPage(),
+        ),
       ),
       GoRoute(
         path: TagPage.route,
@@ -73,3 +68,53 @@ final GoRouter routerConfig = GoRouter(
         ),
       ),
     ]);
+
+Future<Session?> getSession(SupabaseClient supabase) async {
+  final session = supabase.auth.currentSession;
+  return session;
+}
+
+void updateUser(Session session) {
+  final authBox = Hive.box(authBoxName);
+
+  UserRWID user = UserRWID(
+      id: session.user.id,
+      name: session.user.userMetadata?['name'] ?? '',
+      email: session.user.userMetadata?['email'] ?? '',
+      photo: session.user.userMetadata?['avatar_url'] ?? '');
+  authBox.put('user', user);
+  print('user saved : ${user.toJson()}');
+}
+
+Future<int> checkCountTagUser(SupabaseClient supabase) async {
+  try {
+    final res = await supabase.from('user_tags').select().count();
+    final int count = res.count;
+    print('user tag count :  $count');
+    return count;
+  } catch (e) {
+    if (kDebugMode) {
+      print('error check tag user : ${e.toString()}');
+    }
+    return 0;
+  }
+}
+
+Future<AuthenticationStatus> getCurrentAuthentication(
+    BuildContext context) async {
+  final supabase = context.read<SupabaseClient>();
+  final session = await getSession(supabase);
+
+  if (session != null) {
+    updateUser(session);
+    //TODO CHECK IF USER HAVE BEEN CHOOSE TAG
+    final count = await checkCountTagUser(supabase);
+    if (count == 0) {
+      return AuthenticationStatus.authenticatedWithoutTags;
+    } else {
+      return AuthenticationStatus.authenticatedWithTags;
+    }
+  } else {
+    return AuthenticationStatus.unauthenticated;
+  }
+}

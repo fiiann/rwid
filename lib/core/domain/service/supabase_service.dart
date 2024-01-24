@@ -2,8 +2,11 @@ import 'dart:developer' as logger show log;
 
 import 'package:flutter/foundation.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
+import 'package:rwid/features/list_posts/models/post_model.dart';
 import 'package:rwid/features/tag/model/tag_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../features/auth/model/user_tag_model.dart';
 
 class SupabaseService {
   final SupabaseClient _client;
@@ -76,6 +79,33 @@ class SupabaseService {
     } catch (e) {
       if (kDebugMode) {
         print('error insert tag : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  Future<BaseResponse<List<UserTag>?>?> getUserTag() async {
+    try {
+      final data = await _client.from('user_tags').select();
+      logger.log(data.toString());
+      return BaseResponse.ok(parseUserTagListFromMap(data));
+    } catch (e) {
+      if (kDebugMode) {
+        print('error get user tag : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  ///POST
+  Future<BaseResponse<List<PostModel>?>?> getPosts() async {
+    try {
+      final data = await _client.from('posts').select();
+      logger.log(data.toString());
+      return BaseResponse.ok(parsePostListFromMap(data));
+    } catch (e) {
+      if (kDebugMode) {
+        print('error get posts : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
     }

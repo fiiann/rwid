@@ -1,3 +1,7 @@
 enum ProgressStatus { initial, loading, success, failed }
 
-enum AuthenticationStatus { login, logout }
+enum AuthenticationStatus {
+  unauthenticated,
+  authenticatedWithTags,
+  authenticatedWithoutTags
+}

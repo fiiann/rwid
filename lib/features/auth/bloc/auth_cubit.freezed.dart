@@ -180,7 +180,7 @@ class _$AuthStateImpl extends _AuthState {
       this.statusLoginEmail,
       this.statusRegisterEmail,
       this.statusLogout,
-      this.authenticationStatus = AuthenticationStatus.logout,
+      this.authenticationStatus = AuthenticationStatus.unauthenticated,
       this.email,
       this.password})
       : super._();

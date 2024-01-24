@@ -8,11 +8,26 @@ import 'package:rwid/core/extention/string_ext.dart';
 import 'package:rwid/core/widget/custom_text_field.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
+import 'package:rwid/features/list_posts/bloc/posts_cubit.dart';
+import 'package:rwid/features/list_posts/presentation/components/list_post.dart';
 
-class DashboardPage extends StatelessWidget {
-  static const String route = '/dashboard';
+class ListPostPage extends StatefulWidget {
+  static const String route = '/list_post_page';
 
-  const DashboardPage({super.key});
+  const ListPostPage({super.key});
+
+  @override
+  State<ListPostPage> createState() => _ListPostPageState();
+}
+
+class _ListPostPageState extends State<ListPostPage> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<PostsCubit>().fetchPosts();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,22 +35,15 @@ class DashboardPage extends StatelessWidget {
     final user = box.get('user');
     return Scaffold(
       appBar: _buildAppBar(user, context),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: const Padding(
+        padding: EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const CustomTextField(
+            CustomTextField(
               floatingLabelBehavior: FloatingLabelBehavior.never,
               hintText: 'Search',
             ),
-            Expanded(
-                child: ListView.builder(
-                    itemCount: 100,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(index.toString()),
-                      );
-                    }))
+            ListPost()
           ],
         ),
       ),

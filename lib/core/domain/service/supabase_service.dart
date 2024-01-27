@@ -98,9 +98,14 @@ class SupabaseService {
   }
 
   ///POST
-  Future<BaseResponse<List<PostModel>?>?> getPosts() async {
+  Future<BaseResponse<List<PostModel>?>?> getPosts({String? keyword}) async {
     try {
-      final data = await _client.from('posts').select();
+      late var data;
+      if (keyword != null) {
+        data = await _client.from('posts').select().like('title', '%$keyword%');
+      } else {
+        data = await _client.from('posts').select();
+      }
       logger.log(data.toString());
       return BaseResponse.ok(parsePostListFromMap(data));
     } catch (e) {

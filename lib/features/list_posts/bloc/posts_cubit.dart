@@ -14,9 +14,9 @@ class PostsCubit extends Cubit<PostsState> {
 
   final SupabaseService _client;
 
-  void fetchPosts() async {
+  void fetchPosts({String? keyword}) async {
     emit(state.copyWith(stateList: BaseResponse.loading()));
-    final response = await _client.getPosts();
+    final response = await _client.getPosts(keyword: keyword);
     emit(state.copyWith(stateList: response));
   }
 }

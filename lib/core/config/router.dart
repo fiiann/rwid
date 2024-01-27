@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:rwid/core/config/injector.dart';
@@ -37,6 +38,8 @@ final GoRouter routerConfig = GoRouter(
         builder: (context, state) => const LoginPage(),
         redirect: (context, GoRouterState state) async {
           final status = await getCurrentAuthentication(context);
+          await Future.delayed(const Duration(milliseconds: 100), () {});
+          FlutterNativeSplash.remove();
           switch (status) {
             case AuthenticationStatus.unauthenticated:
               return LoginPage.route;

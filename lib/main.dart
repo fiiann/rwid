@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:rwid/core/config/injector.dart';
 import 'package:rwid/core/config/router.dart';
 import 'package:rwid/core/domain/service/supabase_service.dart';
@@ -7,7 +8,8 @@ import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await initializeApp();
   initInjector();
   runApp(MultiRepositoryProvider(providers: [

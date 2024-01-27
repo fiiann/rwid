@@ -20,9 +20,11 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PostModel {
+  @JsonKey(includeIfNull: false)
   int? get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tag_id')
   int? get tag => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +38,11 @@ abstract class $PostModelCopyWith<$Res> {
   factory $PostModelCopyWith(PostModel value, $Res Function(PostModel) then) =
       _$PostModelCopyWithImpl<$Res, PostModel>;
   @useResult
-  $Res call({int? id, String title, String content, int? tag});
+  $Res call(
+      {@JsonKey(includeIfNull: false) int? id,
+      String title,
+      String content,
+      @JsonKey(name: 'tag_id') int? tag});
 }
 
 /// @nodoc
@@ -86,7 +92,11 @@ abstract class _$$PostModelImplCopyWith<$Res>
       __$$PostModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? id, String title, String content, int? tag});
+  $Res call(
+      {@JsonKey(includeIfNull: false) int? id,
+      String title,
+      String content,
+      @JsonKey(name: 'tag_id') int? tag});
 }
 
 /// @nodoc
@@ -128,20 +138,26 @@ class __$$PostModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PostModelImpl implements _PostModel {
+class _$PostModelImpl extends _PostModel {
   const _$PostModelImpl(
-      {this.id, required this.title, required this.content, this.tag});
+      {@JsonKey(includeIfNull: false) this.id,
+      required this.title,
+      required this.content,
+      @JsonKey(name: 'tag_id') this.tag})
+      : super._();
 
   factory _$PostModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostModelImplFromJson(json);
 
   @override
+  @JsonKey(includeIfNull: false)
   final int? id;
   @override
   final String title;
   @override
   final String content;
   @override
+  @JsonKey(name: 'tag_id')
   final int? tag;
 
   @override
@@ -178,23 +194,26 @@ class _$PostModelImpl implements _PostModel {
   }
 }
 
-abstract class _PostModel implements PostModel {
+abstract class _PostModel extends PostModel {
   const factory _PostModel(
-      {final int? id,
+      {@JsonKey(includeIfNull: false) final int? id,
       required final String title,
       required final String content,
-      final int? tag}) = _$PostModelImpl;
+      @JsonKey(name: 'tag_id') final int? tag}) = _$PostModelImpl;
+  const _PostModel._() : super._();
 
   factory _PostModel.fromJson(Map<String, dynamic> json) =
       _$PostModelImpl.fromJson;
 
   @override
+  @JsonKey(includeIfNull: false)
   int? get id;
   @override
   String get title;
   @override
   String get content;
   @override
+  @JsonKey(name: 'tag_id')
   int? get tag;
   @override
   @JsonKey(ignore: true)

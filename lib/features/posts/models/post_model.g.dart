@@ -11,13 +11,21 @@ _$PostModelImpl _$$PostModelImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int?,
       title: json['title'] as String,
       content: json['content'] as String,
-      tag: json['tag'] as int?,
+      tag: json['tag_id'] as int?,
     );
 
-Map<String, dynamic> _$$PostModelImplToJson(_$PostModelImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'content': instance.content,
-      'tag': instance.tag,
-    };
+Map<String, dynamic> _$$PostModelImplToJson(_$PostModelImpl instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['title'] = instance.title;
+  val['content'] = instance.content;
+  val['tag_id'] = instance.tag;
+  return val;
+}

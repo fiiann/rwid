@@ -115,4 +115,16 @@ class SupabaseService {
       return BaseResponse.error(message: e.toString());
     }
   }
+
+  Future<BaseResponse<void>> insertPost(PostModel postModel) async {
+    try {
+      await _client.from('posts').insert(postModel.toJson());
+      return BaseResponse.ok(null);
+    } catch (e) {
+      if (kDebugMode) {
+        print('error insert post : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
 }

@@ -37,8 +37,13 @@ class _ListPostPageState extends State<ListPostPage> {
     return Scaffold(
       appBar: _buildAppBar(user, context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.push(AddPostPage.route);
+        onPressed: () async {
+          final addSuccess = await context.push(AddPostPage.route);
+          if (addSuccess != null) {
+            if (context.mounted) {
+              context.read<PostsCubit>().fetchPosts();
+            }
+          }
         },
         child: const Icon(Icons.add),
       ),

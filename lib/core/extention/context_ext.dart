@@ -1,10 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rwid/core/constant/colors.dart';
+import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/model/generic_handler.dart';
+import 'package:rwid/core/widget/primary_button.dart';
 import 'package:rwid/core/widget/swipe_indicator.dart';
 
 extension CustomBuildContext on BuildContext {
+  Future<bool?> showResultDialog({
+    required ResponseState status,
+    required String message,
+    bool barrierDismissible = false,
+  }) {
+    return showGeneralDialog(
+      barrierColor: Colors.black.withOpacity(0.6),
+      transitionDuration: const Duration(milliseconds: 400),
+      context: this,
+      barrierDismissible: barrierDismissible,
+      barrierLabel: MaterialLocalizations.of(this).modalBarrierDismissLabel,
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+      ) {
+        return Align(
+          child: Container(
+            width: double.infinity / 1.75,
+            margin: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Material(
+              type: MaterialType.transparency,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    if (status == ResponseState.ok)
+                      const Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 100,
+                      )
+                    else
+                      const Icon(
+                        Icons.error_rounded,
+                        color: Colors.red,
+                        size: 100,
+                      ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      message,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    PrimaryButton(
+                      label: 'OK',
+                      onTap: () {
+                        context.pop(true);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<T?> showDropdownBottomsheet<T>({
     required List<T> options,
     required String title,

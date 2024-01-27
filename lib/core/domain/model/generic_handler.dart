@@ -1,3 +1,5 @@
+import 'package:rwid/features/tag/model/tag_model.dart';
+
 class GenericHandler<T> {
   GenericHandler(this._value);
   final T _value;
@@ -7,6 +9,8 @@ class GenericHandler<T> {
       return _value;
     } else if (_value is int) {
       return _value.toString();
+    } else if (_value is TagModel) {
+      return _value.name;
     } else {
       return 'type not available';
     }

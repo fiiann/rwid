@@ -1,133 +1,210 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:rwid/core/constant/colors.dart';
+import 'package:rwid/core/extention/validator.dart';
 
-import '../constant/custom_text_style.dart';
+typedef VoidCallbackParam = void Function(String?);
 
 class CustomTextFormField extends StatelessWidget {
-  final String? labelText;
-  final String hintText;
-  final String errorText;
-  final int? maxLength;
-  final int? minLines;
-  final bool obscureText;
-  final TextInputType textInputType;
-  final Function(String)? onChanged;
-  final Function(String)? onFieldSubmitted;
-  final Function()? onTap;
-  final List<TextInputFormatter>? textInputFormatterList;
-  final String? initialValue;
-  final String prefixText;
-  final String suffixText;
-  final Color? fillColor;
-  final InputBorder inputBorder;
-  final InputBorder? enabledBorder;
-  final InputBorder? disabledBorder;
-  final InputBorder? focusedBorder;
-  final FloatingLabelBehavior? floatingLabelBehavior;
-  final TextCapitalization textCapitalization;
-  final TextAlign textAlign;
-  final TextEditingController? controller;
-  final Widget? prefixIcon;
-  final Widget? suffixIcon;
-  final EdgeInsets contentPadding;
-  final TextStyle? textStyle;
-  final TextStyle? hintTextStyle;
-  final TextInputAction? textInputAction;
-  final int? maxLine;
-  final EdgeInsets padding;
-  final Color errorColor;
-  final bool readOnly;
-  final TextStyle? labelStyle;
-  final FocusNode? focusNode;
-
   const CustomTextFormField({
-    this.labelText,
-    this.onChanged,
-    this.hintText = '',
+    required this.name,
+    required this.labelText,
+    this.isPassword = false,
+    this.isEmail = false,
+    this.isRequired = true,
+    this.useBorder = false,
+    this.enabled = true,
+    this.compact = true,
     this.textInputType = TextInputType.text,
-    this.obscureText = false,
-    this.errorText = '',
-    this.maxLength,
-    this.errorColor = Colors.redAccent,
-    this.textInputFormatterList,
-    this.initialValue,
-    this.fillColor,
-    this.onTap,
-    this.padding = EdgeInsets.zero,
-    this.inputBorder = const OutlineInputBorder(),
-    this.floatingLabelBehavior,
-    this.enabledBorder,
-    this.disabledBorder,
-    this.focusedBorder,
-    this.prefixText = '',
-    this.suffixText = '',
-    this.maxLine = 1,
-    this.minLines = 1,
-    this.textCapitalization = TextCapitalization.none,
-    this.textAlign = TextAlign.start,
-    this.controller,
-    this.contentPadding = const EdgeInsets.fromLTRB(17, 15, 17, 15),
-    Key? key,
-    this.textInputAction,
+    this.filledColor = Colors.white,
+    this.prefix,
     this.prefixIcon,
     this.suffixIcon,
-    this.textStyle,
-    this.hintTextStyle,
-    this.onFieldSubmitted,
-    this.readOnly = false,
-    this.labelStyle,
-    this.focusNode,
-  }) : super(key: key);
+    this.title,
+    this.value,
+    this.maxLines = 1,
+    super.key,
+    this.radius = 30,
+    this.onChange,
+    this.textInputAction = TextInputAction.next,
+    this.onSubmitted,
+  });
+  final String name;
+  final String labelText;
+  final String? title;
+  final bool isPassword;
+  final bool isEmail;
+  final bool isRequired;
+  final Widget? prefix;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final bool useBorder;
+  final bool enabled;
+  final bool compact;
+  final String? value;
+  final TextInputType textInputType;
+  final TextInputAction textInputAction;
+  final Color filledColor;
+  final int maxLines;
+  final double radius;
+  final VoidCallbackParam? onChange;
+  final VoidCallbackParam? onSubmitted;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: padding,
-        child: Column(
-          children: [
-            TextFormField(
-              onFieldSubmitted: onFieldSubmitted,
-              controller: controller,
-              textCapitalization: textCapitalization,
-              initialValue: initialValue,
-              inputFormatters: textInputFormatterList,
-              maxLength: maxLength,
-              focusNode: focusNode,
-              onTap: onTap,
-              obscureText: obscureText,
-              textAlign: textAlign,
-              style: textStyle ?? CustomTextStyle.lightComponentInputText,
-              readOnly: readOnly,
-              maxLines: maxLine,
-              minLines: minLines,
-              decoration: InputDecoration(
-                  errorStyle:
-                      TextStyle(color: errorColor, fontWeight: FontWeight.w400),
-                  errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: errorColor)),
-                  isDense: true,
-                  contentPadding: contentPadding,
-                  prefixIcon: prefixIcon,
-                  floatingLabelBehavior: floatingLabelBehavior,
-                  filled: fillColor != null ? true : false,
-                  fillColor: fillColor,
-                  border: inputBorder,
-                  labelText: labelText,
-                  suffixIcon: suffixIcon,
-                  labelStyle:
-                      labelStyle ?? CustomTextStyle.lightComponentInputLabel,
-                  counterText: '',
-                  hintText: hintText,
-                  hintStyle: hintTextStyle,
-                  prefixText: prefixText.isEmpty ? null : '$prefixText  ',
-                  suffixText: suffixText.isEmpty ? null : '$suffixText  ',
-                  enabledBorder: enabledBorder,
-                  disabledBorder: disabledBorder,
-                  focusedBorder: focusedBorder,
-                  errorText: errorText.isEmpty ? null : errorText),
-              onChanged: onChanged,
-              keyboardType: textInputType,
+  Widget build(BuildContext context) {
+    var isObscure = false;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title == null)
+          const SizedBox.shrink()
+        else
+          Text(
+            title!,
+            style: const TextStyle(
+              color: CustomColors.lightPrimaryMain,
+              fontWeight: FontWeight.bold,
             ),
-          ],
+          ),
+        if (title == null)
+          const SizedBox.shrink()
+        else
+          const SizedBox(
+            height: 10,
+          ),
+        StatefulBuilder(
+          builder: (context, setState) {
+            return FormBuilderTextField(
+              name: name,
+              onSubmitted: onSubmitted,
+              enabled: enabled,
+              initialValue: value,
+              textInputAction: textInputAction,
+              keyboardType: textInputType,
+              maxLines: maxLines,
+              onChanged: onChange,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: !compact ? 20 : 10,
+                  horizontal: 20,
+                ),
+                hintText: labelText,
+                hintStyle:
+                    const TextStyle(color: CustomColors.lightTextDisabled),
+                prefix: prefix,
+                prefixIcon: prefixIcon,
+                disabledBorder: buildOutlineInputBorder(),
+                focusedBorder: buildOutlineInputBorder(),
+                enabledBorder: useBorder ? buildOutlineInputBorder() : null,
+                border: !useBorder ? buildOutlineInputBorder() : null,
+                suffixIcon: !isPassword
+                    ? suffixIcon
+                    : IconButton(
+                        splashRadius: 9,
+                        icon: Icon(
+                          isObscure ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
+                      ),
+              ),
+              obscureText: isObscure,
+              validator: FormBuilderValidators.compose([
+                if (isRequired) FormBuilderValidators.required(),
+                if (isEmail) FormBuilderValidators.email(),
+                if (isPassword)
+                  (val) {
+                    final password = val;
+                    if (password == null) return null;
+                    if (!Validator.isValidPassWord(password)) {
+                      return 'Minimum 8 characters required';
+                    }
+                    return null;
+                  },
+              ]),
+            );
+          },
         ),
-      );
+      ],
+    );
+  }
+
+  OutlineInputBorder buildOutlineInputBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(radius)),
+      borderSide: useBorder
+          ? const BorderSide(width: 2, color: CustomColors.lightTextDisabled)
+          : BorderSide.none,
+    );
+  }
+}
+
+class SearchFormField extends StatelessWidget {
+  const SearchFormField({
+    super.key,
+    this.onChanged,
+    this.onFieldSubmitted,
+  });
+  final VoidCallbackParam? onChanged;
+  final VoidCallbackParam? onFieldSubmitted;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomTextFormField(
+      name: 'search',
+      labelText: 'Cari Data',
+      useBorder: true,
+      onChange: onChanged,
+      onSubmitted: onFieldSubmitted,
+      prefixIcon: const Icon(Icons.search),
+    );
+  }
+}
+
+class TextFormReadOnly extends StatelessWidget {
+  const TextFormReadOnly({
+    required this.title,
+    required this.initialValue,
+    this.suffixIcon = const SizedBox.shrink(),
+    this.maxLine = 1,
+    super.key,
+  });
+
+  final String? title;
+  final String? initialValue;
+  final Widget suffixIcon;
+  final int maxLine;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title ?? '',
+          style: const TextStyle(
+            color: CustomColors.lightPrimaryMain,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        FormBuilderTextField(
+          name: title == null
+              ? 'title'
+              : title!.toLowerCase().replaceAll(' ', '_'),
+          enabled: false,
+          maxLines: maxLine,
+          initialValue: initialValue,
+          textAlign: TextAlign.left,
+          decoration: InputDecoration(suffixIcon: suffixIcon),
+          style:
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
 }

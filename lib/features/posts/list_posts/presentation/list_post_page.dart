@@ -8,8 +8,9 @@ import 'package:rwid/core/extention/string_ext.dart';
 import 'package:rwid/core/widget/custom_text_field.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
-import 'package:rwid/features/list_posts/bloc/posts_cubit.dart';
-import 'package:rwid/features/list_posts/presentation/components/list_post.dart';
+import 'package:rwid/features/posts/add_posts/presentation/add_post_page.dart';
+import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
+import 'package:rwid/features/posts/list_posts/presentation/components/list_post.dart';
 
 class ListPostPage extends StatefulWidget {
   static const String route = '/list_post_page';
@@ -36,7 +37,9 @@ class _ListPostPageState extends State<ListPostPage> {
     return Scaffold(
       appBar: _buildAppBar(user, context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.push(AddPostPage.route);
+        },
         child: const Icon(Icons.add),
       ),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
@@ -45,7 +48,9 @@ class _ListPostPageState extends State<ListPostPage> {
         child: Column(
           children: [
             CustomTextFormField(
-              onFieldSubmitted: (val) {
+              labelText: 'Search',
+              name: 'search',
+              onSubmitted: (val) {
                 context.read<PostsCubit>().fetchPosts(keyword: val);
               },
             ),

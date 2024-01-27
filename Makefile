@@ -44,6 +44,6 @@ generate-two:
 	dart run build_runner build --build-filter="lib/features/list_posts/models/post_model.freezed.dart"
 	dart run build_runner build --build-filter="lib/features/list_posts/models/post_model.g.dart"
 generate-one:
-	dart run build_runner build --build-filter="lib/features/list_posts/bloc/posts_cubit.freezed.dart"
+	dart run build_runner build --build-filter="lib/features/posts/add_posts/bloc/add_post_cubit.freezed.dart"
 generate-service:
 	dart run build_runner build --build-filter="lib/src/data/sources/api_service.g.dart"

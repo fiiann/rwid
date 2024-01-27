@@ -2,7 +2,7 @@ import 'dart:developer' as logger show log;
 
 import 'package:flutter/foundation.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
-import 'package:rwid/features/list_posts/models/post_model.dart';
+import 'package:rwid/features/posts/models/post_model.dart';
 import 'package:rwid/features/tag/model/tag_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

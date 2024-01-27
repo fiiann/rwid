@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rwid/core/widget/no_page.dart';
-import 'package:rwid/features/list_posts/presentation/list_post_page.dart';
+import 'package:rwid/features/posts/list_posts/presentation/list_post_page.dart';
 
 final List<(Widget, String, Icon, Icon)> pagesDashboard = [
   (
@@ -58,7 +58,6 @@ void showBackDialog(BuildContext context) {
             ),
             child: const Text('Leave'),
             onPressed: () {
-              context.pop();
               context.pop();
             },
           ),

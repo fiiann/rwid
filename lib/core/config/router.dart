@@ -10,7 +10,9 @@ import 'package:rwid/core/domain/model/user_rwid.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/dashboard/dashboard_page.dart';
-import 'package:rwid/features/list_posts/bloc/posts_cubit.dart';
+import 'package:rwid/features/posts/add_posts/bloc/add_post_cubit.dart';
+import 'package:rwid/features/posts/add_posts/presentation/add_post_page.dart';
+import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
 import 'package:rwid/features/tag/bloc/tab_cubit.dart';
 import 'package:rwid/features/tag/page/tag_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -63,6 +65,13 @@ final GoRouter routerConfig = GoRouter(
         builder: (context, state) => BlocProvider(
           create: (context) => TagCubit(supabaseService: context.read()),
           child: const TagPage(),
+        ),
+      ),
+      GoRoute(
+        path: AddPostPage.route,
+        builder: (context, state) => BlocProvider(
+          create: (context) => AddPostCubit(supabaseService: context.read()),
+          child: const AddPostPage(),
         ),
       ),
     ]);

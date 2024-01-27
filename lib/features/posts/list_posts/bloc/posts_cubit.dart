@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/service/supabase_service.dart';
-import 'package:rwid/features/list_posts/models/post_model.dart';
+import 'package:rwid/features/posts/models/post_model.dart';
 
 part 'posts_cubit.freezed.dart';
 part 'posts_state.dart';

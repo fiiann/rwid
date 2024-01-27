@@ -4,8 +4,8 @@ import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/widget/error_widget.dart';
 import 'package:rwid/core/widget/loading_list_widget.dart';
 import 'package:rwid/core/widget/no_data_widget.dart';
-import 'package:rwid/features/list_posts/bloc/posts_cubit.dart';
-import 'package:rwid/features/list_posts/models/post_model.dart';
+import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
+import 'package:rwid/features/posts/models/post_model.dart';
 
 class ListPost extends StatelessWidget {
   const ListPost({super.key});

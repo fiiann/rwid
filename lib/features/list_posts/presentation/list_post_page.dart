@@ -35,15 +35,21 @@ class _ListPostPageState extends State<ListPostPage> {
     final user = box.get('user');
     return Scaffold(
       appBar: _buildAppBar(user, context),
-      body: const Padding(
-        padding: EdgeInsets.all(8.0),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            CustomTextField(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              hintText: 'Search',
+            CustomTextFormField(
+              onFieldSubmitted: (val) {
+                context.read<PostsCubit>().fetchPosts(keyword: val);
+              },
             ),
-            ListPost()
+            const ListPost()
           ],
         ),
       ),

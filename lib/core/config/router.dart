@@ -10,7 +10,6 @@ import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/dashboard/dashboard_page.dart';
 import 'package:rwid/features/list_posts/bloc/posts_cubit.dart';
-import 'package:rwid/features/list_posts/presentation/list_post_page.dart';
 import 'package:rwid/features/tag/bloc/tab_cubit.dart';
 import 'package:rwid/features/tag/page/tag_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -45,19 +44,15 @@ final GoRouter routerConfig = GoRouter(
               return TagPage.route;
             case AuthenticationStatus.authenticatedWithTags:
               //TODO CHANGE TO DASHBOARD
-              return ListPostPage.route;
+              return DashboardPage.route;
           }
         },
       ),
       GoRoute(
         path: DashboardPage.route,
-        builder: (context, state) => const DashboardPage(),
-      ),
-      GoRoute(
-        path: ListPostPage.route,
         builder: (context, state) => BlocProvider(
           create: (context) => PostsCubit(supabaseService: context.read()),
-          child: const ListPostPage(),
+          child: const DashboardPage(),
         ),
       ),
       GoRoute(

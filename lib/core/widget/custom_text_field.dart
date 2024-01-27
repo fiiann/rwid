@@ -1,151 +1,133 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rwid/core/constant/colors.dart';
-import 'package:rwid/core/constant/custom_text_style.dart';
-import 'package:rwid/core/constant/text_form_field_style.dart';
-import 'package:rwid/core/widget/custom_text.dart';
 
-class CustomTextField extends StatefulWidget {
-  final TextCapitalization textCapitalization;
-  final String initialValue;
-  final List<TextInputFormatter>? textInputFormatterList;
-  final int? maxLine;
+import '../constant/custom_text_style.dart';
+
+class CustomTextFormField extends StatelessWidget {
   final String? labelText;
-  final Widget? labelWidget;
   final String hintText;
   final String errorText;
-  final Widget? prefix;
-  final Widget? prefixIcon;
-  final Widget? suffixIcon;
-  final bool enabled;
-  final bool readOnly;
-  final double textFieldHeight;
+  final int? maxLength;
+  final int? minLines;
+  final bool obscureText;
+  final TextInputType textInputType;
   final Function(String)? onChanged;
   final Function(String)? onFieldSubmitted;
   final Function()? onTap;
-  final TextInputAction? textInputAction;
-  final TextInputType? textInputType;
-  final FloatingLabelBehavior floatingLabelBehavior;
-  final InputBorder? border;
+  final List<TextInputFormatter>? textInputFormatterList;
+  final String? initialValue;
+  final String prefixText;
+  final String suffixText;
+  final Color? fillColor;
+  final InputBorder inputBorder;
+  final InputBorder? enabledBorder;
+  final InputBorder? disabledBorder;
+  final InputBorder? focusedBorder;
+  final FloatingLabelBehavior? floatingLabelBehavior;
+  final TextCapitalization textCapitalization;
+  final TextAlign textAlign;
   final TextEditingController? controller;
-  final String? Function(String?)? validator;
-  final TextStyle? errorStyle;
-  final InputBorder? errorBorder;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final EdgeInsets contentPadding;
+  final TextStyle? textStyle;
+  final TextStyle? hintTextStyle;
+  final TextInputAction? textInputAction;
+  final int? maxLine;
+  final EdgeInsets padding;
+  final Color errorColor;
+  final bool readOnly;
+  final TextStyle? labelStyle;
+  final FocusNode? focusNode;
 
-  const CustomTextField(
-      {super.key,
-      this.onChanged,
-      this.onFieldSubmitted,
-      this.onTap,
-      this.textCapitalization = TextCapitalization.none,
-      this.floatingLabelBehavior = FloatingLabelBehavior.never,
-      this.initialValue = '',
-      this.textInputFormatterList,
-      this.labelText = '',
-      this.hintText = '',
-      this.errorText = '',
-      this.textInputAction,
-      this.textInputType,
-      this.prefix,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.controller,
-      this.enabled = true,
-      this.readOnly = false,
-      this.textFieldHeight = 40,
-      this.maxLine,
-      this.border,
-      this.validator,
-      this.labelWidget,
-      this.errorStyle = const TextStyle(color: CustomColors.red, fontSize: 12),
-      this.errorBorder = const OutlineInputBorder(
-          borderSide: BorderSide(color: CustomColors.red))});
-
-  @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
-}
-
-class _CustomTextFieldState extends State<CustomTextField> {
-  final TextEditingController controller = TextEditingController();
-  late FloatingLabelBehavior floatingLabelBehavior;
-  String? label;
-
-  @override
-  void initState() {
-    super.initState();
-    controller.text = widget.initialValue;
-    if (widget.floatingLabelBehavior == FloatingLabelBehavior.always) {
-      label = widget.labelText;
-      floatingLabelBehavior = widget.floatingLabelBehavior;
-    } else {
-      floatingLabelBehavior = FloatingLabelBehavior.never;
-      if (widget.initialValue.isNotEmpty) {
-        label = widget.labelText;
-        floatingLabelBehavior = FloatingLabelBehavior.always;
-      }
-      controller.addListener(() {
-        _setFloatingLabelBehavior();
-      });
-    }
-  }
-
-  void _setFloatingLabelBehavior() {
-    setState(() {
-      if (controller.text.isEmpty) {
-        label = null;
-        floatingLabelBehavior = FloatingLabelBehavior.never;
-      } else {
-        label = widget.labelText;
-        floatingLabelBehavior = FloatingLabelBehavior.always;
-      }
-    });
-  }
+  const CustomTextFormField({
+    this.labelText,
+    this.onChanged,
+    this.hintText = '',
+    this.textInputType = TextInputType.text,
+    this.obscureText = false,
+    this.errorText = '',
+    this.maxLength,
+    this.errorColor = Colors.redAccent,
+    this.textInputFormatterList,
+    this.initialValue,
+    this.fillColor,
+    this.onTap,
+    this.padding = EdgeInsets.zero,
+    this.inputBorder = const OutlineInputBorder(),
+    this.floatingLabelBehavior,
+    this.enabledBorder,
+    this.disabledBorder,
+    this.focusedBorder,
+    this.prefixText = '',
+    this.suffixText = '',
+    this.maxLine = 1,
+    this.minLines = 1,
+    this.textCapitalization = TextCapitalization.none,
+    this.textAlign = TextAlign.start,
+    this.controller,
+    this.contentPadding = const EdgeInsets.fromLTRB(17, 15, 17, 15),
+    Key? key,
+    this.textInputAction,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.textStyle,
+    this.hintTextStyle,
+    this.onFieldSubmitted,
+    this.readOnly = false,
+    this.labelStyle,
+    this.focusNode,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: widget.textFieldHeight,
-            child: TextFormField(
-
-                onFieldSubmitted: widget.onFieldSubmitted,
-                controller: widget.controller ?? controller,
-                enabled: widget.enabled,
-                onChanged: widget.onChanged,
-                readOnly: widget.readOnly,
-                onTap: widget.onTap,
-                keyboardType: widget.textInputType,
-                textCapitalization: widget.textCapitalization,
-                inputFormatters: widget.textInputFormatterList,
-                maxLines: widget.maxLine,
-                textInputAction: widget.textInputAction,
-                validator: widget.validator,
-                style: TextFieldStyle.valueTextStyle,
-                decoration: TextFieldStyle.inputDecoration.copyWith(
-                  border: widget.border,
-                  prefix: widget.prefix,
-                  prefixIcon: widget.prefixIcon,
+  Widget build(BuildContext context) => Padding(
+        padding: padding,
+        child: Column(
+          children: [
+            TextFormField(
+              onFieldSubmitted: onFieldSubmitted,
+              controller: controller,
+              textCapitalization: textCapitalization,
+              initialValue: initialValue,
+              inputFormatters: textInputFormatterList,
+              maxLength: maxLength,
+              focusNode: focusNode,
+              onTap: onTap,
+              obscureText: obscureText,
+              textAlign: textAlign,
+              style: textStyle ?? CustomTextStyle.lightComponentInputText,
+              readOnly: readOnly,
+              maxLines: maxLine,
+              minLines: minLines,
+              decoration: InputDecoration(
+                  errorStyle:
+                      TextStyle(color: errorColor, fontWeight: FontWeight.w400),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: errorColor)),
+                  isDense: true,
+                  contentPadding: contentPadding,
+                  prefixIcon: prefixIcon,
                   floatingLabelBehavior: floatingLabelBehavior,
-                  floatingLabelStyle: CustomTextStyle.lightComponentInputLabel,
-                  labelText: label,
-                  label: widget.labelWidget,
-                  errorBorder: widget.errorBorder,
-                  errorStyle: widget.errorStyle,
-                  hintText: widget.hintText,
-                  suffixIcon: widget.suffixIcon,
-                )),
-          ),
-          if (widget.errorText.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(left: 2, top: 5),
-              child: CustomText(
-                widget.errorText,
-                style: CustomTextStyle.lightTypographyCaption
-                    .copyWith(color: CustomColors.red),
-              ),
-            )
-        ],
+                  filled: fillColor != null ? true : false,
+                  fillColor: fillColor,
+                  border: inputBorder,
+                  labelText: labelText,
+                  suffixIcon: suffixIcon,
+                  labelStyle:
+                      labelStyle ?? CustomTextStyle.lightComponentInputLabel,
+                  counterText: '',
+                  hintText: hintText,
+                  hintStyle: hintTextStyle,
+                  prefixText: prefixText.isEmpty ? null : '$prefixText  ',
+                  suffixText: suffixText.isEmpty ? null : '$suffixText  ',
+                  enabledBorder: enabledBorder,
+                  disabledBorder: disabledBorder,
+                  focusedBorder: focusedBorder,
+                  errorText: errorText.isEmpty ? null : errorText),
+              onChanged: onChanged,
+              keyboardType: textInputType,
+            ),
+          ],
+        ),
       );
 }

@@ -10,7 +10,7 @@ import 'package:rwid/core/widget/custom_text_field.dart';
 import 'package:rwid/core/widget/form_input_password_widget.dart';
 import 'package:rwid/core/widget/primary_button.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
-import 'package:rwid/features/list_posts/presentation/list_post_page.dart';
+import 'package:rwid/features/dashboard/dashboard_page.dart';
 import 'package:rwid/features/tag/page/tag_page.dart';
 
 class LoginPage extends StatelessWidget {
@@ -26,13 +26,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomTextField(
-              hintText: 'Enter your email',
-              labelText: 'Email',
-              onChanged: (val) {
-                context.read<AuthCubit>().changeEmail(val);
-              },
-            ),
+            CustomTextFormField(),
             const SizedBox(
               height: 10,
             ),
@@ -79,7 +73,7 @@ class LoginPage extends StatelessWidget {
                   if (state.authenticationStatus ==
                       AuthenticationStatus.authenticatedWithTags) {
                     //TODO CHANGE TO DASHBOARD
-                    context.go(ListPostPage.route);
+                    context.go(DashboardPage.route);
                   } else {
                     context.go(TagPage.route);
                   }

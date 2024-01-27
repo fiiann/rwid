@@ -1,84 +1,72 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:rwid/core/constant/constant.dart';
-import 'package:rwid/core/domain/model/base_response.dart';
-import 'package:rwid/core/extention/string_ext.dart';
-import 'package:rwid/core/widget/custom_text_field.dart';
-import 'package:rwid/features/auth/bloc/auth_cubit.dart';
-import 'package:rwid/features/auth/page/login_page.dart';
+import 'package:rwid/core/constant/colors.dart';
+import 'package:rwid/features/dashboard/utils/dashboard_utils.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   static const String route = '/dashboard';
 
-  const DashboardPage({super.key});
+  const DashboardPage({Key? key}) : super(key: key);
+
+  static DashboardPageState? of(BuildContext context) {
+    return context.findAncestorStateOfType<DashboardPageState>();
+  }
+
+  @override
+  State<DashboardPage> createState() => DashboardPageState();
+}
+
+class DashboardPageState extends State<DashboardPage> {
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  final pageController = PageController();
+
+  void jumpToPage(int page) => pageController.jumpToPage(page);
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box(authBoxName);
-    final user = box.get('user');
-    return Scaffold(
-      appBar: _buildAppBar(user, context),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            const CustomTextField(
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              hintText: 'Search',
-            ),
-            Expanded(
-                child: ListView.builder(
-                    itemCount: 100,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(index.toString()),
-                      );
-                    }))
-          ],
+    final pages = pagesDashboard;
+
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
+          return;
+        }
+        showBackDialog(context);
+      },
+      child: Scaffold(
+        body: PageView(
+          controller: pageController,
+          children: pages.map((e) => e.$1).toList(),
         ),
+        bottomNavigationBar: buildBottomNavigationBar(pages),
       ),
     );
   }
 
-  AppBar _buildAppBar(user, BuildContext context) {
-    return AppBar(
-      title: Text(
-        'Welcome, ${user.name} !',
-        overflow: TextOverflow.ellipsis,
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: BlocConsumer<AuthCubit, AuthState>(
-            listenWhen: (previous, current) =>
-                previous.statusLogout?.state != current.statusLogout?.state,
-            listener: (_, state) {
-              if (state.statusLogout?.state == ResponseState.ok) {
-                context.go(LoginPage.route);
-              } else if (state.statusLogout?.state == ResponseState.error) {
-                (state.statusLogout?.message ?? 'Error').failedBar(context);
-              }
-            },
-            buildWhen: (previous, current) =>
-                previous.statusLogout != current.statusLogout,
-            builder: (context, state) {
-              return GestureDetector(
-                onDoubleTap: () => context.read<AuthCubit>().logout(),
-                child: state.statusLogout?.state == ResponseState.loading
-                    ? const SizedBox.square(
-                        dimension: 16,
-                        child: CircularProgressIndicator(),
-                      )
-                    : CircleAvatar(
-                        foregroundImage: NetworkImage(user.photo),
-                      ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
+  Widget buildBottomNavigationBar(List<(Widget, String, Icon, Icon)> pages) {
+    return AnimatedBuilder(
+        animation: pageController,
+        builder: (context, child) {
+          return NavigationBar(
+            backgroundColor: Colors.white,
+            elevation: 3,
+            destinations: pages
+                .map((e) => NavigationDestination(
+                      icon: e.$3,
+                      selectedIcon: e.$4,
+                      label: e.$2,
+                    ))
+                .toList(),
+            height: 60,
+            surfaceTintColor: CustomColors.lightPrimaryMain,
+            selectedIndex: pageController.page?.toInt() ?? 0,
+            onDestinationSelected: pageController.jumpToPage,
+          );
+        });
   }
 }

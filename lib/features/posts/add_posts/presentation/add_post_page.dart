@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/extention/bottom_sheet_ext.dart';
 import 'package:rwid/core/extention/context_ext.dart';
 import 'package:rwid/core/widget/custom_dropdown.dart';
+import 'package:rwid/core/widget/custom_image_picker.dart';
 import 'package:rwid/core/widget/custom_text.dart';
 import 'package:rwid/core/widget/custom_text_field.dart';
 import 'package:rwid/core/widget/form_shimmer.dart';
@@ -59,6 +61,10 @@ class _AddPostPageState extends State<AddPostPage> {
                 ),
                 const SizedBox(height: 16.0),
                 buildFormTag(),
+                const SizedBox(height: 16.0),
+                CustomImagePicker(
+                  name: 'image',
+                ),
                 const SizedBox(height: 16.0),
                 buildButtonSubmit(formKey),
               ],
@@ -151,7 +157,9 @@ class _AddPostPageState extends State<AddPostPage> {
         }
 
         final request = PostModel.fromForm(formKey);
-        await context.read<AddPostCubit>().submitPost(request);
+        final image =
+            formKey.currentState?.fields['image']?.value.first as XFile;
+        await context.read<AddPostCubit>().submitPost(request, image);
       }
     }
   }

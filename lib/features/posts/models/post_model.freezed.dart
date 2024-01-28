@@ -24,6 +24,7 @@ mixin _$PostModel {
   int? get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  String? get image => throw _privateConstructorUsedError;
   @JsonKey(name: 'tag_id')
   int? get tag => throw _privateConstructorUsedError;
 
@@ -42,6 +43,7 @@ abstract class $PostModelCopyWith<$Res> {
       {@JsonKey(includeIfNull: false) int? id,
       String title,
       String content,
+      String? image,
       @JsonKey(name: 'tag_id') int? tag});
 }
 
@@ -61,6 +63,7 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
     Object? id = freezed,
     Object? title = null,
     Object? content = null,
+    Object? image = freezed,
     Object? tag = freezed,
   }) {
     return _then(_value.copyWith(
@@ -76,6 +79,10 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
       tag: freezed == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
@@ -96,6 +103,7 @@ abstract class _$$PostModelImplCopyWith<$Res>
       {@JsonKey(includeIfNull: false) int? id,
       String title,
       String content,
+      String? image,
       @JsonKey(name: 'tag_id') int? tag});
 }
 
@@ -113,6 +121,7 @@ class __$$PostModelImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? title = null,
     Object? content = null,
+    Object? image = freezed,
     Object? tag = freezed,
   }) {
     return _then(_$PostModelImpl(
@@ -128,6 +137,10 @@ class __$$PostModelImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
       tag: freezed == tag
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
@@ -143,6 +156,7 @@ class _$PostModelImpl extends _PostModel {
       {@JsonKey(includeIfNull: false) this.id,
       required this.title,
       required this.content,
+      this.image,
       @JsonKey(name: 'tag_id') this.tag})
       : super._();
 
@@ -157,12 +171,14 @@ class _$PostModelImpl extends _PostModel {
   @override
   final String content;
   @override
+  final String? image;
+  @override
   @JsonKey(name: 'tag_id')
   final int? tag;
 
   @override
   String toString() {
-    return 'PostModel(id: $id, title: $title, content: $content, tag: $tag)';
+    return 'PostModel(id: $id, title: $title, content: $content, image: $image, tag: $tag)';
   }
 
   @override
@@ -173,12 +189,13 @@ class _$PostModelImpl extends _PostModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.image, image) || other.image == image) &&
             (identical(other.tag, tag) || other.tag == tag));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, content, tag);
+  int get hashCode => Object.hash(runtimeType, id, title, content, image, tag);
 
   @JsonKey(ignore: true)
   @override
@@ -199,6 +216,7 @@ abstract class _PostModel extends PostModel {
       {@JsonKey(includeIfNull: false) final int? id,
       required final String title,
       required final String content,
+      final String? image,
       @JsonKey(name: 'tag_id') final int? tag}) = _$PostModelImpl;
   const _PostModel._() : super._();
 
@@ -212,6 +230,8 @@ abstract class _PostModel extends PostModel {
   String get title;
   @override
   String get content;
+  @override
+  String? get image;
   @override
   @JsonKey(name: 'tag_id')
   int? get tag;

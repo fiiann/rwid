@@ -11,6 +11,7 @@ _$PostModelImpl _$$PostModelImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int?,
       title: json['title'] as String,
       content: json['content'] as String,
+      image: json['image'] as String?,
       tag: json['tag_id'] as int?,
     );
 
@@ -26,6 +27,7 @@ Map<String, dynamic> _$$PostModelImplToJson(_$PostModelImpl instance) {
   writeNotNull('id', instance.id);
   val['title'] = instance.title;
   val['content'] = instance.content;
+  val['image'] = instance.image;
   val['tag_id'] = instance.tag;
   return val;
 }

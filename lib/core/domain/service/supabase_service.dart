@@ -1,4 +1,5 @@
 import 'dart:developer' as logger show log;
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
@@ -116,8 +117,20 @@ class SupabaseService {
     }
   }
 
-  Future<BaseResponse<void>> insertPost(PostModel postModel) async {
+  Future<BaseResponse<void>> insertPost(
+      PostModel postModel, File imageFile) async {
     try {
+      final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      final storageResponse = await _client.storage
+          .from('image_post') // Replace with your bucket name
+          .upload(fileName, imageFile,
+              fileOptions: const FileOptions(
+                contentType: 'image/jpeg',
+              ));
+
+      final String publicUrl =
+          _client.storage.from('image_post').getPublicUrl(fileName);
+      postModel = postModel.copyWith(image: publicUrl);
       await _client.from('posts').insert(postModel.toJson());
       return BaseResponse.ok(null);
     } catch (e) {

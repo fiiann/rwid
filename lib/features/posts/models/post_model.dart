@@ -21,6 +21,7 @@ class PostModel with _$PostModel {
     @JsonKey(includeIfNull: false) int? id,
     required String title,
     required String content,
+    String? image,
     @JsonKey(name: 'tag_id') int? tag,
   }) = _PostModel;
 

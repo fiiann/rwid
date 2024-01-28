@@ -5,6 +5,7 @@ import 'package:rwid/core/widget/error_widget.dart';
 import 'package:rwid/core/widget/loading_list_widget.dart';
 import 'package:rwid/core/widget/no_data_widget.dart';
 import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
+import 'package:rwid/features/posts/list_posts/presentation/components/post_card.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 
 class ListPost extends StatelessWidget {
@@ -20,12 +21,11 @@ class ListPost extends StatelessWidget {
         if (state.stateList?.state == ResponseState.ok &&
             state.listPosts.isNotEmpty) {
           return ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               itemCount: state.listPosts.length,
               itemBuilder: (context, index) {
                 PostModel post = state.listPosts[index];
-                return ListTile(
-                  title: Text(post.title),
-                );
+                return PostCard(post: post);
               });
         }
         if (state.stateList?.state == ResponseState.ok &&

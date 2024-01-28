@@ -13,7 +13,7 @@ class CustomTextFormField extends StatelessWidget {
     this.isPassword = false,
     this.isEmail = false,
     this.isRequired = true,
-    this.useBorder = false,
+    this.useBorder = true,
     this.enabled = true,
     this.compact = true,
     this.textInputType = TextInputType.text,

@@ -8,7 +8,7 @@ import 'package:rwid/core/extention/string_ext.dart';
 import 'package:rwid/core/widget/custom_text_field.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
-import 'package:rwid/features/posts/add_posts/presentation/add_post_page.dart';
+import 'package:rwid/features/posts/add_post/presentation/add_post_page.dart';
 import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
 import 'package:rwid/features/posts/list_posts/presentation/components/list_post.dart';
 
@@ -38,7 +38,7 @@ class _ListPostPageState extends State<ListPostPage> {
       appBar: _buildAppBar(user, context),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final addSuccess = await context.push(AddPostPage.route);
+          final addSuccess = await context.push(AddPostPage.routeName);
           if (addSuccess != null) {
             if (context.mounted) {
               context.read<PostsCubit>().fetchPosts();

@@ -13,12 +13,14 @@ import 'package:rwid/core/widget/custom_text.dart';
 import 'package:rwid/core/widget/custom_text_field.dart';
 import 'package:rwid/core/widget/form_shimmer.dart';
 import 'package:rwid/core/widget/primary_button.dart';
-import 'package:rwid/features/posts/add_posts/bloc/add_post_cubit.dart';
+import 'package:rwid/features/dashboard/dashboard_page.dart';
+import 'package:rwid/features/posts/add_post/bloc/add_post_cubit.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 import 'package:rwid/features/tag/model/tag_model.dart';
 
 class AddPostPage extends StatefulWidget {
-  static const String route = '/add_post_page';
+  static const String routePath = 'add_post_page';
+  static const String routeName = '${DashboardPage.routeName}/$routePath';
 
   const AddPostPage({super.key});
 

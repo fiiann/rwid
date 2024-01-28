@@ -101,7 +101,7 @@ class SupabaseService {
   ///POST
   Future<BaseResponse<List<PostModel>?>?> getPosts({String? keyword}) async {
     try {
-      late var data;
+      late PostgrestList data;
       if (keyword != null) {
         data = await _client.from('posts').select().like('title', '%$keyword%');
       } else {
@@ -136,6 +136,26 @@ class SupabaseService {
     } catch (e) {
       if (kDebugMode) {
         print('error insert post : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  //DETAIL POST
+  Future<BaseResponse<PostModel?>> getDetailPost(int id) async {
+    try {
+      print('get dtail post');
+      final data = await _client.from('posts').select().eq('id', id);
+      if (data.isEmpty) {
+        print('empty');
+        return BaseResponse.error(message: 'ID $id not found');
+      } else {
+        print('ok');
+        return BaseResponse.ok(PostModel.fromMap(data[0]));
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('error get detail post : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
     }

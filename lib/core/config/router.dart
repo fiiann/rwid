@@ -8,10 +8,13 @@ import 'package:rwid/core/config/injector.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
 import 'package:rwid/core/enum/enum.dart';
+import 'package:rwid/core/widget/no_page.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/dashboard/dashboard_page.dart';
-import 'package:rwid/features/posts/add_posts/bloc/add_post_cubit.dart';
-import 'package:rwid/features/posts/add_posts/presentation/add_post_page.dart';
+import 'package:rwid/features/posts/add_post/bloc/add_post_cubit.dart';
+import 'package:rwid/features/posts/add_post/presentation/add_post_page.dart';
+import 'package:rwid/features/posts/detail_post/bloc/detail_post_cubit.dart';
+import 'package:rwid/features/posts/detail_post/presentation/post_detail_page.dart';
 import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
 import 'package:rwid/features/tag/bloc/tab_cubit.dart';
 import 'package:rwid/features/tag/page/tag_page.dart';
@@ -49,29 +52,49 @@ final GoRouter routerConfig = GoRouter(
               return TagPage.route;
             case AuthenticationStatus.authenticatedWithTags:
               //TODO CHANGE TO DASHBOARD
-              return DashboardPage.route;
+              return DashboardPage.routeName;
           }
         },
       ),
       GoRoute(
-        path: DashboardPage.route,
-        builder: (context, state) => BlocProvider(
-          create: (context) => PostsCubit(supabaseService: context.read()),
-          child: const DashboardPage(),
-        ),
-      ),
+          path: DashboardPage.routeName,
+          builder: (context, state) => BlocProvider(
+                create: (context) =>
+                    PostsCubit(supabaseService: context.read()),
+                child: const DashboardPage(),
+              ),
+          routes: [
+            GoRoute(
+              path: AddPostPage.routePath,
+              builder: (context, state) => BlocProvider(
+                create: (context) =>
+                    AddPostCubit(supabaseService: context.read()),
+                child: const AddPostPage(),
+              ),
+            ),
+            GoRoute(
+              path: PostDetailPage.routePath,
+              builder: (context, state) {
+                final id = state.extra;
+                if (id != null && id is int) {
+                  return BlocProvider(
+                    create: (context) =>
+                        DetailPostCubit(supabaseService: context.read()),
+                    child: PostDetailPage(
+                      id: id,
+                    ),
+                  );
+                } else {
+                  return const NoPageFound(title: 'ID Detail salah');
+                }
+              },
+            ),
+          ]),
       GoRoute(
         path: TagPage.route,
         builder: (context, state) => BlocProvider(
           create: (context) => TagCubit(supabaseService: context.read()),
           child: const TagPage(),
-        ),
-      ),
-      GoRoute(
-        path: AddPostPage.route,
-        builder: (context, state) => BlocProvider(
-          create: (context) => AddPostCubit(supabaseService: context.read()),
-          child: const AddPostPage(),
         ),
       ),
     ]);

@@ -3,7 +3,8 @@ import 'package:rwid/core/constant/colors.dart';
 import 'package:rwid/features/dashboard/utils/dashboard_utils.dart';
 
 class DashboardPage extends StatefulWidget {
-  static const String route = '/dashboard';
+  static const String routePath = 'dashboard';
+  static const String routeName = '/$routePath';
 
   const DashboardPage({Key? key}) : super(key: key);
 

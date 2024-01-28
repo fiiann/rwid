@@ -23,7 +23,7 @@ class ButtonSubmitTag extends StatelessWidget {
         listener: (context, state) {
           if (state.stateSubmit?.state == ResponseState.ok) {
             print('sukses');
-            context.go(DashboardPage.route);
+            context.go(DashboardPage.routeName);
           } else if (state.stateSubmit?.state == ResponseState.error) {
             "Gagal Submit".failedBar(context);
           }

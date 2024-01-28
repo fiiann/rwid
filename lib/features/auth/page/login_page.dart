@@ -75,7 +75,7 @@ class LoginPage extends StatelessWidget {
                   if (state.authenticationStatus ==
                       AuthenticationStatus.authenticatedWithTags) {
                     //TODO CHANGE TO DASHBOARD
-                    context.go(DashboardPage.route);
+                    context.go(DashboardPage.routeName);
                   } else {
                     context.go(TagPage.route);
                   }

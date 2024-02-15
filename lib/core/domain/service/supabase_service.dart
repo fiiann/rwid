@@ -103,11 +103,18 @@ class SupabaseService {
     try {
       late PostgrestList data;
       if (keyword != null) {
-        data = await _client.from('posts').select().like('title', '%$keyword%');
+        data = await _client
+            .from('posts')
+            .select()
+            .ilike('title', '%$keyword%')
+            .order('title', ascending: false);
       } else {
-        data = await _client.from('posts').select();
+        data = await _client
+            .from('posts')
+            .select()
+            .order('title', ascending: false);
       }
-      logger.log(data.toString());
+      // logger.log(data.toString());
       return BaseResponse.ok(parsePostListFromMap(data));
     } catch (e) {
       if (kDebugMode) {

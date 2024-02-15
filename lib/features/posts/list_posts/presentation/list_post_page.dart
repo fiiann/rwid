@@ -48,19 +48,24 @@ class _ListPostPageState extends State<ListPostPage> {
         child: const Icon(Icons.add),
       ),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            CustomTextFormField(
-              labelText: 'Search',
-              name: 'search',
-              onSubmitted: (val) {
-                context.read<PostsCubit>().fetchPosts(keyword: val);
-              },
-            ),
-            const ListPost()
-          ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          return context.read<PostsCubit>().fetchPosts();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              CustomTextFormField(
+                labelText: 'Search',
+                name: 'search',
+                onSubmitted: (val) {
+                  context.read<PostsCubit>().fetchPosts(keyword: val);
+                },
+              ),
+              const ListPost()
+            ],
+          ),
         ),
       ),
     );

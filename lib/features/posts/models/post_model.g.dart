@@ -13,6 +13,9 @@ _$PostModelImpl _$$PostModelImplFromJson(Map<String, dynamic> json) =>
       content: json['content'] as String,
       image: json['image'] as String?,
       tag: json['tag_id'] as int?,
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$$PostModelImplToJson(_$PostModelImpl instance) {
@@ -29,5 +32,6 @@ Map<String, dynamic> _$$PostModelImplToJson(_$PostModelImpl instance) {
   val['content'] = instance.content;
   val['image'] = instance.image;
   val['tag_id'] = instance.tag;
+  val['created_at'] = instance.createdAt?.toIso8601String();
   return val;
 }

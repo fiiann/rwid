@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rwid/core/config/date_utility.dart';
 import 'package:rwid/features/tag/model/tag_model.dart';
 
 part 'post_model.freezed.dart';
@@ -23,6 +24,7 @@ class PostModel with _$PostModel {
     required String content,
     String? image,
     @JsonKey(name: 'tag_id') int? tag,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
@@ -36,4 +38,6 @@ class PostModel with _$PostModel {
     final tagId = formKey.currentState?.fields['tag_id']!.value as TagModel;
     return PostModel(title: title, content: content, tag: tagId.id);
   }
+
+  String get formatCreatedAt => formatDateTimeAsString(createdAt);
 }

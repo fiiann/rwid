@@ -23,35 +23,55 @@ class PostCard extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    flex: 2,
-                    child: CustomText(
-                      post.title,
-                      ellipsis: true,
-                      style: CustomTextStyle.body1SemiBold,
+                    flex: 4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          post.title,
+                          ellipsis: true,
+                          maxLines: 2,
+                          style: CustomTextStyle.body1SemiBold,
+                        ),
+                        CustomText(
+                          post.content,
+                          ellipsis: true,
+                          style: CustomTextStyle.body2,
+                        ),
+                      ],
                     ),
                   ),
                   Expanded(
                     child: Align(
-                      alignment: Alignment.centerRight,
-                      child: post.image != null
-                          ? SizedBox(
-                              height: 50,
-                              width: 50,
+                        alignment: Alignment.centerRight,
+                        child: SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
                               child: Image.network(
-                                post.image ?? '',
+                                post.image == null
+                                    ? 'https://dmlawyer.com/wp-content/uploads/2015/04/no_image_available.jpg'
+                                    : post.image ?? '',
                                 fit: BoxFit.fill,
-                              ))
-                          : const Icon(
-                              Icons.image,
-                              size: 40,
-                            ),
-                    ),
+                              ),
+                            ))),
                   )
                 ],
               ),
-              const Align(
-                  alignment: Alignment.centerRight,
-                  child: Icon(Icons.bookmark_rounded))
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(
+                    post.formatCreatedAt,
+                    style: CustomTextStyle.lightTypographyCaption,
+                  ),
+                  const Icon(Icons.bookmark_outline_rounded)
+                ],
+              ),
             ],
           ),
         ),

@@ -15,7 +15,6 @@ _$BookmarkModelImpl _$$BookmarkModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$BookmarkModelImplToJson(_$BookmarkModelImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'user_id': instance.userId,
       'post_id': instance.postId,
     };

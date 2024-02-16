@@ -12,7 +12,7 @@ part of 'bookmark_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 BookmarkModel _$BookmarkModelFromJson(Map<String, dynamic> json) {
   return _BookmarkModel.fromJson(json);
@@ -20,6 +20,7 @@ BookmarkModel _$BookmarkModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BookmarkModel {
+  @JsonKey(includeToJson: false)
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   String? get userId => throw _privateConstructorUsedError;
@@ -39,7 +40,7 @@ abstract class $BookmarkModelCopyWith<$Res> {
       _$BookmarkModelCopyWithImpl<$Res, BookmarkModel>;
   @useResult
   $Res call(
-      {int? id,
+      {@JsonKey(includeToJson: false) int? id,
       @JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'post_id') int? postId});
 }
@@ -87,7 +88,7 @@ abstract class _$$BookmarkModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? id,
+      {@JsonKey(includeToJson: false) int? id,
       @JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'post_id') int? postId});
 }
@@ -128,7 +129,7 @@ class __$$BookmarkModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BookmarkModelImpl implements _BookmarkModel {
   const _$BookmarkModelImpl(
-      {this.id,
+      {@JsonKey(includeToJson: false) this.id,
       @JsonKey(name: 'user_id') this.userId,
       @JsonKey(name: 'post_id') this.postId});
 
@@ -136,6 +137,7 @@ class _$BookmarkModelImpl implements _BookmarkModel {
       _$$BookmarkModelImplFromJson(json);
 
   @override
+  @JsonKey(includeToJson: false)
   final int? id;
   @override
   @JsonKey(name: 'user_id')
@@ -179,7 +181,7 @@ class _$BookmarkModelImpl implements _BookmarkModel {
 
 abstract class _BookmarkModel implements BookmarkModel {
   const factory _BookmarkModel(
-      {final int? id,
+      {@JsonKey(includeToJson: false) final int? id,
       @JsonKey(name: 'user_id') final String? userId,
       @JsonKey(name: 'post_id') final int? postId}) = _$BookmarkModelImpl;
 
@@ -187,6 +189,7 @@ abstract class _BookmarkModel implements BookmarkModel {
       _$BookmarkModelImpl.fromJson;
 
   @override
+  @JsonKey(includeToJson: false)
   int? get id;
   @override
   @JsonKey(name: 'user_id')

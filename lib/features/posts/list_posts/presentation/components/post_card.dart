@@ -27,80 +27,89 @@ class PostCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          post.title,
-                          ellipsis: true,
-                          maxLines: 2,
-                          style: CustomTextStyle.body1SemiBold,
-                        ),
-                        CustomText(
-                          post.content,
-                          ellipsis: true,
-                          style: CustomTextStyle.body2,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: SizedBox(
-                            height: 60,
-                            width: 60,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(4),
-                              child: Hero(
-                                tag: post.id ?? DateTime.now(),
-                                child: Image.network(
-                                  post.image == null
-                                      ? ''
-                                      : post.image ?? noImage,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ))),
-                  )
+                  _mainInfoPost(),
+                  _imagePost(),
                 ],
               ),
               const SizedBox(
                 height: 8,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
-                    post.formatCreatedAt,
-                    style: CustomTextStyle.lightTypographyCaption,
-                  ),
-                  BlocBuilder<PostsCubit, PostsState>(
-                    buildWhen: (previous, current) =>
-                        previous.listPosts != current.listPosts,
-                    builder: (context, state) {
-                      print('tess');
-                      return GestureDetector(
-                        onTap: () => context
-                            .read<PostsCubit>()
-                            .toogleBookmark(idPost: post.id ?? 0),
-                        child: Icon(
-                          !post.isBookmark
-                              ? Icons.bookmark_outline_rounded
-                              : Icons.bookmark,
-                          size: 16,
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
+              _footerCard(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Expanded _imagePost() {
+    return Expanded(
+      child: Align(
+          alignment: Alignment.centerRight,
+          child: SizedBox(
+              height: 60,
+              width: 60,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: Hero(
+                  tag: post.id ?? DateTime.now(),
+                  child: Image.network(
+                    post.image == null ? '' : post.image ?? noImage,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ))),
+    );
+  }
+
+  Expanded _mainInfoPost() {
+    return Expanded(
+      flex: 4,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomText(
+            post.title,
+            ellipsis: true,
+            maxLines: 2,
+            style: CustomTextStyle.body1SemiBold,
+          ),
+          CustomText(
+            post.content,
+            ellipsis: true,
+            style: CustomTextStyle.body2,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _footerCard() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CustomText(
+          post.formatCreatedAt,
+          style: CustomTextStyle.lightTypographyCaption,
+        ),
+        BlocBuilder<PostsCubit, PostsState>(
+          buildWhen: (previous, current) =>
+              previous.listPosts != current.listPosts,
+          builder: (context, state) {
+            return GestureDetector(
+              onTap: () => context
+                  .read<PostsCubit>()
+                  .toogleBookmark(idPost: post.id ?? 0),
+              child: Icon(
+                !post.isBookmark
+                    ? Icons.bookmark_outline_rounded
+                    : Icons.bookmark,
+                size: 16,
+              ),
+            );
+          },
+        )
+      ],
     );
   }
 }

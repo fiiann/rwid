@@ -27,26 +27,19 @@ class PostsCubit extends Cubit<PostsState> {
     //GET POST THAT WANT TO BOOKMARK
     PostModel newPost =
         state.listPosts.firstWhere((element) => element.id == idPost);
-    print('post asli : ${newPost.toString()}');
     //GET ISBOOKMARK NEW POST
     final bookmarked = newPost.isBookmark;
     //TOOGLE BOOKMARK
     newPost = newPost.copyWith(isBookmark: !bookmarked);
-    print('post copyWith : ${newPost.toString()}');
     //EDIT POST IN NEWLIST WITH NEWPOST
     //YOUR CODE HERE
     final index = newList.indexWhere((element) => element.id == idPost);
-    print('index : $index');
     if (index != -1) {
       newList[index] = newPost;
     }
-    print('=====');
-    // print('new list');
-    print(newList.toString());
-
     // EMIT NEW STATE WITH UPDATED LIST
     emit(state.copyWith(stateList: BaseResponse.ok(newList)));
 
-    // await _client.toogleBookmark(idPost);
+    await _client.toogleBookmark(idPost);
   }
 }

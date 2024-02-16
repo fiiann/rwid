@@ -10,7 +10,7 @@ Map<String, dynamic> parseBookmarkModelToMap(BookmarkModel model) {
 @freezed
 class BookmarkModel with _$BookmarkModel {
   const factory BookmarkModel({
-    int? id,
+    @JsonKey(includeToJson: false) int? id,
     @JsonKey(name: 'user_id') String? userId,
     @JsonKey(name: 'post_id') int? postId,
   }) = _BookmarkModel;

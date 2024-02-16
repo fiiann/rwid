@@ -195,7 +195,11 @@ class SupabaseService {
         return BaseResponse.ok(null);
       } else {
         final bookmark = BookmarkModel.fromMap(data[0]);
-        await _client.from('bookmarks').delete().eq('id', bookmark.id ?? 0);
+        //REMOVE BOOKMARK
+        await _client
+            .from('bookmarks')
+            .delete()
+            .match({'id': bookmark.id ?? 0});
         return BaseResponse.ok(null);
       }
     } catch (e) {

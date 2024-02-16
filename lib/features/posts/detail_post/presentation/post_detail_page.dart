@@ -44,7 +44,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
             builder: (context, state) {
               final response = state.state;
               if (response == null || response.state == ResponseState.loading) {
-                return const CustomLoading();
+                return SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: const CustomLoading());
               } else if (response.state == ResponseState.error) {
                 return const Center(
                   child: CustomText('Error'),
@@ -61,7 +64,10 @@ class _PostDetailPageState extends State<PostDetailPage> {
                     const SizedBox(
                       height: 30,
                     ),
-                    if (data?.image != null) Image.network(data?.image ?? '-'),
+                    if (data?.image != null)
+                      Hero(
+                          tag: data?.id ?? DateTime.now(),
+                          child: Image.network(data?.image ?? '-')),
                     const SizedBox(
                       height: 30,
                     ),

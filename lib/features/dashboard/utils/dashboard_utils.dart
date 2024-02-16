@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rwid/core/widget/no_page.dart';
-import 'package:rwid/features/posts/list_posts/presentation/list_post_page.dart';
+import 'package:rwid/features/posts/list_posts/presentation/posts_page.dart';
 
 final List<(Widget, String, Icon, Icon)> pagesDashboard = [
   (
-    const ListPostPage(),
+    const PostsPage(),
     'Dashboard',
     const Icon(Icons.space_dashboard_outlined),
     const Icon(Icons.space_dashboard)

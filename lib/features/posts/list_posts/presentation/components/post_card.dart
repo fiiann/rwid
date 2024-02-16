@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/constant/custom_text_style.dart';
 import 'package:rwid/core/widget/custom_text.dart';
 import 'package:rwid/features/posts/detail_post/presentation/post_detail_page.dart';
+import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({super.key, required this.post});
+
   final PostModel post;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -73,9 +77,23 @@ class PostCard extends StatelessWidget {
                     post.formatCreatedAt,
                     style: CustomTextStyle.lightTypographyCaption,
                   ),
-                  const Icon(
-                    Icons.bookmark_outline_rounded,
-                    size: 16,
+                  BlocBuilder<PostsCubit, PostsState>(
+                    buildWhen: (previous, current) =>
+                        previous.listPosts != current.listPosts,
+                    builder: (context, state) {
+                      print('tess');
+                      return GestureDetector(
+                        onTap: () => context
+                            .read<PostsCubit>()
+                            .toogleBookmark(idPost: post.id ?? 0),
+                        child: Icon(
+                          !post.isBookmark
+                              ? Icons.bookmark_outline_rounded
+                              : Icons.bookmark,
+                          size: 16,
+                        ),
+                      );
+                    },
                   )
                 ],
               ),

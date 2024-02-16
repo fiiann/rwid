@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
+import 'package:rwid/features/bookmarks/models/bookmark_model.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 import 'package:rwid/features/tag/model/tag_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -176,35 +177,32 @@ class SupabaseService {
     final idUser = user.id;
     return idUser;
   }
-// Future<BaseResponse<void>> toogleBookmark(int idPost) async{
-//   try {
-//     final data = await _client.from('bookmarks').insert(values);
-//     if (data.isEmpty) {
-//       return BaseResponse.error(message: 'ID $id not found');
-//     } else {
-//       return BaseResponse.ok(PostModel.fromMap(data[0]));
-//     }
-//   } catch (e) {
-//     if (kDebugMode) {
-//       print('error get detail post : ${e.toString()}');
-//     }
-//     return BaseResponse.error(message: e.toString());
-//   }
-// }
 
-  // Future<BaseResponse<void>> toogleBookmark(int idPost) async{
-  //   try {
-  //     final data = await _client.from('bookmarks').insert(values);
-  //     if (data.isEmpty) {
-  //       return BaseResponse.error(message: 'ID $id not found');
-  //     } else {
-  //       return BaseResponse.ok(PostModel.fromMap(data[0]));
-  //     }
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       print('error get detail post : ${e.toString()}');
-  //     }
-  //     return BaseResponse.error(message: e.toString());
-  //   }
-  // }
+  Future<BaseResponse<void>> toogleBookmark(int idPost) async {
+    try {
+      final idUser = _getUser(_box);
+      final data = await _client
+          .from('bookmarks')
+          .select('id')
+          .eq('user_id', idUser)
+          .eq('post_id', idPost);
+      if (data.isEmpty) {
+        //INSERT BOOKMARK
+        final bookmark = BookmarkModel(userId: idUser, postId: idPost);
+        await _client
+            .from('bookmarks')
+            .insert(parseBookmarkModelToMap(bookmark));
+        return BaseResponse.ok(null);
+      } else {
+        final bookmark = BookmarkModel.fromMap(data[0]);
+        await _client.from('bookmarks').delete().eq('id', bookmark.id ?? 0);
+        return BaseResponse.ok(null);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('error toogle bookmark post : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
 }

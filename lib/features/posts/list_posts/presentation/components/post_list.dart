@@ -8,15 +8,13 @@ import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
 import 'package:rwid/features/posts/list_posts/presentation/components/post_card.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 
-class ListPost extends StatelessWidget {
-  const ListPost({super.key});
+class PostList extends StatelessWidget {
+  const PostList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: BlocBuilder<PostsCubit, PostsState>(
-      buildWhen: (previous, current) =>
-          previous.stateList?.state != current.stateList?.state,
+    return BlocBuilder<PostsCubit, PostsState>(
+      buildWhen: (previous, current) => previous.listPosts != current.listPosts,
       builder: (context, state) {
         if (state.stateList?.state == ResponseState.ok &&
             state.listPosts.isNotEmpty) {
@@ -38,6 +36,6 @@ class ListPost extends StatelessWidget {
           return const ErrorListWidget(errorMessage: 'Error');
         }
       },
-    ));
+    );
   }
 }

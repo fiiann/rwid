@@ -14,9 +14,9 @@ Future<void> initializeApp() async {
     url: urlSupabase,
     anonKey: anonKey,
   );
-  Hive
-    ..initFlutter()
-    ..registerAdapter(UserRWIDAdapter());
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserRWIDAdapter());
+
   await Hive.openBox(authBoxName);
 }
 

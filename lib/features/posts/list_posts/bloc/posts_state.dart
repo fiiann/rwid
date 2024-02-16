@@ -1,6 +1,6 @@
 part of 'posts_cubit.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class PostsState with _$PostsState {
   const PostsState._();
   const factory PostsState({

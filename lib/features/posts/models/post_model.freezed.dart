@@ -31,6 +31,8 @@ mixin _$PostModel {
   String? get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  bool get isBookmark => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +52,8 @@ abstract class $PostModelCopyWith<$Res> {
       String? image,
       @JsonKey(name: 'tag_id') int? tag,
       @JsonKey(name: 'user_id') String? userId,
-      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt});
+      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: false) bool isBookmark});
 }
 
 /// @nodoc
@@ -73,6 +76,7 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
     Object? tag = freezed,
     Object? userId = freezed,
     Object? createdAt = freezed,
+    Object? isBookmark = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -103,6 +107,10 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isBookmark: null == isBookmark
+          ? _value.isBookmark
+          : isBookmark // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -122,7 +130,8 @@ abstract class _$$PostModelImplCopyWith<$Res>
       String? image,
       @JsonKey(name: 'tag_id') int? tag,
       @JsonKey(name: 'user_id') String? userId,
-      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt});
+      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: false) bool isBookmark});
 }
 
 /// @nodoc
@@ -143,6 +152,7 @@ class __$$PostModelImplCopyWithImpl<$Res>
     Object? tag = freezed,
     Object? userId = freezed,
     Object? createdAt = freezed,
+    Object? isBookmark = null,
   }) {
     return _then(_$PostModelImpl(
       id: freezed == id
@@ -173,6 +183,10 @@ class __$$PostModelImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isBookmark: null == isBookmark
+          ? _value.isBookmark
+          : isBookmark // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -187,7 +201,9 @@ class _$PostModelImpl extends _PostModel {
       this.image,
       @JsonKey(name: 'tag_id') this.tag,
       @JsonKey(name: 'user_id') this.userId,
-      @JsonKey(name: 'created_at', includeToJson: false) this.createdAt})
+      @JsonKey(name: 'created_at', includeToJson: false) this.createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      this.isBookmark = false})
       : super._();
 
   factory _$PostModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -211,10 +227,13 @@ class _$PostModelImpl extends _PostModel {
   @override
   @JsonKey(name: 'created_at', includeToJson: false)
   final DateTime? createdAt;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  final bool isBookmark;
 
   @override
   String toString() {
-    return 'PostModel(id: $id, title: $title, content: $content, image: $image, tag: $tag, userId: $userId, createdAt: $createdAt)';
+    return 'PostModel(id: $id, title: $title, content: $content, image: $image, tag: $tag, userId: $userId, createdAt: $createdAt, isBookmark: $isBookmark)';
   }
 
   @override
@@ -229,13 +248,15 @@ class _$PostModelImpl extends _PostModel {
             (identical(other.tag, tag) || other.tag == tag) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.isBookmark, isBookmark) ||
+                other.isBookmark == isBookmark));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, title, content, image, tag, userId, createdAt);
+  int get hashCode => Object.hash(runtimeType, id, title, content, image, tag,
+      userId, createdAt, isBookmark);
 
   @JsonKey(ignore: true)
   @override
@@ -260,7 +281,9 @@ abstract class _PostModel extends PostModel {
       @JsonKey(name: 'tag_id') final int? tag,
       @JsonKey(name: 'user_id') final String? userId,
       @JsonKey(name: 'created_at', includeToJson: false)
-      final DateTime? createdAt}) = _$PostModelImpl;
+      final DateTime? createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      final bool isBookmark}) = _$PostModelImpl;
   const _PostModel._() : super._();
 
   factory _PostModel.fromJson(Map<String, dynamic> json) =
@@ -284,6 +307,9 @@ abstract class _PostModel extends PostModel {
   @override
   @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt;
+  @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  bool get isBookmark;
   @override
   @JsonKey(ignore: true)
   _$$PostModelImplCopyWith<_$PostModelImpl> get copyWith =>

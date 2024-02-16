@@ -18,15 +18,17 @@ Map<String, dynamic> parsePostModelToMap(PostModel model) {
 @freezed
 class PostModel with _$PostModel {
   const PostModel._();
-  const factory PostModel({
-    @JsonKey(includeIfNull: false) int? id,
-    required String title,
-    required String content,
-    String? image,
-    @JsonKey(name: 'tag_id') int? tag,
-    @JsonKey(name: 'user_id') String? userId,
-    @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt,
-  }) = _PostModel;
+  const factory PostModel(
+      {@JsonKey(includeIfNull: false) int? id,
+      required String title,
+      required String content,
+      String? image,
+      @JsonKey(name: 'tag_id') int? tag,
+      @JsonKey(name: 'user_id') String? userId,
+      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: false)
+      @Default(false)
+      bool isBookmark}) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);

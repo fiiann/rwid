@@ -10,18 +10,22 @@ import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/posts/add_post/presentation/add_post_page.dart';
 import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
-import 'package:rwid/features/posts/list_posts/presentation/components/list_post.dart';
+import 'package:rwid/features/posts/list_posts/presentation/components/post_list.dart';
 
-class ListPostPage extends StatefulWidget {
+import '../../../../core/widget/error_widget.dart';
+import '../../../../core/widget/loading_list_widget.dart';
+import '../../../../core/widget/no_data_widget.dart';
+
+class PostsPage extends StatefulWidget {
   static const String route = '/list_post_page';
 
-  const ListPostPage({super.key});
+  const PostsPage({super.key});
 
   @override
-  State<ListPostPage> createState() => _ListPostPageState();
+  State<PostsPage> createState() => _PostsPageState();
 }
 
-class _ListPostPageState extends State<ListPostPage> {
+class _PostsPageState extends State<PostsPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -63,7 +67,27 @@ class _ListPostPageState extends State<ListPostPage> {
                   context.read<PostsCubit>().fetchPosts(keyword: val);
                 },
               ),
-              const ListPost()
+              Expanded(
+                child: BlocBuilder<PostsCubit, PostsState>(
+                  buildWhen: (previous, current) =>
+                      previous.stateList?.state != current.stateList?.state,
+                  builder: (context, state) {
+                    final response = state.stateList;
+                    if (response?.state == ResponseState.loading) {
+                      return const CustomLoading();
+                    } else if (response?.state == ResponseState.error) {
+                      return ErrorListWidget(errorMessage: response?.message);
+                    } else {
+                      if (response?.data != null &&
+                          response!.data!.isNotEmpty) {
+                        return const PostList();
+                      } else {
+                        return const NoDataListWidget();
+                      }
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

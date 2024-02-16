@@ -61,6 +61,10 @@ class _PostsPageState extends State<PostsPage> {
           child: Column(
             children: [
               CustomTextFormField(
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                ),
                 labelText: 'Search',
                 name: 'search',
                 onSubmitted: (val) {

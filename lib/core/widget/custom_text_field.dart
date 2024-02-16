@@ -25,7 +25,7 @@ class CustomTextFormField extends StatelessWidget {
     this.value,
     this.maxLines = 1,
     super.key,
-    this.radius = 30,
+    this.radius = 10,
     this.onChange,
     this.textInputAction = TextInputAction.next,
     this.onSubmitted,

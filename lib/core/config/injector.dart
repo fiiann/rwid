@@ -27,7 +27,7 @@ initInjector() async {
     ..registerLazySingleton(() => GlobalKey<NavigatorState>())
     ..registerLazySingleton(() => supabase)
     ..registerLazySingleton<SupabaseService>(() {
-      return SupabaseService(client: supabase);
+      return SupabaseService(client: supabase, box: Hive.box(authBoxName));
     })
     ..registerLazySingleton(
         () => AuthCubit(service: locator(), supabase: locator()));

@@ -27,7 +27,9 @@ mixin _$PostModel {
   String? get image => throw _privateConstructorUsedError;
   @JsonKey(name: 'tag_id')
   int? get tag => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'user_id')
+  String? get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,7 +49,8 @@ abstract class $PostModelCopyWith<$Res> {
       String content,
       String? image,
       @JsonKey(name: 'tag_id') int? tag,
-      @JsonKey(name: 'created_at') DateTime? createdAt});
+      @JsonKey(name: 'user_id') String? userId,
+      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt});
 }
 
 /// @nodoc
@@ -68,6 +71,7 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
     Object? content = null,
     Object? image = freezed,
     Object? tag = freezed,
+    Object? userId = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -91,6 +95,10 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as int?,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -113,7 +121,8 @@ abstract class _$$PostModelImplCopyWith<$Res>
       String content,
       String? image,
       @JsonKey(name: 'tag_id') int? tag,
-      @JsonKey(name: 'created_at') DateTime? createdAt});
+      @JsonKey(name: 'user_id') String? userId,
+      @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt});
 }
 
 /// @nodoc
@@ -132,6 +141,7 @@ class __$$PostModelImplCopyWithImpl<$Res>
     Object? content = null,
     Object? image = freezed,
     Object? tag = freezed,
+    Object? userId = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_$PostModelImpl(
@@ -155,6 +165,10 @@ class __$$PostModelImplCopyWithImpl<$Res>
           ? _value.tag
           : tag // ignore: cast_nullable_to_non_nullable
               as int?,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -172,7 +186,8 @@ class _$PostModelImpl extends _PostModel {
       required this.content,
       this.image,
       @JsonKey(name: 'tag_id') this.tag,
-      @JsonKey(name: 'created_at') this.createdAt})
+      @JsonKey(name: 'user_id') this.userId,
+      @JsonKey(name: 'created_at', includeToJson: false) this.createdAt})
       : super._();
 
   factory _$PostModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -191,12 +206,15 @@ class _$PostModelImpl extends _PostModel {
   @JsonKey(name: 'tag_id')
   final int? tag;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'user_id')
+  final String? userId;
+  @override
+  @JsonKey(name: 'created_at', includeToJson: false)
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'PostModel(id: $id, title: $title, content: $content, image: $image, tag: $tag, createdAt: $createdAt)';
+    return 'PostModel(id: $id, title: $title, content: $content, image: $image, tag: $tag, userId: $userId, createdAt: $createdAt)';
   }
 
   @override
@@ -209,14 +227,15 @@ class _$PostModelImpl extends _PostModel {
             (identical(other.content, content) || other.content == content) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.tag, tag) || other.tag == tag) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, content, image, tag, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, id, title, content, image, tag, userId, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -234,13 +253,14 @@ class _$PostModelImpl extends _PostModel {
 
 abstract class _PostModel extends PostModel {
   const factory _PostModel(
-          {@JsonKey(includeIfNull: false) final int? id,
-          required final String title,
-          required final String content,
-          final String? image,
-          @JsonKey(name: 'tag_id') final int? tag,
-          @JsonKey(name: 'created_at') final DateTime? createdAt}) =
-      _$PostModelImpl;
+      {@JsonKey(includeIfNull: false) final int? id,
+      required final String title,
+      required final String content,
+      final String? image,
+      @JsonKey(name: 'tag_id') final int? tag,
+      @JsonKey(name: 'user_id') final String? userId,
+      @JsonKey(name: 'created_at', includeToJson: false)
+      final DateTime? createdAt}) = _$PostModelImpl;
   const _PostModel._() : super._();
 
   factory _PostModel.fromJson(Map<String, dynamic> json) =
@@ -259,7 +279,10 @@ abstract class _PostModel extends PostModel {
   @JsonKey(name: 'tag_id')
   int? get tag;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'user_id')
+  String? get userId;
+  @override
+  @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)

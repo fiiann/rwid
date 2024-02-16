@@ -24,7 +24,8 @@ class PostModel with _$PostModel {
     required String content,
     String? image,
     @JsonKey(name: 'tag_id') int? tag,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'user_id') String? userId,
+    @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt,
   }) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>

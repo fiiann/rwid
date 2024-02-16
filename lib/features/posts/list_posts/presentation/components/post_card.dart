@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/constant/custom_text_style.dart';
 import 'package:rwid/core/widget/custom_text.dart';
 import 'package:rwid/features/posts/detail_post/presentation/post_detail_page.dart';
@@ -50,9 +51,7 @@ class PostCard extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(4),
                               child: Image.network(
-                                post.image == null
-                                    ? 'https://dmlawyer.com/wp-content/uploads/2015/04/no_image_available.jpg'
-                                    : post.image ?? '',
+                                post.image == null ? '' : post.image ?? noImage,
                                 fit: BoxFit.fill,
                               ),
                             ))),
@@ -69,7 +68,10 @@ class PostCard extends StatelessWidget {
                     post.formatCreatedAt,
                     style: CustomTextStyle.lightTypographyCaption,
                   ),
-                  const Icon(Icons.bookmark_outline_rounded)
+                  const Icon(
+                    Icons.bookmark_outline_rounded,
+                    size: 16,
+                  )
                 ],
               ),
             ],

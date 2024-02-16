@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
-  final String text;
+  final String? text;
   final TextStyle? style;
   final bool ellipsis;
   final TextAlign textAlign;
@@ -19,7 +19,7 @@ class CustomText extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Text(text,
+  Widget build(BuildContext context) => Text(text ?? '',
       style: style,
       textAlign: textAlign,
       overflow: ellipsis ? TextOverflow.ellipsis : null,

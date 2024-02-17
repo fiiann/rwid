@@ -15,7 +15,7 @@ import 'package:rwid/features/posts/add_post/bloc/add_post_cubit.dart';
 import 'package:rwid/features/posts/add_post/presentation/add_post_page.dart';
 import 'package:rwid/features/posts/detail_post/bloc/detail_post_cubit.dart';
 import 'package:rwid/features/posts/detail_post/presentation/post_detail_page.dart';
-import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
+import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
 import 'package:rwid/features/tag/bloc/tab_cubit.dart';
 import 'package:rwid/features/tag/page/tag_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -60,7 +60,7 @@ final GoRouter routerConfig = GoRouter(
           path: DashboardPage.routeName,
           builder: (context, state) => BlocProvider(
                 create: (context) =>
-                    PostsCubit(supabaseService: context.read()),
+                    ListPostBloc(supabaseService: context.read()),
                 child: const DashboardPage(),
               ),
           routes: [

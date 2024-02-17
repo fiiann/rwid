@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/features/bookmarks/models/bookmark_model.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
@@ -103,19 +104,22 @@ class SupabaseService {
   }
 
   ///POST
-  Future<BaseResponse<List<PostModel>?>?> getPosts({String? keyword}) async {
+  Future<BaseResponse<List<PostModel>?>> getPosts(
+      {String? keyword, int startIndex = 0}) async {
     try {
       late PostgrestList data;
-      if (keyword != null) {
+      if (keyword != null && keyword.isNotEmpty) {
         data = await _client
             .from('posts')
             .select()
             .ilike('title', '%$keyword%')
+            .range(startIndex, startIndex + limitPage)
             .order('created_at', ascending: false);
       } else {
         data = await _client
             .from('posts')
             .select()
+            .range(startIndex, startIndex + limitPage)
             .order('created_at', ascending: false);
       }
       // logger.log(data.toString());

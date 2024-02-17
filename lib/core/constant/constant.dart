@@ -6,3 +6,4 @@ const anonKey = String.fromEnvironment('ANON_KEY');
 const String authBoxName = 'auth';
 const String noImage =
     'https://dmlawyer.com/wp-content/uploads/2015/04/no_image_available.jpg';
+const int limitPage = 4;

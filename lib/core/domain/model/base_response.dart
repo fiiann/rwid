@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum ResponseState { ok, error, empty, loading }
+enum ResponseState { ok, error, initial, loading }
 
 ///this class created to encapsulate state data
 ///with <T> as type of object
@@ -12,14 +12,10 @@ class BaseResponse<T> extends Equatable {
   final String message;
 
   const BaseResponse({
-    this.state = ResponseState.empty,
+    this.state = ResponseState.initial,
     this.data,
     this.message = '',
   });
-
-  static BaseResponse<T> empty<T>() {
-    return const BaseResponse(state: ResponseState.empty);
-  }
 
   static BaseResponse<T> loading<T>({T? data}) {
     return BaseResponse(state: ResponseState.loading, data: data);

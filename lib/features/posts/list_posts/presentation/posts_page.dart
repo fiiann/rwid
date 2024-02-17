@@ -9,12 +9,8 @@ import 'package:rwid/core/widget/custom_text_field.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/posts/add_post/presentation/add_post_page.dart';
-import 'package:rwid/features/posts/list_posts/bloc/posts_cubit.dart';
+import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
 import 'package:rwid/features/posts/list_posts/presentation/components/post_list.dart';
-
-import '../../../../core/widget/error_widget.dart';
-import '../../../../core/widget/loading_list_widget.dart';
-import '../../../../core/widget/no_data_widget.dart';
 
 class PostsPage extends StatefulWidget {
   static const String route = '/list_post_page';
@@ -29,7 +25,7 @@ class _PostsPageState extends State<PostsPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<PostsCubit>().fetchPosts();
+      context.read<ListPostBloc>().add(const PostFetched());
     });
     super.initState();
   }
@@ -45,7 +41,7 @@ class _PostsPageState extends State<PostsPage> {
           final addSuccess = await context.push(AddPostPage.routeName);
           if (addSuccess != null) {
             if (context.mounted) {
-              context.read<PostsCubit>().fetchPosts();
+              context.read<ListPostBloc>().add(const PostFetched());
             }
           }
         },
@@ -54,7 +50,9 @@ class _PostsPageState extends State<PostsPage> {
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       body: RefreshIndicator(
         onRefresh: () async {
-          return context.read<PostsCubit>().fetchPosts();
+          return context
+              .read<ListPostBloc>()
+              .add(const PostFetched(isRefresh: true));
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -67,31 +65,16 @@ class _PostsPageState extends State<PostsPage> {
                 ),
                 labelText: 'Search',
                 name: 'search',
+                onChange: (val) {
+                  context.read<ListPostBloc>().add(KeywordChanged(val));
+                },
                 onSubmitted: (val) {
-                  context.read<PostsCubit>().fetchPosts(keyword: val);
+                  context
+                      .read<ListPostBloc>()
+                      .add(PostFetched(isRefresh: true, keyword: val));
                 },
               ),
-              Expanded(
-                child: BlocBuilder<PostsCubit, PostsState>(
-                  buildWhen: (previous, current) =>
-                      previous.stateList?.state != current.stateList?.state,
-                  builder: (context, state) {
-                    final response = state.stateList;
-                    if (response?.state == ResponseState.loading) {
-                      return const CustomLoading();
-                    } else if (response?.state == ResponseState.error) {
-                      return ErrorListWidget(errorMessage: response?.message);
-                    } else {
-                      if (response?.data != null &&
-                          response!.data!.isNotEmpty) {
-                        return const PostList();
-                      } else {
-                        return const NoDataListWidget();
-                      }
-                    }
-                  },
-                ),
-              ),
+              const PostList(),
             ],
           ),
         ),

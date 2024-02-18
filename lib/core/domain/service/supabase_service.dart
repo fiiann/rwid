@@ -111,22 +111,54 @@ class SupabaseService {
       if (keyword != null && keyword.isNotEmpty) {
         data = await _client
             .from('posts')
-            .select()
+            .select('*, bookmarks!left(post_id)')
             .ilike('title', '%$keyword%')
             .range(startIndex, startIndex + limitPage)
             .order('created_at', ascending: false);
       } else {
         data = await _client
             .from('posts')
-            .select()
+            .select('*, bookmarks!left(post_id)')
             .range(startIndex, startIndex + limitPage)
             .order('created_at', ascending: false);
       }
-      // logger.log(data.toString());
+      logger.log(data.toString());
       return BaseResponse.ok(parsePostListFromMap(data));
     } catch (e) {
       if (kDebugMode) {
         print('error get posts : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  ///BOOKMARK
+  Future<BaseResponse<List<PostModel>?>> getBookmark(
+      {String? keyword, int startIndex = 0}) async {
+    try {
+      final userId = _client.auth.currentUser?.id ?? '';
+      late PostgrestList data;
+      if (keyword != null && keyword.isNotEmpty) {
+        data = await _client
+            .from('posts')
+            .select('*, bookmarks!inner(*)')
+            .eq('bookmarks.user_id', userId)
+            .ilike('title', '%$keyword%')
+            .range(startIndex, startIndex + limitPage)
+            .order('created_at', ascending: false);
+      } else {
+        data = await _client
+            .from('posts')
+            .select('*, bookmarks!inner(*)')
+            .eq('bookmarks.user_id', userId)
+            .range(startIndex, startIndex + limitPage)
+            .order('created_at', ascending: false);
+      }
+      logger.log(data.toString());
+      return BaseResponse.ok(parsePostListFromMap(data));
+    } catch (e) {
+      if (kDebugMode) {
+        print('error get bookmark : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
     }

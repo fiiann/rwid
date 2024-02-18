@@ -33,10 +33,10 @@ class ListBookmarkBloc extends Bloc<ListBookmarkEvent, ListBookmarkState> {
     }
     if (state.hasReachMax) return;
     if (state.stateList.state == ResponseState.initial) {
-      final response = await _client.getPosts(keyword: state.keyword);
+      final response = await _client.getBookmark(keyword: state.keyword);
       emit(state.copyWith(stateList: response, hasReachMax: false));
     }
-    final response2 = await _client.getPosts(
+    final response2 = await _client.getBookmark(
         keyword: state.keyword, startIndex: state.listPosts.length);
 
     if (response2.data!.isEmpty) {

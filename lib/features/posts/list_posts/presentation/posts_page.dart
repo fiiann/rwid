@@ -8,6 +8,7 @@ import 'package:rwid/core/extention/string_ext.dart';
 import 'package:rwid/core/widget/custom_text_field.dart';
 import 'package:rwid/features/auth/bloc/auth_cubit.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
+import 'package:rwid/features/bookmarks/bloc/list_bookmark_bloc.dart';
 import 'package:rwid/features/posts/add_post/presentation/add_post_page.dart';
 import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
 import 'package:rwid/features/posts/list_posts/presentation/components/post_list.dart';
@@ -54,31 +55,48 @@ class _PostsPageState extends State<PostsPage> {
               .read<ListPostBloc>()
               .add(const PostFetched(isRefresh: true));
         },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              CustomTextFormField(
-                prefixIcon: const Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                labelText: 'Search',
-                name: 'search',
-                onChange: (val) {
-                  context.read<ListPostBloc>().add(KeywordChanged(val));
-                },
-                onSubmitted: (val) {
-                  context
-                      .read<ListPostBloc>()
-                      .add(PostFetched(isRefresh: true, keyword: val));
-                },
-              ),
-              const PostList(),
-            ],
+        child: BlocListener<ListPostBloc, ListPostState>(
+          listenWhen: (previous, current) =>
+              previous.stateBookmark.state != current.stateBookmark.state,
+          listener: (context, state) {
+            if (state.stateBookmark.state == ResponseState.error) {
+              'Error bookmark, try again'.failedBar(context);
+            } else if (state.stateBookmark.state == ResponseState.ok) {
+              context
+                  .read<ListBookmarkBloc>()
+                  .add(const BookmarkPostFetched(isRefresh: true));
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                _searchForm(context),
+                const PostList(),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  CustomTextFormField _searchForm(BuildContext context) {
+    return CustomTextFormField(
+      prefixIcon: const Icon(
+        Icons.search,
+        color: Colors.grey,
+      ),
+      labelText: 'Search',
+      name: 'search',
+      onChange: (val) {
+        context.read<ListPostBloc>().add(KeywordChanged(val));
+      },
+      onSubmitted: (val) {
+        context
+            .read<ListPostBloc>()
+            .add(PostFetched(isRefresh: true, keyword: val));
+      },
     );
   }
 

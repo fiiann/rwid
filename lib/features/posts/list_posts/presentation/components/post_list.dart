@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
+import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/widget/error_widget.dart';
 import 'package:rwid/core/widget/no_data_widget.dart';
 import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
@@ -67,7 +68,10 @@ class _PostListState extends State<PostList> {
                     if (index >= state.listPosts.length) {
                       return const PostLoadingCard();
                     } else {
-                      return PostCard(post: state.listPosts[index]);
+                      return PostCard(
+                        post: state.listPosts[index],
+                        page: PageEnum.dashboard,
+                      );
                     }
                   });
             default:

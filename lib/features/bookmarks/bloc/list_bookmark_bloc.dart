@@ -16,17 +16,17 @@ class ListBookmarkBloc extends Bloc<ListBookmarkEvent, ListBookmarkState> {
   ListBookmarkBloc({required SupabaseService supabaseService})
       : _client = supabaseService,
         super(const ListBookmarkState()) {
-    on<PostFetched>(
+    on<BookmarkPostFetched>(
       _onPostFetched,
       transformer: throttleDroppable(throttleDuration),
     );
     on<ToggleBookmarkChanged>(_onToogleBookmarkChanged);
-    on<KeywordChanged>(_onKeywordChanged);
+    on<BookmarkKeywordChanged>(_onKeywordChanged);
   }
   final SupabaseService _client;
 
   FutureOr<void> _onPostFetched(
-      PostFetched event, Emitter<ListBookmarkState> emit) async {
+      BookmarkPostFetched event, Emitter<ListBookmarkState> emit) async {
     if (event.isRefresh) {
       emit(const ListBookmarkState());
       emit(ListBookmarkState(keyword: event.keyword));
@@ -51,6 +51,7 @@ class ListBookmarkBloc extends Bloc<ListBookmarkEvent, ListBookmarkState> {
 
   FutureOr<void> _onToogleBookmarkChanged(
       ToggleBookmarkChanged event, Emitter<ListBookmarkState> emit) async {
+    var oldList = [...state.listPosts];
     //CREATE NEW LIST
     var newList = [...state.listPosts];
     //GET POST THAT WANT TO BOOKMARK
@@ -67,13 +68,18 @@ class ListBookmarkBloc extends Bloc<ListBookmarkEvent, ListBookmarkState> {
       newList[index] = newPost;
     }
     // EMIT NEW STATE WITH UPDATED LIST
-    emit(state.copyWith(stateList: BaseResponse.ok(newList)));
-
-    await _client.toogleBookmark(event.idPost);
+    emit(state.copyWith(
+        stateList: BaseResponse.ok(newList),
+        stateBookmark: BaseResponse.loading()));
+    final bookmark = await _client.toogleBookmark(event.idPost);
+    if (bookmark.state == ResponseState.error) {
+      emit(state.copyWith(stateList: BaseResponse.ok(oldList)));
+    }
+    emit(state.copyWith(stateBookmark: bookmark));
   }
 
   FutureOr<void> _onKeywordChanged(
-      KeywordChanged event, Emitter<ListBookmarkState> emit) {
+      BookmarkKeywordChanged event, Emitter<ListBookmarkState> emit) {
     emit(state.copyWith(keyword: event.keyword));
   }
 }

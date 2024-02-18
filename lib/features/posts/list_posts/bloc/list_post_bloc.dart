@@ -51,6 +51,7 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
 
   FutureOr<void> _onToogleBookmarkChanged(
       ToggleBookmarkChanged event, Emitter<ListPostState> emit) async {
+    var oldList = [...state.listPosts];
     //CREATE NEW LIST
     var newList = [...state.listPosts];
     //GET POST THAT WANT TO BOOKMARK
@@ -67,9 +68,14 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
       newList[index] = newPost;
     }
     // EMIT NEW STATE WITH UPDATED LIST
-    emit(state.copyWith(stateList: BaseResponse.ok(newList)));
-
-    await _client.toogleBookmark(event.idPost);
+    emit(state.copyWith(
+        stateList: BaseResponse.ok(newList),
+        stateBookmark: BaseResponse.loading()));
+    final bookmark = await _client.toogleBookmark(event.idPost);
+    if (bookmark.state == ResponseState.error) {
+      emit(state.copyWith(stateList: BaseResponse.ok(oldList)));
+    }
+    emit(state.copyWith(stateBookmark: bookmark));
   }
 
   FutureOr<void> _onKeywordChanged(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
+import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/widget/error_widget.dart';
 import 'package:rwid/core/widget/no_data_widget.dart';
 import 'package:rwid/features/bookmarks/bloc/list_bookmark_bloc.dart';
@@ -33,7 +34,7 @@ class _BookmardkListState extends State<BookmardkList> {
 
   void _onScroll() {
     if (_isBottom) {
-      context.read<ListBookmarkBloc>().add(const PostFetched());
+      context.read<ListBookmarkBloc>().add(const BookmarkPostFetched());
     }
   }
 
@@ -66,7 +67,10 @@ class _BookmardkListState extends State<BookmardkList> {
                     if (index >= state.listPosts.length) {
                       return const PostLoadingCard();
                     } else {
-                      return PostCard(post: state.listPosts[index]);
+                      return PostCard(
+                        post: state.listPosts[index],
+                        page: PageEnum.bookmark,
+                      );
                     }
                   });
             default:

@@ -20,6 +20,7 @@ mixin _$ListBookmarkState {
       throw _privateConstructorUsedError;
   bool get hasReachMax => throw _privateConstructorUsedError;
   String? get keyword => throw _privateConstructorUsedError;
+  BaseResponse<void> get stateBookmark => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ListBookmarkStateCopyWith<ListBookmarkState> get copyWith =>
@@ -35,7 +36,8 @@ abstract class $ListBookmarkStateCopyWith<$Res> {
   $Res call(
       {BaseResponse<List<PostModel>?> stateList,
       bool hasReachMax,
-      String? keyword});
+      String? keyword,
+      BaseResponse<void> stateBookmark});
 }
 
 /// @nodoc
@@ -54,6 +56,7 @@ class _$ListBookmarkStateCopyWithImpl<$Res, $Val extends ListBookmarkState>
     Object? stateList = null,
     Object? hasReachMax = null,
     Object? keyword = freezed,
+    Object? stateBookmark = null,
   }) {
     return _then(_value.copyWith(
       stateList: null == stateList
@@ -68,6 +71,10 @@ class _$ListBookmarkStateCopyWithImpl<$Res, $Val extends ListBookmarkState>
           ? _value.keyword
           : keyword // ignore: cast_nullable_to_non_nullable
               as String?,
+      stateBookmark: null == stateBookmark
+          ? _value.stateBookmark
+          : stateBookmark // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<void>,
     ) as $Val);
   }
 }
@@ -83,7 +90,8 @@ abstract class _$$ListBookmarkStateImplCopyWith<$Res>
   $Res call(
       {BaseResponse<List<PostModel>?> stateList,
       bool hasReachMax,
-      String? keyword});
+      String? keyword,
+      BaseResponse<void> stateBookmark});
 }
 
 /// @nodoc
@@ -100,6 +108,7 @@ class __$$ListBookmarkStateImplCopyWithImpl<$Res>
     Object? stateList = null,
     Object? hasReachMax = null,
     Object? keyword = freezed,
+    Object? stateBookmark = null,
   }) {
     return _then(_$ListBookmarkStateImpl(
       stateList: null == stateList
@@ -114,6 +123,10 @@ class __$$ListBookmarkStateImplCopyWithImpl<$Res>
           ? _value.keyword
           : keyword // ignore: cast_nullable_to_non_nullable
               as String?,
+      stateBookmark: null == stateBookmark
+          ? _value.stateBookmark
+          : stateBookmark // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<void>,
     ));
   }
 }
@@ -124,7 +137,8 @@ class _$ListBookmarkStateImpl extends _ListBookmarkState {
   const _$ListBookmarkStateImpl(
       {this.stateList = const BaseResponse(),
       this.hasReachMax = false,
-      this.keyword})
+      this.keyword,
+      this.stateBookmark = const BaseResponse()})
       : super._();
 
   @override
@@ -135,10 +149,13 @@ class _$ListBookmarkStateImpl extends _ListBookmarkState {
   final bool hasReachMax;
   @override
   final String? keyword;
+  @override
+  @JsonKey()
+  final BaseResponse<void> stateBookmark;
 
   @override
   String toString() {
-    return 'ListBookmarkState(stateList: $stateList, hasReachMax: $hasReachMax, keyword: $keyword)';
+    return 'ListBookmarkState(stateList: $stateList, hasReachMax: $hasReachMax, keyword: $keyword, stateBookmark: $stateBookmark)';
   }
 
   @override
@@ -150,11 +167,14 @@ class _$ListBookmarkStateImpl extends _ListBookmarkState {
                 other.stateList == stateList) &&
             (identical(other.hasReachMax, hasReachMax) ||
                 other.hasReachMax == hasReachMax) &&
-            (identical(other.keyword, keyword) || other.keyword == keyword));
+            (identical(other.keyword, keyword) || other.keyword == keyword) &&
+            (identical(other.stateBookmark, stateBookmark) ||
+                other.stateBookmark == stateBookmark));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, stateList, hasReachMax, keyword);
+  int get hashCode =>
+      Object.hash(runtimeType, stateList, hasReachMax, keyword, stateBookmark);
 
   @JsonKey(ignore: true)
   @override
@@ -168,7 +188,8 @@ abstract class _ListBookmarkState extends ListBookmarkState {
   const factory _ListBookmarkState(
       {final BaseResponse<List<PostModel>?> stateList,
       final bool hasReachMax,
-      final String? keyword}) = _$ListBookmarkStateImpl;
+      final String? keyword,
+      final BaseResponse<void> stateBookmark}) = _$ListBookmarkStateImpl;
   const _ListBookmarkState._() : super._();
 
   @override
@@ -177,6 +198,8 @@ abstract class _ListBookmarkState extends ListBookmarkState {
   bool get hasReachMax;
   @override
   String? get keyword;
+  @override
+  BaseResponse<void> get stateBookmark;
   @override
   @JsonKey(ignore: true)
   _$$ListBookmarkStateImplCopyWith<_$ListBookmarkStateImpl> get copyWith =>

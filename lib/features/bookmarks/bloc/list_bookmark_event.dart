@@ -4,10 +4,10 @@ sealed class ListBookmarkEvent extends Equatable {
   const ListBookmarkEvent();
 }
 
-final class PostFetched extends ListBookmarkEvent {
+final class BookmarkPostFetched extends ListBookmarkEvent {
   final String? keyword;
   final bool isRefresh;
-  const PostFetched({this.keyword, this.isRefresh = false});
+  const BookmarkPostFetched({this.keyword, this.isRefresh = false});
   @override
   List<Object?> get props => [keyword, isRefresh];
 }
@@ -19,10 +19,10 @@ final class ToggleBookmarkChanged extends ListBookmarkEvent {
   List<Object?> get props => [idPost];
 }
 
-final class KeywordChanged extends ListBookmarkEvent {
+final class BookmarkKeywordChanged extends ListBookmarkEvent {
   final String? keyword;
 
-  const KeywordChanged(this.keyword);
+  const BookmarkKeywordChanged(this.keyword);
 
   @override
   List<Object?> get props => [keyword];

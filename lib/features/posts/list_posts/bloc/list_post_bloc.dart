@@ -21,7 +21,7 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
       _onPostFetched,
       transformer: throttleDroppable(throttleDuration),
     );
-    on<ToggleBookmarkChanged>(_onToogleBookmarkChanged);
+    on<ToggleBookmarkPostChanged>(_onToogleBookmarkChanged);
     on<KeywordChanged>(_onKeywordChanged);
   }
   final SupabaseService _client;
@@ -50,7 +50,7 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
   }
 
   FutureOr<void> _onToogleBookmarkChanged(
-      ToggleBookmarkChanged event, Emitter<ListPostState> emit) async {
+      ToggleBookmarkPostChanged event, Emitter<ListPostState> emit) async {
     var oldList = [...state.listPosts];
     //CREATE NEW LIST
     var newList = [...state.listPosts];

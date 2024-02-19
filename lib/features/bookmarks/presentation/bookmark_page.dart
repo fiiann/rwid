@@ -49,9 +49,6 @@ class _BookmarkPageState extends State<BookmarkPage> {
               context
                   .read<ListPostBloc>()
                   .add(const PostFetched(isRefresh: true));
-              context
-                  .read<ListBookmarkBloc>()
-                  .add(const BookmarkPostFetched(isRefresh: true));
             }
           },
           child: Padding(

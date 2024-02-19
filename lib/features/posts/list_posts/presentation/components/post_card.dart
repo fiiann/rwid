@@ -5,8 +5,7 @@ import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/constant/custom_text_style.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/widget/custom_text.dart';
-import 'package:rwid/features/bookmarks/bloc/list_bookmark_bloc.dart'
-    as bookmark;
+import 'package:rwid/features/bookmarks/bloc/list_bookmark_bloc.dart';
 import 'package:rwid/features/posts/detail_post/presentation/post_detail_page.dart';
 import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
@@ -109,7 +108,7 @@ class PostCard extends StatelessWidget {
           return GestureDetector(
             onTap: () => context
                 .read<ListPostBloc>()
-                .add(ToggleBookmarkChanged(idPost: post.id ?? 0)),
+                .add(ToggleBookmarkPostChanged(idPost: post.id ?? 0)),
             child: Icon(
               !post.isBookmark
                   ? Icons.bookmark_outline_rounded
@@ -120,14 +119,14 @@ class PostCard extends StatelessWidget {
         },
       );
     } else {
-      return BlocBuilder<bookmark.ListBookmarkBloc, bookmark.ListBookmarkState>(
+      return BlocBuilder<ListBookmarkBloc, ListBookmarkState>(
         buildWhen: (previous, current) =>
             previous.listPosts != current.listPosts,
         builder: (context, state) {
           return GestureDetector(
             onTap: () => context
-                .read<bookmark.ListBookmarkBloc>()
-                .add(bookmark.ToggleBookmarkChanged(idPost: post.id ?? 0)),
+                .read<ListBookmarkBloc>()
+                .add(ToggleBookmarkChanged(idPost: post.id ?? 0)),
             child: Icon(
               !post.isBookmark
                   ? Icons.bookmark_outline_rounded

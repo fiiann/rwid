@@ -55,16 +55,18 @@ class _AddPostPageState extends State<AddPostPage> {
                 const CustomTextFormField(
                   labelText: 'Title',
                   name: 'title',
+                  maxLines: 2,
                 ),
                 const SizedBox(height: 16.0),
                 const CustomTextFormField(
                   labelText: 'Content',
                   name: 'content',
+                  maxLines: 5,
                 ),
                 const SizedBox(height: 16.0),
                 buildFormTag(),
                 const SizedBox(height: 16.0),
-                CustomImagePicker(
+                const CustomImagePicker(
                   name: 'image',
                 ),
                 const SizedBox(height: 16.0),

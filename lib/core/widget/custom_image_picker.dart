@@ -20,7 +20,7 @@ class CustomImagePicker extends StatelessWidget {
     return FormBuilderImagePicker(
       name: name,
       decoration: InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         labelText: 'Ambil Foto',
       ),
       validator: FormBuilderValidators.compose([
@@ -29,7 +29,7 @@ class CustomImagePicker extends StatelessWidget {
       showDecoration: false,
       placeholderWidget: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: CustomColors.lightTextDisabled,
             width: 2, // Optional: Set border width

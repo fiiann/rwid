@@ -12,6 +12,12 @@ final List<(Widget, String, Icon, Icon)> pagesDashboard = [
     const Icon(Icons.space_dashboard)
   ),
   (
+    const PostsPage(),
+    'Search',
+    const Icon(Icons.search),
+    const Icon(Icons.search)
+  ),
+  (
     const BookmarkPage(),
     'Bookmark',
     const Icon(Icons.bookmark_outline_rounded),

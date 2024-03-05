@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rwid/core/widget/no_page.dart';
+import 'package:rwid/features/bookmarks/presentation/bookmark_page.dart';
 import 'package:rwid/features/posts/list_posts/presentation/posts_page.dart';
 
 final List<(Widget, String, Icon, Icon)> pagesDashboard = [
@@ -11,7 +12,13 @@ final List<(Widget, String, Icon, Icon)> pagesDashboard = [
     const Icon(Icons.space_dashboard)
   ),
   (
-    const NoPageFound(title: 'Bookmark'),
+    const PostsPage(),
+    'Search',
+    const Icon(Icons.search),
+    const Icon(Icons.search)
+  ),
+  (
+    const BookmarkPage(),
     'Bookmark',
     const Icon(Icons.bookmark_outline_rounded),
     const Icon(Icons.bookmark_rounded)

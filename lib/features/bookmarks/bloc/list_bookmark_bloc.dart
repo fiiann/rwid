@@ -5,38 +5,38 @@ import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/service/supabase_service.dart';
+import 'package:rwid/core/extention/throttle.dart';
 import 'package:rwid/features/posts/models/models.dart';
 
-import '../../../../core/extention/throttle.dart';
+part 'list_bookmark_bloc.freezed.dart';
+part 'list_bookmark_event.dart';
+part 'list_bookmark_state.dart';
 
-part 'list_post_bloc.freezed.dart';
-part 'list_post_event.dart';
-part 'list_post_state.dart';
-
-class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
-  ListPostBloc({required SupabaseService supabaseService})
+class ListBookmarkBloc extends Bloc<ListBookmarkEvent, ListBookmarkState> {
+  ListBookmarkBloc({required SupabaseService supabaseService})
       : _client = supabaseService,
-        super(const ListPostState()) {
-    on<PostFetched>(
+        super(const ListBookmarkState()) {
+    on<BookmarkPostFetched>(
       _onPostFetched,
       transformer: throttleDroppable(throttleDuration),
     );
-    on<ToggleBookmarkPostChanged>(_onToogleBookmarkChanged);
-    on<KeywordChanged>(_onKeywordChanged);
+    on<ToggleBookmarkChanged>(_onToogleBookmarkChanged);
+    on<BookmarkKeywordChanged>(_onKeywordChanged);
   }
   final SupabaseService _client;
+
   FutureOr<void> _onPostFetched(
-      PostFetched event, Emitter<ListPostState> emit) async {
+      BookmarkPostFetched event, Emitter<ListBookmarkState> emit) async {
     if (event.isRefresh) {
-      emit(const ListPostState());
-      emit(ListPostState(keyword: event.keyword));
+      emit(const ListBookmarkState());
+      emit(ListBookmarkState(keyword: event.keyword));
     }
     if (state.hasReachMax) return;
     if (state.stateList.state == ResponseState.initial) {
-      final response = await _client.getPosts(keyword: state.keyword);
+      final response = await _client.getBookmark(keyword: state.keyword);
       emit(state.copyWith(stateList: response, hasReachMax: false));
     }
-    final response2 = await _client.getPosts(
+    final response2 = await _client.getBookmark(
         keyword: state.keyword, startIndex: state.listPosts.length);
 
     if (response2.data!.isEmpty) {
@@ -50,7 +50,7 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
   }
 
   FutureOr<void> _onToogleBookmarkChanged(
-      ToggleBookmarkPostChanged event, Emitter<ListPostState> emit) async {
+      ToggleBookmarkChanged event, Emitter<ListBookmarkState> emit) async {
     var oldList = [...state.listPosts];
     //CREATE NEW LIST
     var newList = [...state.listPosts];
@@ -79,7 +79,7 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
   }
 
   FutureOr<void> _onKeywordChanged(
-      KeywordChanged event, Emitter<ListPostState> emit) {
+      BookmarkKeywordChanged event, Emitter<ListBookmarkState> emit) {
     emit(state.copyWith(keyword: event.keyword));
   }
 }

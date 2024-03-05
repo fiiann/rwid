@@ -4,18 +4,18 @@ import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/widget/error_widget.dart';
 import 'package:rwid/core/widget/no_data_widget.dart';
-import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
+import 'package:rwid/features/bookmarks/bloc/list_bookmark_bloc.dart';
 import 'package:rwid/features/posts/list_posts/presentation/components/post_card.dart';
 import 'package:rwid/features/posts/list_posts/presentation/components/post_loading_card.dart';
 
-class PostList extends StatefulWidget {
-  const PostList({super.key});
+class BookmardkList extends StatefulWidget {
+  const BookmardkList({super.key});
 
   @override
-  State<PostList> createState() => _PostListState();
+  State<BookmardkList> createState() => _BookmardkListState();
 }
 
-class _PostListState extends State<PostList> {
+class _BookmardkListState extends State<BookmardkList> {
   final _scrollController = ScrollController();
 
   @override
@@ -34,8 +34,7 @@ class _PostListState extends State<PostList> {
 
   void _onScroll() {
     if (_isBottom) {
-      print('is bottom');
-      context.read<ListPostBloc>().add(const PostFetched());
+      context.read<ListBookmarkBloc>().add(const BookmarkPostFetched());
     }
   }
 
@@ -49,7 +48,7 @@ class _PostListState extends State<PostList> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<ListPostBloc, ListPostState>(
+      child: BlocBuilder<ListBookmarkBloc, ListBookmarkState>(
         builder: (context, state) {
           switch (state.stateList.state) {
             case ResponseState.error:
@@ -70,7 +69,7 @@ class _PostListState extends State<PostList> {
                     } else {
                       return PostCard(
                         post: state.listPosts[index],
-                        page: PageEnum.dashboard,
+                        page: PageEnum.bookmark,
                       );
                     }
                   });

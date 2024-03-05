@@ -5,3 +5,5 @@ enum AuthenticationStatus {
   authenticatedWithTags,
   authenticatedWithoutTags
 }
+
+enum PageEnum { dashboard, bookmark }

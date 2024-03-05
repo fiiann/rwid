@@ -75,7 +75,7 @@ class CustomDropdown<T> extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: CustomColors.lightTextDisabled,
                       width: 2,

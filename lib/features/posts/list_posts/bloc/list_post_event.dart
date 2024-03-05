@@ -12,9 +12,9 @@ final class PostFetched extends ListPostEvent {
   List<Object?> get props => [keyword, isRefresh];
 }
 
-final class ToggleBookmarkChanged extends ListPostEvent {
+final class ToggleBookmarkPostChanged extends ListPostEvent {
   final int idPost;
-  const ToggleBookmarkChanged({required this.idPost});
+  const ToggleBookmarkPostChanged({required this.idPost});
   @override
   List<Object?> get props => [idPost];
 }

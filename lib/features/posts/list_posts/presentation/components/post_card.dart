@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/constant/custom_text_style.dart';
+import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/widget/custom_text.dart';
+import 'package:rwid/features/bookmarks/bloc/list_bookmark_bloc.dart';
 import 'package:rwid/features/posts/detail_post/presentation/post_detail_page.dart';
 import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key, required this.post});
+  const PostCard({super.key, required this.post, required this.page});
   final PostModel post;
+  final PageEnum page;
 
   @override
   Widget build(BuildContext context) {
@@ -91,24 +94,48 @@ class PostCard extends StatelessWidget {
           post.formatCreatedAt,
           style: CustomTextStyle.lightTypographyCaption,
         ),
-        BlocBuilder<ListPostBloc, ListPostState>(
-          buildWhen: (previous, current) =>
-              previous.listPosts != current.listPosts,
-          builder: (context, state) {
-            return GestureDetector(
-              onTap: () => context
-                  .read<ListPostBloc>()
-                  .add(ToggleBookmarkChanged(idPost: post.id ?? 0)),
-              child: Icon(
-                !post.isBookmark
-                    ? Icons.bookmark_outline_rounded
-                    : Icons.bookmark,
-                size: 16,
-              ),
-            );
-          },
-        )
+        bookmarkWidget(page)
       ],
     );
+  }
+
+  Widget bookmarkWidget(PageEnum page) {
+    if (page == PageEnum.dashboard) {
+      return BlocBuilder<ListPostBloc, ListPostState>(
+        buildWhen: (previous, current) =>
+            previous.listPosts != current.listPosts,
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () => context
+                .read<ListPostBloc>()
+                .add(ToggleBookmarkPostChanged(idPost: post.id ?? 0)),
+            child: Icon(
+              !post.isBookmark
+                  ? Icons.bookmark_outline_rounded
+                  : Icons.bookmark,
+              size: 16,
+            ),
+          );
+        },
+      );
+    } else {
+      return BlocBuilder<ListBookmarkBloc, ListBookmarkState>(
+        buildWhen: (previous, current) =>
+            previous.listPosts != current.listPosts,
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () => context
+                .read<ListBookmarkBloc>()
+                .add(ToggleBookmarkChanged(idPost: post.id ?? 0)),
+            child: Icon(
+              !post.isBookmark
+                  ? Icons.bookmark_outline_rounded
+                  : Icons.bookmark,
+              size: 16,
+            ),
+          );
+        },
+      );
+    }
   }
 }

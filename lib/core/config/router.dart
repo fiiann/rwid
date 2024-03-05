@@ -123,11 +123,12 @@ Future<Session?> getSession(SupabaseClient supabase) async {
   return session;
 }
 
-void updateUser(Session session) {
+UserRWID updateUser(Session session) {
   final authBox = Hive.box(authBoxName);
 
   UserRWID user = UserRWID(
       id: session.user.id,
+      userId: session.user.id,
       name: session.user.userMetadata?['name'] ?? '',
       email: session.user.userMetadata?['email'] ?? '',
       photo: session.user.userMetadata?['avatar_url'] ?? '');
@@ -135,6 +136,7 @@ void updateUser(Session session) {
   if (kDebugMode) {
     print('user saved : ${user.toJson()}');
   }
+  return user;
 }
 
 Future<int> checkCountTagUser(SupabaseClient supabase) async {

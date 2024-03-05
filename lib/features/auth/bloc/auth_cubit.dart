@@ -65,7 +65,8 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (response.data?.user != null) {
-        updateUser(response.data!.session!);
+        final user = updateUser(response.data!.session!);
+        await _service.insertUser(user);
         final count = await checkCountTagUser(_supabase);
         if (count == 0) {
           emit(state.copyWith(

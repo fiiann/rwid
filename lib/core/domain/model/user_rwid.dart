@@ -8,10 +8,11 @@ part 'user_rwid.g.dart';
 class UserRWID with _$UserRWID {
   @HiveType(typeId: 1, adapterName: 'UserRWIDAdapter')
   const factory UserRWID({
-    @HiveField(0) required String id,
+    @JsonKey(includeToJson: false) @HiveField(0) required String id,
     @HiveField(1) required String name,
     @HiveField(2) required String email,
     @HiveField(3) required String photo,
+    @JsonKey(name: 'user_id') @HiveField(4) String? userId,
   }) = _UserRWID;
 
   factory UserRWID.fromJson(Map<String, dynamic> json) =>

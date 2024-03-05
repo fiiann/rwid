@@ -20,6 +20,7 @@ UserRWID _$UserRWIDFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserRWID {
+  @JsonKey(includeToJson: false)
   @HiveField(0)
   String get id => throw _privateConstructorUsedError;
   @HiveField(1)
@@ -28,6 +29,9 @@ mixin _$UserRWID {
   String get email => throw _privateConstructorUsedError;
   @HiveField(3)
   String get photo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
+  @HiveField(4)
+  String? get userId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,10 +45,11 @@ abstract class $UserRWIDCopyWith<$Res> {
       _$UserRWIDCopyWithImpl<$Res, UserRWID>;
   @useResult
   $Res call(
-      {@HiveField(0) String id,
+      {@JsonKey(includeToJson: false) @HiveField(0) String id,
       @HiveField(1) String name,
       @HiveField(2) String email,
-      @HiveField(3) String photo});
+      @HiveField(3) String photo,
+      @JsonKey(name: 'user_id') @HiveField(4) String? userId});
 }
 
 /// @nodoc
@@ -64,6 +69,7 @@ class _$UserRWIDCopyWithImpl<$Res, $Val extends UserRWID>
     Object? name = null,
     Object? email = null,
     Object? photo = null,
+    Object? userId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -82,6 +88,10 @@ class _$UserRWIDCopyWithImpl<$Res, $Val extends UserRWID>
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
               as String,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -95,10 +105,11 @@ abstract class _$$UserRWIDImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@HiveField(0) String id,
+      {@JsonKey(includeToJson: false) @HiveField(0) String id,
       @HiveField(1) String name,
       @HiveField(2) String email,
-      @HiveField(3) String photo});
+      @HiveField(3) String photo,
+      @JsonKey(name: 'user_id') @HiveField(4) String? userId});
 }
 
 /// @nodoc
@@ -116,6 +127,7 @@ class __$$UserRWIDImplCopyWithImpl<$Res>
     Object? name = null,
     Object? email = null,
     Object? photo = null,
+    Object? userId = freezed,
   }) {
     return _then(_$UserRWIDImpl(
       id: null == id
@@ -134,6 +146,10 @@ class __$$UserRWIDImplCopyWithImpl<$Res>
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
               as String,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -143,15 +159,17 @@ class __$$UserRWIDImplCopyWithImpl<$Res>
 @HiveType(typeId: 1, adapterName: 'UserRWIDAdapter')
 class _$UserRWIDImpl implements _UserRWID {
   const _$UserRWIDImpl(
-      {@HiveField(0) required this.id,
+      {@JsonKey(includeToJson: false) @HiveField(0) required this.id,
       @HiveField(1) required this.name,
       @HiveField(2) required this.email,
-      @HiveField(3) required this.photo});
+      @HiveField(3) required this.photo,
+      @JsonKey(name: 'user_id') @HiveField(4) this.userId});
 
   factory _$UserRWIDImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserRWIDImplFromJson(json);
 
   @override
+  @JsonKey(includeToJson: false)
   @HiveField(0)
   final String id;
   @override
@@ -163,10 +181,14 @@ class _$UserRWIDImpl implements _UserRWID {
   @override
   @HiveField(3)
   final String photo;
+  @override
+  @JsonKey(name: 'user_id')
+  @HiveField(4)
+  final String? userId;
 
   @override
   String toString() {
-    return 'UserRWID(id: $id, name: $name, email: $email, photo: $photo)';
+    return 'UserRWID(id: $id, name: $name, email: $email, photo: $photo, userId: $userId)';
   }
 
   @override
@@ -177,12 +199,13 @@ class _$UserRWIDImpl implements _UserRWID {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.photo, photo) || other.photo == photo));
+            (identical(other.photo, photo) || other.photo == photo) &&
+            (identical(other.userId, userId) || other.userId == userId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, email, photo);
+  int get hashCode => Object.hash(runtimeType, id, name, email, photo, userId);
 
   @JsonKey(ignore: true)
   @override
@@ -200,15 +223,19 @@ class _$UserRWIDImpl implements _UserRWID {
 
 abstract class _UserRWID implements UserRWID {
   const factory _UserRWID(
-      {@HiveField(0) required final String id,
+      {@JsonKey(includeToJson: false) @HiveField(0) required final String id,
       @HiveField(1) required final String name,
       @HiveField(2) required final String email,
-      @HiveField(3) required final String photo}) = _$UserRWIDImpl;
+      @HiveField(3) required final String photo,
+      @JsonKey(name: 'user_id')
+      @HiveField(4)
+      final String? userId}) = _$UserRWIDImpl;
 
   factory _UserRWID.fromJson(Map<String, dynamic> json) =
       _$UserRWIDImpl.fromJson;
 
   @override
+  @JsonKey(includeToJson: false)
   @HiveField(0)
   String get id;
   @override
@@ -220,6 +247,10 @@ abstract class _UserRWID implements UserRWID {
   @override
   @HiveField(3)
   String get photo;
+  @override
+  @JsonKey(name: 'user_id')
+  @HiveField(4)
+  String? get userId;
   @override
   @JsonKey(ignore: true)
   _$$UserRWIDImplCopyWith<_$UserRWIDImpl> get copyWith =>

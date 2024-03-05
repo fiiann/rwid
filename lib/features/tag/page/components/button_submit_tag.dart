@@ -22,10 +22,9 @@ class ButtonSubmitTag extends StatelessWidget {
             previous.stateSubmit != current.stateSubmit,
         listener: (context, state) {
           if (state.stateSubmit?.state == ResponseState.ok) {
-            print('sukses');
             context.go(DashboardPage.routeName);
           } else if (state.stateSubmit?.state == ResponseState.error) {
-            "Gagal Submit".failedBar(context);
+            'Gagal Submit'.failedBar(context);
           }
         },
         buildWhen: (previous, current) =>
@@ -40,7 +39,6 @@ class ButtonSubmitTag extends StatelessWidget {
               if (kDebugMode) {
                 print('submit');
               }
-              print(state.choosedTag);
               context.read<TagCubit>().insertTag(state.choosedTag);
             },
           );

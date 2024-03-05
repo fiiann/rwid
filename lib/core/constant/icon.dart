@@ -5,5 +5,5 @@ class AppIcons {
       AssetImage('assets/icon/disablePassword.png');
   static const AssetImage enablePassword =
       AssetImage('assets/icon/enablePassword.png');
-  static const AssetImage password = AssetImage("assets/icon/password.png");
+  static const AssetImage password = AssetImage('assets/icon/password.png');
 }

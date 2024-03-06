@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:rwid/core/config/injector.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
+import 'package:rwid/core/domain/service/supabase_service.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/widget/no_page.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
@@ -17,6 +18,8 @@ import 'package:rwid/features/posts/add_post/presentation/add_post_page.dart';
 import 'package:rwid/features/posts/detail_post/bloc/detail_post_cubit.dart';
 import 'package:rwid/features/posts/detail_post/presentation/post_detail_page.dart';
 import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
+import 'package:rwid/features/profile/bloc/profile_bloc.dart';
+import 'package:rwid/features/profile/presentation/edit_profile_page.dart';
 import 'package:rwid/features/tag/bloc/tab_cubit.dart';
 import 'package:rwid/features/tag/page/tag_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -96,6 +99,16 @@ final GoRouter routerConfig = GoRouter(
                 }
               },
             ),
+            GoRoute(
+              path: EditProfilePage.routePath,
+              builder: (context, state) {
+                return BlocProvider(
+                  create: (context) =>
+                      ProfileBloc(supabaseService: context.read()),
+                  child: const EditProfilePage(),
+                );
+              },
+            ),
           ]),
       GoRoute(
         path: TagPage.route,
@@ -111,23 +124,19 @@ Future<Session?> getSession(SupabaseClient supabase) async {
   return session;
 }
 
-void updateUser(Session session) {
+void saveUserLocal(UserRWID user) {
   final authBox = Hive.box(authBoxName);
 
-  UserRWID user = UserRWID(
-      id: session.user.id,
-      name: session.user.userMetadata?['name'] ?? '',
-      email: session.user.userMetadata?['email'] ?? '',
-      photo: session.user.userMetadata?['avatar_url'] ?? '');
   authBox.put('user', user);
-  print('user saved : ${user.toJson()}');
+  if (kDebugMode) {
+    print('user saved : ${user.toJson()}');
+  }
 }
 
 Future<int> checkCountTagUser(SupabaseClient supabase) async {
   try {
     final res = await supabase.from('user_tags').select().count();
     final int count = res.count;
-    print('user tag count :  $count');
     return count;
   } catch (e) {
     if (kDebugMode) {
@@ -140,10 +149,15 @@ Future<int> checkCountTagUser(SupabaseClient supabase) async {
 Future<AuthenticationStatus> getCurrentAuthentication(
     BuildContext context) async {
   final supabase = context.read<SupabaseClient>();
+  final supabaseService = context.read<SupabaseService>();
   final session = await getSession(supabase);
-
+  final userRWID = await supabaseService.getUser();
+  print('USER RWID');
+  print(userRWID);
   if (session != null) {
-    updateUser(session);
+    //TODO CREATE CONSTRUCTOR DEFAULT
+    saveUserLocal(userRWID.data ??
+        const UserRWID(name: '', email: '', photo: '', address: '', phone: ''));
     //TODO CHECK IF USER HAVE BEEN CHOOSE TAG
     final count = await checkCountTagUser(supabase);
     if (count == 0) {

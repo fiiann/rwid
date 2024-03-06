@@ -111,7 +111,7 @@ extension CustomBuildContext on BuildContext {
                 children: [
                   GestureDetector(
                     onTap: () => context.pop(),
-                    child: Icon(Icons.close),
+                    child: const Icon(Icons.close),
                   ),
                   const SizedBox(
                     width: 20,

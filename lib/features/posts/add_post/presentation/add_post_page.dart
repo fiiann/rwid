@@ -163,7 +163,9 @@ class _AddPostPageState extends State<AddPostPage> {
         final request = PostModel.fromForm(formKey);
         final image =
             formKey.currentState?.fields['image']?.value.first as XFile;
-        await context.read<AddPostCubit>().submitPost(request, image);
+        if (context.mounted) {
+          context.read<AddPostCubit>().submitPost(request, image);
+        }
       }
     }
   }

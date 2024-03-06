@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
+import 'package:rwid/core/domain/model/user_rwid.dart';
 import 'package:rwid/features/bookmarks/models/bookmark_model.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 import 'package:rwid/features/tag/model/tag_model.dart';
@@ -122,7 +123,7 @@ class SupabaseService {
             .range(startIndex, startIndex + limitPage)
             .order('created_at', ascending: false);
       }
-      logger.log(data.toString());
+      // logger.log(data.toString());
       return BaseResponse.ok(parsePostListFromMap(data));
     } catch (e) {
       if (kDebugMode) {
@@ -241,6 +242,75 @@ class SupabaseService {
     } catch (e) {
       if (kDebugMode) {
         print('error toogle bookmark post : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  //INSERT USER PROFILE
+  Future<BaseResponse<void>> insertUser(UserRWID user) async {
+    try {
+      final userId = _client.auth.currentUser?.id ?? '';
+      final dataUser =
+          await _client.from('users').select().eq('user_id', userId);
+      if (dataUser.isEmpty) {
+        // USER NOT YET REGISTERED
+        await _client.from('users').insert(user.toJson());
+      }
+      return BaseResponse.ok(null);
+    } catch (e) {
+      if (kDebugMode) {
+        print('error insert users : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  //INSERT USER PROFILE
+  Future<BaseResponse<UserRWID>> updateUser(UserRWID user) async {
+    try {
+      final userId = _client.auth.currentUser?.id ?? '';
+      final dataUser =
+          await _client.from('users').select().eq('user_id', userId);
+      if (dataUser.isEmpty) {
+        // USER NOT FOUND
+        return BaseResponse.error(message: 'User not found');
+      } else {
+        final List<Map<String, dynamic>> data = await _client
+            .from('users')
+            .update(user.toJson())
+            .match({'user_id': userId}).select();
+        return BaseResponse.ok(UserRWID.fromJson(data[0]));
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('error update users : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  //GET USER PROFILE
+  Future<BaseResponse<UserRWID>> getUser() async {
+    try {
+      final userId = _client.auth.currentUser?.id ?? '';
+      final dataUser =
+          await _client.from('users').select().eq('user_id', userId);
+      if (dataUser.isEmpty) {
+        // USER NOT FOUND
+        return BaseResponse.error(message: 'User not found');
+      } else {
+        final data = await _client
+            .from('users')
+            .select()
+            .eq('user_id', userId)
+            .limit(1)
+            .single();
+        return BaseResponse.ok(UserRWID.fromJson(data));
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('error update users : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
     }

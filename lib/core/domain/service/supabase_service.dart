@@ -247,19 +247,70 @@ class SupabaseService {
     }
   }
 
-  //UPDATE USER PROFILE
+  //INSERT USER PROFILE
   Future<BaseResponse<void>> insertUser(UserRWID user) async {
     try {
       final userId = _client.auth.currentUser?.id ?? '';
       final dataUser =
           await _client.from('users').select().eq('user_id', userId);
       if (dataUser.isEmpty) {
+        // USER NOT YET REGISTERED
         await _client.from('users').insert(user.toJson());
       }
       return BaseResponse.ok(null);
     } catch (e) {
       if (kDebugMode) {
         print('error insert users : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  //INSERT USER PROFILE
+  Future<BaseResponse<UserRWID>> updateUser(UserRWID user) async {
+    try {
+      final userId = _client.auth.currentUser?.id ?? '';
+      final dataUser =
+          await _client.from('users').select().eq('user_id', userId);
+      if (dataUser.isEmpty) {
+        // USER NOT FOUND
+        return BaseResponse.error(message: 'User not found');
+      } else {
+        final List<Map<String, dynamic>> data = await _client
+            .from('users')
+            .update(user.toJson())
+            .match({'user_id': userId}).select();
+        return BaseResponse.ok(UserRWID.fromJson(data[0]));
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('error update users : ${e.toString()}');
+      }
+      return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  //GET USER PROFILE
+  Future<BaseResponse<UserRWID>> getUser() async {
+    try {
+      final userId = _client.auth.currentUser?.id ?? '';
+      final dataUser =
+          await _client.from('users').select().eq('user_id', userId);
+      if (dataUser.isEmpty) {
+        // USER NOT FOUND
+        return BaseResponse.error(message: 'User not found');
+      } else {
+        final data = await _client
+            .from('users')
+            .select()
+            .eq('user_id', userId)
+            .limit(1)
+            .single();
+        return BaseResponse.ok(UserRWID.fromJson(data));
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('error update users : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
     }

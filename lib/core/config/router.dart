@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:rwid/core/config/injector.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
+import 'package:rwid/core/domain/service/supabase_service.dart';
 import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/widget/no_page.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
@@ -123,20 +124,13 @@ Future<Session?> getSession(SupabaseClient supabase) async {
   return session;
 }
 
-UserRWID updateUser(Session session) {
+void saveUserLocal(UserRWID user) {
   final authBox = Hive.box(authBoxName);
 
-  UserRWID user = UserRWID(
-      id: session.user.id,
-      userId: session.user.id,
-      name: session.user.userMetadata?['name'] ?? '',
-      email: session.user.userMetadata?['email'] ?? '',
-      photo: session.user.userMetadata?['avatar_url'] ?? '');
   authBox.put('user', user);
   if (kDebugMode) {
     print('user saved : ${user.toJson()}');
   }
-  return user;
 }
 
 Future<int> checkCountTagUser(SupabaseClient supabase) async {
@@ -155,10 +149,15 @@ Future<int> checkCountTagUser(SupabaseClient supabase) async {
 Future<AuthenticationStatus> getCurrentAuthentication(
     BuildContext context) async {
   final supabase = context.read<SupabaseClient>();
+  final supabaseService = context.read<SupabaseService>();
   final session = await getSession(supabase);
-
+  final userRWID = await supabaseService.getUser();
+  print('USER RWID');
+  print(userRWID);
   if (session != null) {
-    updateUser(session);
+    //TODO CREATE CONSTRUCTOR DEFAULT
+    saveUserLocal(userRWID.data ??
+        const UserRWID(name: '', email: '', photo: '', address: '', phone: ''));
     //TODO CHECK IF USER HAVE BEEN CHOOSE TAG
     final count = await checkCountTagUser(supabase);
     if (count == 0) {

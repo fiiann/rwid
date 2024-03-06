@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfileState {
-  BaseResponse<void> get stateSubmit => throw _privateConstructorUsedError;
+  BaseResponse<UserRWID> get stateSubmit => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProfileStateCopyWith<ProfileState> get copyWith =>
@@ -29,7 +29,7 @@ abstract class $ProfileStateCopyWith<$Res> {
           ProfileState value, $Res Function(ProfileState) then) =
       _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
-  $Res call({BaseResponse<void> stateSubmit});
+  $Res call({BaseResponse<UserRWID> stateSubmit});
 }
 
 /// @nodoc
@@ -51,7 +51,7 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
       stateSubmit: null == stateSubmit
           ? _value.stateSubmit
           : stateSubmit // ignore: cast_nullable_to_non_nullable
-              as BaseResponse<void>,
+              as BaseResponse<UserRWID>,
     ) as $Val);
   }
 }
@@ -64,7 +64,7 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
       __$$ProfileStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({BaseResponse<void> stateSubmit});
+  $Res call({BaseResponse<UserRWID> stateSubmit});
 }
 
 /// @nodoc
@@ -84,7 +84,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
       stateSubmit: null == stateSubmit
           ? _value.stateSubmit
           : stateSubmit // ignore: cast_nullable_to_non_nullable
-              as BaseResponse<void>,
+              as BaseResponse<UserRWID>,
     ));
   }
 }
@@ -96,7 +96,7 @@ class _$ProfileStateImpl implements _ProfileState {
 
   @override
   @JsonKey()
-  final BaseResponse<void> stateSubmit;
+  final BaseResponse<UserRWID> stateSubmit;
 
   @override
   String toString() {
@@ -123,11 +123,11 @@ class _$ProfileStateImpl implements _ProfileState {
 }
 
 abstract class _ProfileState implements ProfileState {
-  const factory _ProfileState({final BaseResponse<void> stateSubmit}) =
+  const factory _ProfileState({final BaseResponse<UserRWID> stateSubmit}) =
       _$ProfileStateImpl;
 
   @override
-  BaseResponse<void> get stateSubmit;
+  BaseResponse<UserRWID> get stateSubmit;
   @override
   @JsonKey(ignore: true)
   _$$ProfileStateImplCopyWith<_$ProfileStateImpl> get copyWith =>

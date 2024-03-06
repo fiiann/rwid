@@ -10,7 +10,8 @@ class ProfileCard extends StatelessWidget {
     super.key,
     required this.data,
   });
-  final ProfileModel data;
+
+  final ProfileTuple data;
 
   @override
   Widget build(BuildContext context) {

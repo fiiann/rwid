@@ -6,7 +6,8 @@ import 'package:rwid/features/profile/presentation/profile_utils.dart';
 class CustomCupertinoSection extends StatelessWidget {
   const CustomCupertinoSection(
       {super.key, required this.data, required this.title, this.edit});
-  final List<ProfileModel> data;
+
+  final List<ProfileTuple> data;
   final String title;
   final Widget? edit;
   @override

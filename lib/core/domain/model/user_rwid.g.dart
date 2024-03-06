@@ -17,18 +17,20 @@ class UserRWIDAdapter extends TypeAdapter<_$UserRWIDImpl> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return _$UserRWIDImpl(
-      id: fields[0] as String,
+      id: fields[0] as dynamic,
       name: fields[1] as String,
       email: fields[2] as String,
       photo: fields[3] as String,
       userId: fields[4] as String?,
+      address: fields[5] as String?,
+      phone: fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$UserRWIDImpl obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +40,11 @@ class UserRWIDAdapter extends TypeAdapter<_$UserRWIDImpl> {
       ..writeByte(3)
       ..write(obj.photo)
       ..writeByte(4)
-      ..write(obj.userId);
+      ..write(obj.userId)
+      ..writeByte(5)
+      ..write(obj.address)
+      ..writeByte(6)
+      ..write(obj.phone);
   }
 
   @override
@@ -58,11 +64,12 @@ class UserRWIDAdapter extends TypeAdapter<_$UserRWIDImpl> {
 
 _$UserRWIDImpl _$$UserRWIDImplFromJson(Map<String, dynamic> json) =>
     _$UserRWIDImpl(
-      id: json['id'] as String,
       name: json['name'] as String,
       email: json['email'] as String,
       photo: json['photo'] as String,
       userId: json['user_id'] as String?,
+      address: json['address'] as String?,
+      phone: json['phone'] as String?,
     );
 
 Map<String, dynamic> _$$UserRWIDImplToJson(_$UserRWIDImpl instance) =>
@@ -71,4 +78,6 @@ Map<String, dynamic> _$$UserRWIDImplToJson(_$UserRWIDImpl instance) =>
       'email': instance.email,
       'photo': instance.photo,
       'user_id': instance.userId,
+      'address': instance.address,
+      'phone': instance.phone,
     };

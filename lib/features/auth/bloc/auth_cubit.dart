@@ -65,7 +65,17 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       if (response.data?.user != null) {
-        final user = updateUser(response.data!.session!);
+        final session = response.data!.session!;
+        UserRWID user = UserRWID(
+          id: session.user.id,
+          userId: session.user.id,
+          name: session.user.userMetadata?['name'] ?? '',
+          email: session.user.userMetadata?['email'] ?? '',
+          photo: session.user.userMetadata?['avatar_url'] ?? '',
+          phone: '',
+          address: '',
+        );
+        saveUserLocal(user);
         await _service.insertUser(user);
         final count = await checkCountTagUser(_supabase);
         if (count == 0) {

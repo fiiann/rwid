@@ -17,10 +17,12 @@ class AuthState with _$AuthState {
   UserRWID get userRwid {
     User? user = statusLoginGoogle?.data?.user;
     return UserRWID(
-        id: user?.id ?? '',
         userId: user?.id ?? '',
         name: user?.userMetadata?['name'] ?? '',
         email: user?.userMetadata?['email'] ?? '',
-        photo: user?.userMetadata?['avatar_url'] ?? '');
+      photo: user?.userMetadata?['avatar_url'] ?? '',
+      address: '',
+      phone: '',
+    );
   }
 }

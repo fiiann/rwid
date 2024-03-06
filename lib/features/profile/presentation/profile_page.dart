@@ -13,31 +13,37 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box(authBoxName);
-    final UserRWID user = box.get('user');
-    final listProfile = [
-      ('Name', user.name, Icons.person, null),
-      ('Email', user.email, Icons.mail, null)
-    ];
-
-    final listSetting = [
-      ('Theme Mode', 'White Theme', Icons.dark_mode_outlined, () {}),
-      ('Language', 'English', Icons.language, () {})
-    ];
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          buildSliverAppBar(),
-          buildPhoto(user),
-          buildInfoProfile(listProfile, context),
-          buildInfoSetting(listSetting, context),
-        ],
+      body: ValueListenableBuilder(
+        valueListenable: Hive.box(authBoxName).listenable(),
+        builder: (context, box, widget) {
+          final UserRWID user = box.get('user');
+          final listProfile = [
+            ('Name', user.name, Icons.person, null),
+            ('Email', user.email, Icons.mail, null),
+            ('Phone', user.phone, Icons.phone, null),
+            ('Address', user.address, Icons.location_on, null),
+          ];
+
+          final listSetting = [
+            ('Theme Mode', 'White Theme', Icons.dark_mode_outlined, () {}),
+            ('Language', 'English', Icons.language, () {})
+          ];
+          return CustomScrollView(
+            slivers: [
+              buildSliverAppBar(),
+              buildPhoto(user),
+              buildInfoProfile(listProfile, context),
+              buildInfoSetting(listSetting, context),
+            ],
+          );
+        },
       ),
     );
   }
 
-  SliverToBoxAdapter buildInfoProfile(
-      List<ProfileModel> list, BuildContext context) {
+  SliverToBoxAdapter buildInfoProfile(List<ProfileTuple> list,
+      BuildContext context) {
     return SliverToBoxAdapter(
       child: CustomCupertinoSection(
         title: 'Personal Information',
@@ -50,8 +56,8 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  SliverToBoxAdapter buildInfoSetting(
-      List<ProfileModel> list, BuildContext context) {
+  SliverToBoxAdapter buildInfoSetting(List<ProfileTuple> list,
+      BuildContext context) {
     return SliverToBoxAdapter(
       child: CustomCupertinoSection(
         title: 'Setting',

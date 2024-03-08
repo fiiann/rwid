@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'bookmark_model.freezed.dart';
 part 'bookmark_model.g.dart';
 
-Map<String, dynamic> parseBookmarkModelToMap(BookmarkModel model) {
+Map<String, dynamic> parseBookmarkModelToJson(BookmarkModel model) {
   return model.toJson();
 }
 
@@ -17,6 +17,4 @@ class BookmarkModel with _$BookmarkModel {
 
   factory BookmarkModel.fromJson(Map<String, dynamic> json) =>
       _$BookmarkModelFromJson(json);
-  factory BookmarkModel.fromMap(Map<String, dynamic> map) =>
-      _$BookmarkModelFromJson(map);
 }

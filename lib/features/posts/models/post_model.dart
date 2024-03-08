@@ -8,14 +8,14 @@ import 'package:rwid/features/tag/model/tag_model.dart';
 part 'post_model.freezed.dart';
 part 'post_model.g.dart';
 
-List<PostModel> parsePostListFromMap(List<Map<String, dynamic>> mapData) {
+List<PostModel> parsePostListFromJson(List<Map<String, dynamic>> mapData) {
   return mapData.map((map) {
-    final post = PostModel.fromMap(map);
+    final post = PostModel.fromJson(map);
     return post.copyWith(isBookmark: map['bookmarks'].isNotEmpty);
   }).toList();
 }
 
-Map<String, dynamic> parsePostModelToMap(PostModel model) {
+Map<String, dynamic> parsePostModelToJson(PostModel model) {
   return model.toJson();
 }
 
@@ -38,8 +38,6 @@ class PostModel with _$PostModel {
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);
-  factory PostModel.fromMap(Map<String, dynamic> map) =>
-      _$PostModelFromJson(map);
 
   factory PostModel.fromForm(GlobalKey<FormBuilderState> formKey) {
     final title = formKey.currentState?.fields['title']!.value as String;

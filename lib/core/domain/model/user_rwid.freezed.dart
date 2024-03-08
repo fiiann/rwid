@@ -32,10 +32,8 @@ mixin _$UserRWID {
   @JsonKey(name: 'user_id')
   @HiveField(4)
   String? get userId => throw _privateConstructorUsedError;
-
   @HiveField(5)
   String? get address => throw _privateConstructorUsedError;
-
   @HiveField(6)
   String? get phone => throw _privateConstructorUsedError;
 
@@ -50,8 +48,10 @@ abstract class $UserRWIDCopyWith<$Res> {
   factory $UserRWIDCopyWith(UserRWID value, $Res Function(UserRWID) then) =
       _$UserRWIDCopyWithImpl<$Res, UserRWID>;
   @useResult
-  $Res call({@JsonKey(includeToJson: false, includeFromJson: false) @HiveField(
-      0) dynamic id,
+  $Res call(
+      {@JsonKey(includeToJson: false, includeFromJson: false)
+      @HiveField(0)
+      dynamic id,
       @HiveField(1) String name,
       @HiveField(2) String email,
       @HiveField(3) String photo,
@@ -122,8 +122,10 @@ abstract class _$$UserRWIDImplCopyWith<$Res>
       __$$UserRWIDImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(includeToJson: false, includeFromJson: false) @HiveField(
-      0) dynamic id,
+  $Res call(
+      {@JsonKey(includeToJson: false, includeFromJson: false)
+      @HiveField(0)
+      dynamic id,
       @HiveField(1) String name,
       @HiveField(2) String email,
       @HiveField(3) String photo,
@@ -303,11 +305,9 @@ abstract class _UserRWID implements UserRWID {
   @JsonKey(name: 'user_id')
   @HiveField(4)
   String? get userId;
-
   @override
   @HiveField(5)
   String? get address;
-
   @override
   @HiveField(6)
   String? get phone;

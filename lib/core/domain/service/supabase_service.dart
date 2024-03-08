@@ -124,7 +124,7 @@ class SupabaseService {
             .order('created_at', ascending: false);
       }
       // logger.log(data.toString());
-      return BaseResponse.ok(parsePostListFromMap(data));
+      return BaseResponse.ok(parsePostListFromJson(data));
     } catch (e) {
       if (kDebugMode) {
         print('error get posts : ${e.toString()}');
@@ -156,7 +156,7 @@ class SupabaseService {
             .order('created_at', ascending: false);
       }
       logger.log(data.toString());
-      return BaseResponse.ok(parsePostListFromMap(data));
+      return BaseResponse.ok(parsePostListFromJson(data));
     } catch (e) {
       if (kDebugMode) {
         print('error get bookmark : ${e.toString()}');
@@ -197,7 +197,7 @@ class SupabaseService {
       if (data.isEmpty) {
         return BaseResponse.error(message: 'ID $id not found');
       } else {
-        return BaseResponse.ok(PostModel.fromMap(data[0]));
+        return BaseResponse.ok(PostModel.fromJson(data[0]));
       }
     } catch (e) {
       if (kDebugMode) {
@@ -217,7 +217,7 @@ class SupabaseService {
 
   Future<BaseResponse<void>> toogleBookmark(int idPost) async {
     try {
-      final idUser = _getUser(_box);
+      final idUser = _client.auth.currentUser?.id ?? '';
       final data = await _client
           .from('bookmarks')
           .select('id')
@@ -228,10 +228,10 @@ class SupabaseService {
         final bookmark = BookmarkModel(userId: idUser, postId: idPost);
         await _client
             .from('bookmarks')
-            .insert(parseBookmarkModelToMap(bookmark));
+            .insert(parseBookmarkModelToJson(bookmark));
         return BaseResponse.ok(null);
       } else {
-        final bookmark = BookmarkModel.fromMap(data[0]);
+        final bookmark = BookmarkModel.fromJson(data[0]);
         //REMOVE BOOKMARK
         await _client
             .from('bookmarks')

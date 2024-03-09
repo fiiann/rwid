@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DetailPostState {
-  BaseResponse<PostModel?>? get state => throw _privateConstructorUsedError;
+  BaseResponse<(PostModel?, bool)>? get state =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DetailPostStateCopyWith<DetailPostState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $DetailPostStateCopyWith<$Res> {
           DetailPostState value, $Res Function(DetailPostState) then) =
       _$DetailPostStateCopyWithImpl<$Res, DetailPostState>;
   @useResult
-  $Res call({BaseResponse<PostModel?>? state});
+  $Res call({BaseResponse<(PostModel?, bool)>? state});
 }
 
 /// @nodoc
@@ -51,7 +52,7 @@ class _$DetailPostStateCopyWithImpl<$Res, $Val extends DetailPostState>
       state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as BaseResponse<PostModel?>?,
+              as BaseResponse<(PostModel?, bool)>?,
     ) as $Val);
   }
 }
@@ -64,7 +65,7 @@ abstract class _$$DetailPostStateImplCopyWith<$Res>
       __$$DetailPostStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({BaseResponse<PostModel?>? state});
+  $Res call({BaseResponse<(PostModel?, bool)>? state});
 }
 
 /// @nodoc
@@ -84,7 +85,7 @@ class __$$DetailPostStateImplCopyWithImpl<$Res>
       state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as BaseResponse<PostModel?>?,
+              as BaseResponse<(PostModel?, bool)>?,
     ));
   }
 }
@@ -95,7 +96,7 @@ class _$DetailPostStateImpl implements _DetailPostState {
   const _$DetailPostStateImpl({this.state});
 
   @override
-  final BaseResponse<PostModel?>? state;
+  final BaseResponse<(PostModel?, bool)>? state;
 
   @override
   String toString() {
@@ -122,11 +123,11 @@ class _$DetailPostStateImpl implements _DetailPostState {
 }
 
 abstract class _DetailPostState implements DetailPostState {
-  const factory _DetailPostState({final BaseResponse<PostModel?>? state}) =
-      _$DetailPostStateImpl;
+  const factory _DetailPostState(
+      {final BaseResponse<(PostModel?, bool)>? state}) = _$DetailPostStateImpl;
 
   @override
-  BaseResponse<PostModel?>? get state;
+  BaseResponse<(PostModel?, bool)>? get state;
   @override
   @JsonKey(ignore: true)
   _$$DetailPostStateImplCopyWith<_$DetailPostStateImpl> get copyWith =>

@@ -382,7 +382,6 @@ abstract class _PostModel extends PostModel {
   @JsonKey(includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
   @JsonKey(includeFromJson: false, includeToJson: false)
   int get count;
-
   @override
   bool get isBookmark;
   @override

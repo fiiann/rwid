@@ -36,8 +36,7 @@ class PostModel with _$PostModel {
       @Default(0)
       @JsonKey(includeFromJson: false, includeToJson: false)
       int count,
-      @Default(false)
-      bool isBookmark}) = _PostModel;
+      @Default(false) bool isBookmark}) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);

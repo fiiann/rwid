@@ -70,6 +70,7 @@ class _BookmardkListState extends State<BookmardkList> {
                       return PostCard(
                         post: state.listPosts[index],
                         page: PageEnum.bookmark,
+                        index: index,
                       );
                     }
                   });

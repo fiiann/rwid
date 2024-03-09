@@ -126,20 +126,29 @@ class SupabaseService {
       }
       // logger.log(data.toString());
       final listPost = parsePostListFromJson(data);
-      for (PostModel post in listPost) {
-        final viewPost = await _client
-            .from('post_views')
-            .select()
-            .eq('post_id', post.id ?? 0)
-            .count();
-      }
-      return BaseResponse.ok(parsePostListFromJson(data));
+      //FOR COUNT VIEW POST
+      final newList = await countView(listPost);
+      return BaseResponse.ok(newList);
     } catch (e) {
       if (kDebugMode) {
         print('error get posts : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
     }
+  }
+
+  Future<List<PostModel>> countView(List<PostModel> response) async {
+    List<PostModel> newList = [];
+    for (PostModel post in response) {
+      final viewPost = await _client
+          .from('post_views')
+          .select()
+          .eq('post_id', post.id ?? 0)
+          .count();
+      final count = viewPost.count;
+      newList.add(post.copyWith(count: count));
+    }
+    return newList;
   }
 
   ///BOOKMARK
@@ -164,8 +173,11 @@ class SupabaseService {
             .range(startIndex, startIndex + limitPage)
             .order('created_at', ascending: false);
       }
-      logger.log(data.toString());
-      return BaseResponse.ok(parsePostListFromJson(data));
+      // logger.log(data.toString());
+      final listPost = parsePostListFromJson(data);
+      //FOR COUNT VIEW POST
+      final newList = await countView(listPost);
+      return BaseResponse.ok(newList);
     } catch (e) {
       if (kDebugMode) {
         print('error get bookmark : ${e.toString()}');
@@ -200,19 +212,44 @@ class SupabaseService {
   }
 
   //DETAIL POST
-  Future<BaseResponse<PostModel?>> getDetailPost(int id) async {
+  Future<BaseResponse<(PostModel?, bool)>> getDetailPost(int id) async {
     try {
       final data = await _client.from('posts').select().eq('id', id);
       if (data.isEmpty) {
         return BaseResponse.error(message: 'ID $id not found');
       } else {
-        return BaseResponse.ok(PostModel.fromJson(data[0]));
+        final isCounted = await upsertViewCount(id);
+        return BaseResponse.ok((PostModel.fromJson(data[0]), isCounted));
       }
     } catch (e) {
       if (kDebugMode) {
         print('error get detail post : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
+    }
+  }
+
+  Future<bool> upsertViewCount(int postId) async {
+    try {
+      final idUser = _client.auth.currentUser?.id ?? '';
+      final checkIsView = await _client
+          .from('post_views')
+          .select()
+          .eq('user_id', idUser)
+          .eq('post_id', postId);
+
+      if (checkIsView.isEmpty) {
+        await _client
+            .from('post_views')
+            .insert({'user_id': idUser, 'post_id': postId});
+        return true;
+      }
+      return false;
+    } catch (e) {
+      if (kDebugMode) {
+        print('error insert count view post : ${e.toString()}');
+      }
+      return false;
     }
   }
 

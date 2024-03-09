@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/enum/enum.dart';
-import 'package:rwid/core/widget/error_widget.dart';
-import 'package:rwid/core/widget/no_data_widget.dart';
 import 'package:rwid/features/bookmarks/bloc/list_bookmark_bloc.dart';
 import 'package:rwid/features/posts/list_posts/presentation/components/post_card.dart';
 import 'package:rwid/features/posts/list_posts/presentation/components/post_loading_card.dart';
@@ -47,37 +44,28 @@ class _BookmardkListState extends State<BookmardkList> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: BlocBuilder<ListBookmarkBloc, ListBookmarkState>(
-        builder: (context, state) {
-          switch (state.stateList.state) {
-            case ResponseState.error:
-              return const ErrorListWidget(errorMessage: 'Error');
-            case ResponseState.ok:
-              if (state.listPosts.isEmpty) {
-                return const NoDataListWidget();
+    return BlocBuilder<ListBookmarkBloc, ListBookmarkState>(
+      buildWhen: (previous, current) =>
+          previous.stateList.data != current.stateList.data,
+      builder: (context, state) {
+        return ListView.builder(
+            controller: _scrollController,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            itemCount: state.hasReachMax
+                ? state.listPosts.length
+                : state.listPosts.length + 1,
+            itemBuilder: (context, index) {
+              if (index >= state.listPosts.length) {
+                return const PostLoadingCard();
+              } else {
+                return PostCard(
+                  post: state.listPosts[index],
+                  page: PageEnum.bookmark,
+                  index: index,
+                );
               }
-              return ListView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  itemCount: state.hasReachMax
-                      ? state.listPosts.length
-                      : state.listPosts.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index >= state.listPosts.length) {
-                      return const PostLoadingCard();
-                    } else {
-                      return PostCard(
-                        post: state.listPosts[index],
-                        page: PageEnum.bookmark,
-                      );
-                    }
-                  });
-            default:
-              return const PostLoadingList();
-          }
-        },
-      ),
+            });
+      },
     );
   }
 }

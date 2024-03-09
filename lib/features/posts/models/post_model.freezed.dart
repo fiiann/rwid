@@ -33,6 +33,8 @@ mixin _$PostModel {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   List<BookmarkModel>? get bookmarks => throw _privateConstructorUsedError;
   @JsonKey(includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int get count => throw _privateConstructorUsedError;
   bool get isBookmark => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -57,6 +59,8 @@ abstract class $PostModelCopyWith<$Res> {
       List<BookmarkModel>? bookmarks,
       @JsonKey(
           includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      int count,
       bool isBookmark});
 }
 
@@ -81,6 +85,7 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
     Object? userId = freezed,
     Object? createdAt = freezed,
     Object? bookmarks = freezed,
+    Object? count = null,
     Object? isBookmark = null,
   }) {
     return _then(_value.copyWith(
@@ -116,6 +121,10 @@ class _$PostModelCopyWithImpl<$Res, $Val extends PostModel>
           ? _value.bookmarks
           : bookmarks // ignore: cast_nullable_to_non_nullable
               as List<BookmarkModel>?,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
       isBookmark: null == isBookmark
           ? _value.isBookmark
           : isBookmark // ignore: cast_nullable_to_non_nullable
@@ -143,6 +152,8 @@ abstract class _$$PostModelImplCopyWith<$Res>
       List<BookmarkModel>? bookmarks,
       @JsonKey(
           includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      int count,
       bool isBookmark});
 }
 
@@ -165,6 +176,7 @@ class __$$PostModelImplCopyWithImpl<$Res>
     Object? userId = freezed,
     Object? createdAt = freezed,
     Object? bookmarks = freezed,
+    Object? count = null,
     Object? isBookmark = null,
   }) {
     return _then(_$PostModelImpl(
@@ -200,6 +212,10 @@ class __$$PostModelImplCopyWithImpl<$Res>
           ? _value._bookmarks
           : bookmarks // ignore: cast_nullable_to_non_nullable
               as List<BookmarkModel>?,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
       isBookmark: null == isBookmark
           ? _value.isBookmark
           : isBookmark // ignore: cast_nullable_to_non_nullable
@@ -222,6 +238,8 @@ class _$PostModelImpl extends _PostModel {
       final List<BookmarkModel>? bookmarks,
       @JsonKey(
           includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.count = 0,
       this.isBookmark = false})
       : _bookmarks = bookmarks,
         super._();
@@ -259,11 +277,15 @@ class _$PostModelImpl extends _PostModel {
 
   @override
   @JsonKey(includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final int count;
+  @override
+  @JsonKey()
   final bool isBookmark;
 
   @override
   String toString() {
-    return 'PostModel(id: $id, title: $title, content: $content, image: $image, tag: $tag, userId: $userId, createdAt: $createdAt, bookmarks: $bookmarks, isBookmark: $isBookmark)';
+    return 'PostModel(id: $id, title: $title, content: $content, image: $image, tag: $tag, userId: $userId, createdAt: $createdAt, bookmarks: $bookmarks, count: $count, isBookmark: $isBookmark)';
   }
 
   @override
@@ -281,6 +303,7 @@ class _$PostModelImpl extends _PostModel {
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality()
                 .equals(other._bookmarks, _bookmarks) &&
+            (identical(other.count, count) || other.count == count) &&
             (identical(other.isBookmark, isBookmark) ||
                 other.isBookmark == isBookmark));
   }
@@ -297,6 +320,7 @@ class _$PostModelImpl extends _PostModel {
       userId,
       createdAt,
       const DeepCollectionEquality().hash(_bookmarks),
+      count,
       isBookmark);
 
   @JsonKey(ignore: true)
@@ -326,6 +350,8 @@ abstract class _PostModel extends PostModel {
       final List<BookmarkModel>? bookmarks,
       @JsonKey(
           includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final int count,
       final bool isBookmark}) = _$PostModelImpl;
   const _PostModel._() : super._();
 
@@ -354,6 +380,9 @@ abstract class _PostModel extends PostModel {
   List<BookmarkModel>? get bookmarks;
   @override
   @JsonKey(includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  int get count;
+  @override
   bool get isBookmark;
   @override
   @JsonKey(ignore: true)

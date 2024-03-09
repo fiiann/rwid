@@ -7,6 +7,7 @@ import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
 import 'package:rwid/features/bookmarks/models/bookmark_model.dart';
+import 'package:rwid/features/posts/models/models.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 import 'package:rwid/features/tag/model/tag_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -124,13 +125,30 @@ class SupabaseService {
             .order('created_at', ascending: false);
       }
       // logger.log(data.toString());
-      return BaseResponse.ok(parsePostListFromMap(data));
+      final listPost = parsePostListFromJson(data);
+      //FOR COUNT VIEW POST
+      final newList = await countView(listPost);
+      return BaseResponse.ok(newList);
     } catch (e) {
       if (kDebugMode) {
         print('error get posts : ${e.toString()}');
       }
       return BaseResponse.error(message: e.toString());
     }
+  }
+
+  Future<List<PostModel>> countView(List<PostModel> response) async {
+    List<PostModel> newList = [];
+    for (PostModel post in response) {
+      final viewPost = await _client
+          .from('post_views')
+          .select()
+          .eq('post_id', post.id ?? 0)
+          .count();
+      final count = viewPost.count;
+      newList.add(post.copyWith(count: count));
+    }
+    return newList;
   }
 
   ///BOOKMARK
@@ -155,8 +173,11 @@ class SupabaseService {
             .range(startIndex, startIndex + limitPage)
             .order('created_at', ascending: false);
       }
-      logger.log(data.toString());
-      return BaseResponse.ok(parsePostListFromMap(data));
+      // logger.log(data.toString());
+      final listPost = parsePostListFromJson(data);
+      //FOR COUNT VIEW POST
+      final newList = await countView(listPost);
+      return BaseResponse.ok(newList);
     } catch (e) {
       if (kDebugMode) {
         print('error get bookmark : ${e.toString()}');
@@ -178,7 +199,7 @@ class SupabaseService {
 
       final String publicUrl =
           _client.storage.from('image_post').getPublicUrl(fileName);
-      final idUser = _getUser(_box);
+      final idUser = _client.auth.currentUser?.id ?? '';
       postModel = postModel.copyWith(image: publicUrl, userId: idUser);
       await _client.from('posts').insert(postModel.toJson());
       return BaseResponse.ok(null);
@@ -191,13 +212,14 @@ class SupabaseService {
   }
 
   //DETAIL POST
-  Future<BaseResponse<PostModel?>> getDetailPost(int id) async {
+  Future<BaseResponse<(PostModel?, bool)>> getDetailPost(int id) async {
     try {
       final data = await _client.from('posts').select().eq('id', id);
       if (data.isEmpty) {
         return BaseResponse.error(message: 'ID $id not found');
       } else {
-        return BaseResponse.ok(PostModel.fromMap(data[0]));
+        final isCounted = await upsertViewCount(id);
+        return BaseResponse.ok((PostModel.fromJson(data[0]), isCounted));
       }
     } catch (e) {
       if (kDebugMode) {
@@ -207,17 +229,41 @@ class SupabaseService {
     }
   }
 
+  Future<bool> upsertViewCount(int postId) async {
+    try {
+      final idUser = _client.auth.currentUser?.id ?? '';
+      final checkIsView = await _client
+          .from('post_views')
+          .select()
+          .eq('user_id', idUser)
+          .eq('post_id', postId);
+
+      if (checkIsView.isEmpty) {
+        await _client
+            .from('post_views')
+            .insert({'user_id': idUser, 'post_id': postId});
+        return true;
+      }
+      return false;
+    } catch (e) {
+      if (kDebugMode) {
+        print('error insert count view post : ${e.toString()}');
+      }
+      return false;
+    }
+  }
+
   //USING THIS FUNCTION RATHER THAN GET ID FROM GET FROM DIRECT SUPABASE,
   // THIS IS SHOULD BE DONE WITH RLS, BUT I DON'T KNOW TO DO WITH THAT :)
-  String _getUser(Box<dynamic> box) {
-    final user = _box.get('user');
-    final idUser = user.id;
-    return idUser;
-  }
+  // String _getUser(Box<dynamic> box) {
+  //   final user = _box.get('user');
+  //   final idUser = user.id;
+  //   return idUser;
+  // }
 
   Future<BaseResponse<void>> toogleBookmark(int idPost) async {
     try {
-      final idUser = _getUser(_box);
+      final idUser = _client.auth.currentUser?.id ?? '';
       final data = await _client
           .from('bookmarks')
           .select('id')
@@ -228,10 +274,10 @@ class SupabaseService {
         final bookmark = BookmarkModel(userId: idUser, postId: idPost);
         await _client
             .from('bookmarks')
-            .insert(parseBookmarkModelToMap(bookmark));
+            .insert(parseBookmarkModelToJson(bookmark));
         return BaseResponse.ok(null);
       } else {
-        final bookmark = BookmarkModel.fromMap(data[0]);
+        final bookmark = BookmarkModel.fromJson(data[0]);
         //REMOVE BOOKMARK
         await _client
             .from('bookmarks')

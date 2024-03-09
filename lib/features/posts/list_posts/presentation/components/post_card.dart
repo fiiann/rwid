@@ -11,15 +11,34 @@ import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key, required this.post, required this.page});
+  const PostCard(
+      {super.key, required this.post, required this.page, required this.index});
   final PostModel post;
   final PageEnum page;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.push(PostDetailPage.routeName, extra: post.id);
+      onTap: () async {
+        final detail =
+            await context.push(PostDetailPage.routeName, extra: post.id);
+        if (detail != null && detail is bool) {
+          if (detail) {
+            if (context.mounted) {
+              //TODO IN FUTURE NO CALL API, JUST UPDATE LOCAL STATE
+              // print(detail);
+              // var posts = context.read<ListPostBloc>().state.listPosts;
+              // var post = posts[index].copyWith(count: posts[index].count + 1);
+              // posts[index] = post;
+              // var newPost = [...posts];
+              context
+                  .read<ListPostBloc>()
+                  .add(const PostFetched(isRefresh: true));
+              // context.read<ListPostBloc>().state.stateList.data = newPost;
+            }
+          }
+        }
       },
       child: Card(
         child: Padding(
@@ -36,7 +55,7 @@ class PostCard extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              _footerCard(),
+              _footerCard(post.count),
             ],
           ),
         ),
@@ -86,7 +105,7 @@ class PostCard extends StatelessWidget {
     );
   }
 
-  Widget _footerCard() {
+  Widget _footerCard(int countView) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -94,7 +113,12 @@ class PostCard extends StatelessWidget {
           post.formatCreatedAt,
           style: CustomTextStyle.lightTypographyCaption,
         ),
-        bookmarkWidget(page)
+        Row(
+          children: [
+            CustomText('$countView'),
+            bookmarkWidget(page),
+          ],
+        )
       ],
     );
   }

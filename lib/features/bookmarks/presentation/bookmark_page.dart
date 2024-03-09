@@ -5,9 +5,12 @@ import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/extention/string_ext.dart';
 import 'package:rwid/core/widget/custom_text_field.dart';
+import 'package:rwid/core/widget/error_widget.dart';
+import 'package:rwid/core/widget/no_data_widget.dart';
 import 'package:rwid/features/bookmarks/bloc/list_bookmark_bloc.dart';
 import 'package:rwid/features/bookmarks/presentation/components/bookmark_list.dart';
 import 'package:rwid/features/posts/list_posts/bloc/list_post_bloc.dart';
+import 'package:rwid/features/posts/list_posts/presentation/components/post_loading_card.dart';
 
 class BookmarkPage extends StatefulWidget {
   static const String route = '/list_bookmark_page';
@@ -56,7 +59,25 @@ class _BookmarkPageState extends State<BookmarkPage> {
             child: Column(
               children: [
                 _searchForm(context),
-                const BookmardkList(),
+                Expanded(
+                  child: BlocBuilder<ListBookmarkBloc, ListBookmarkState>(
+                    buildWhen: (previous, current) =>
+                        previous.stateList.state != current.stateList.state,
+                    builder: (context, state) {
+                      switch (state.stateList.state) {
+                        case ResponseState.error:
+                          return const ErrorListWidget(errorMessage: 'Error');
+                        case ResponseState.ok:
+                          if (state.listPosts.isEmpty) {
+                            return const NoDataListWidget();
+                          }
+                          return const BookmardkList();
+                        default:
+                          return const PostLoadingList();
+                      }
+                    },
+                  ),
+                ),
               ],
             ),
           ),

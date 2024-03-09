@@ -7,6 +7,7 @@ import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
 import 'package:rwid/features/bookmarks/models/bookmark_model.dart';
+import 'package:rwid/features/posts/models/models.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 import 'package:rwid/features/tag/model/tag_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -124,6 +125,14 @@ class SupabaseService {
             .order('created_at', ascending: false);
       }
       // logger.log(data.toString());
+      final listPost = parsePostListFromJson(data);
+      for (PostModel post in listPost) {
+        final viewPost = await _client
+            .from('post_views')
+            .select()
+            .eq('post_id', post.id ?? 0)
+            .count();
+      }
       return BaseResponse.ok(parsePostListFromJson(data));
     } catch (e) {
       if (kDebugMode) {
@@ -178,7 +187,7 @@ class SupabaseService {
 
       final String publicUrl =
           _client.storage.from('image_post').getPublicUrl(fileName);
-      final idUser = _getUser(_box);
+      final idUser = _client.auth.currentUser?.id ?? '';
       postModel = postModel.copyWith(image: publicUrl, userId: idUser);
       await _client.from('posts').insert(postModel.toJson());
       return BaseResponse.ok(null);
@@ -209,11 +218,11 @@ class SupabaseService {
 
   //USING THIS FUNCTION RATHER THAN GET ID FROM GET FROM DIRECT SUPABASE,
   // THIS IS SHOULD BE DONE WITH RLS, BUT I DON'T KNOW TO DO WITH THAT :)
-  String _getUser(Box<dynamic> box) {
-    final user = _box.get('user');
-    final idUser = user.id;
-    return idUser;
-  }
+  // String _getUser(Box<dynamic> box) {
+  //   final user = _box.get('user');
+  //   final idUser = user.id;
+  //   return idUser;
+  // }
 
   Future<BaseResponse<void>> toogleBookmark(int idPost) async {
     try {

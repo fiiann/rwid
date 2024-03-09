@@ -33,6 +33,9 @@ class PostModel with _$PostModel {
       List<BookmarkModel>? bookmarks,
       @JsonKey(
           includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
+      @Default(0)
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      int count,
       @Default(false)
       bool isBookmark}) = _PostModel;
 

@@ -20,7 +20,8 @@ _$PostModelImpl _$$PostModelImplFromJson(Map<String, dynamic> json) =>
       bookmarks: (json['bookmarks'] as List<dynamic>?)
           ?.map((e) => BookmarkModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      isBookmark: json['is_bookmarked'] as bool? ?? false,
+      count: json['is_bookmarked'] as int? ?? 0,
+      isBookmark: json['is_bookmark'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$PostModelImplToJson(_$PostModelImpl instance) {
@@ -39,5 +40,6 @@ Map<String, dynamic> _$$PostModelImplToJson(_$PostModelImpl instance) {
   val['tag_id'] = instance.tag;
   val['user_id'] = instance.userId;
   val['bookmarks'] = instance.bookmarks?.map((e) => e.toJson()).toList();
+  val['is_bookmark'] = instance.isBookmark;
   return val;
 }

@@ -40,17 +40,7 @@ class _PostsPageState extends State<PostsPage> {
     final user = box.get('user');
     return Scaffold(
       appBar: _buildAppBar(user, context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final addSuccess = await context.push(AddPostPage.routeName);
-          if (addSuccess != null) {
-            if (context.mounted) {
-              context.read<ListPostBloc>().add(const PostFetched());
-            }
-          }
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: _buildFloatingActionButton(context),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       body: RefreshIndicator(
         onRefresh: () async {
@@ -99,6 +89,20 @@ class _PostsPageState extends State<PostsPage> {
           ),
         ),
       ),
+    );
+  }
+
+  FloatingActionButton _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () async {
+        final addSuccess = await context.push(AddPostPage.routeName);
+        if (addSuccess != null) {
+          if (context.mounted) {
+            context.read<ListPostBloc>().add(const PostFetched());
+          }
+        }
+      },
+      child: const Icon(Icons.add),
     );
   }
 

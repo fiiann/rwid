@@ -4,6 +4,12 @@ sealed class ListPostEvent extends Equatable {
   const ListPostEvent();
 }
 
+final class TopicFetched extends ListPostEvent {
+  const TopicFetched();
+  @override
+  List<Object?> get props => [];
+}
+
 final class PostFetched extends ListPostEvent {
   final String? keyword;
   final bool isRefresh;

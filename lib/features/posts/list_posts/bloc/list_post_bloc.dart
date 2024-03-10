@@ -5,7 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/service/supabase_service.dart';
+import 'package:rwid/features/auth/model/user_tag_model.dart';
 import 'package:rwid/features/posts/models/models.dart';
+import 'package:rwid/features/tag/model/tag_model.dart';
 
 import '../../../../core/extention/throttle.dart';
 
@@ -23,6 +25,7 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
     );
     on<ToggleBookmarkPostChanged>(_onToogleBookmarkChanged);
     on<KeywordChanged>(_onKeywordChanged);
+    on<TopicFetched>(_onTopicFetched);
   }
   final SupabaseService _client;
   FutureOr<void> _onPostFetched(
@@ -81,5 +84,12 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
   FutureOr<void> _onKeywordChanged(
       KeywordChanged event, Emitter<ListPostState> emit) {
     emit(state.copyWith(keyword: event.keyword));
+  }
+
+  FutureOr<void> _onTopicFetched(
+      TopicFetched event, Emitter<ListPostState> emit) async {
+    emit(state.copyWith(stateTag: BaseResponse.loading()));
+    final responseTag = await _client.getUserTag();
+    emit(state.copyWith(stateTag: responseTag));
   }
 }

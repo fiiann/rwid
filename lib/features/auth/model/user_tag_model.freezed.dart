@@ -23,6 +23,8 @@ mixin _$UserTag {
   int get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'tag_id')
   int get tagId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tag')
+  TagModel? get tagModel => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +36,12 @@ abstract class $UserTagCopyWith<$Res> {
   factory $UserTagCopyWith(UserTag value, $Res Function(UserTag) then) =
       _$UserTagCopyWithImpl<$Res, UserTag>;
   @useResult
-  $Res call({int id, @JsonKey(name: 'tag_id') int tagId});
+  $Res call(
+      {int id,
+      @JsonKey(name: 'tag_id') int tagId,
+      @JsonKey(name: 'tag') TagModel? tagModel});
+
+  $TagModelCopyWith<$Res>? get tagModel;
 }
 
 /// @nodoc
@@ -52,6 +59,7 @@ class _$UserTagCopyWithImpl<$Res, $Val extends UserTag>
   $Res call({
     Object? id = null,
     Object? tagId = null,
+    Object? tagModel = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -62,7 +70,23 @@ class _$UserTagCopyWithImpl<$Res, $Val extends UserTag>
           ? _value.tagId
           : tagId // ignore: cast_nullable_to_non_nullable
               as int,
+      tagModel: freezed == tagModel
+          ? _value.tagModel
+          : tagModel // ignore: cast_nullable_to_non_nullable
+              as TagModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TagModelCopyWith<$Res>? get tagModel {
+    if (_value.tagModel == null) {
+      return null;
+    }
+
+    return $TagModelCopyWith<$Res>(_value.tagModel!, (value) {
+      return _then(_value.copyWith(tagModel: value) as $Val);
+    });
   }
 }
 
@@ -73,7 +97,13 @@ abstract class _$$UserTagImplCopyWith<$Res> implements $UserTagCopyWith<$Res> {
       __$$UserTagImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, @JsonKey(name: 'tag_id') int tagId});
+  $Res call(
+      {int id,
+      @JsonKey(name: 'tag_id') int tagId,
+      @JsonKey(name: 'tag') TagModel? tagModel});
+
+  @override
+  $TagModelCopyWith<$Res>? get tagModel;
 }
 
 /// @nodoc
@@ -89,6 +119,7 @@ class __$$UserTagImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? tagId = null,
+    Object? tagModel = freezed,
   }) {
     return _then(_$UserTagImpl(
       id: null == id
@@ -99,6 +130,10 @@ class __$$UserTagImplCopyWithImpl<$Res>
           ? _value.tagId
           : tagId // ignore: cast_nullable_to_non_nullable
               as int,
+      tagModel: freezed == tagModel
+          ? _value.tagModel
+          : tagModel // ignore: cast_nullable_to_non_nullable
+              as TagModel?,
     ));
   }
 }
@@ -107,7 +142,9 @@ class __$$UserTagImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserTagImpl implements _UserTag {
   const _$UserTagImpl(
-      {required this.id, @JsonKey(name: 'tag_id') required this.tagId});
+      {required this.id,
+      @JsonKey(name: 'tag_id') required this.tagId,
+      @JsonKey(name: 'tag') this.tagModel});
 
   factory _$UserTagImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserTagImplFromJson(json);
@@ -117,10 +154,13 @@ class _$UserTagImpl implements _UserTag {
   @override
   @JsonKey(name: 'tag_id')
   final int tagId;
+  @override
+  @JsonKey(name: 'tag')
+  final TagModel? tagModel;
 
   @override
   String toString() {
-    return 'UserTag(id: $id, tagId: $tagId)';
+    return 'UserTag(id: $id, tagId: $tagId, tagModel: $tagModel)';
   }
 
   @override
@@ -129,12 +169,14 @@ class _$UserTagImpl implements _UserTag {
         (other.runtimeType == runtimeType &&
             other is _$UserTagImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.tagId, tagId) || other.tagId == tagId));
+            (identical(other.tagId, tagId) || other.tagId == tagId) &&
+            (identical(other.tagModel, tagModel) ||
+                other.tagModel == tagModel));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, tagId);
+  int get hashCode => Object.hash(runtimeType, id, tagId, tagModel);
 
   @JsonKey(ignore: true)
   @override
@@ -153,7 +195,8 @@ class _$UserTagImpl implements _UserTag {
 abstract class _UserTag implements UserTag {
   const factory _UserTag(
       {required final int id,
-      @JsonKey(name: 'tag_id') required final int tagId}) = _$UserTagImpl;
+      @JsonKey(name: 'tag_id') required final int tagId,
+      @JsonKey(name: 'tag') final TagModel? tagModel}) = _$UserTagImpl;
 
   factory _UserTag.fromJson(Map<String, dynamic> json) = _$UserTagImpl.fromJson;
 
@@ -162,6 +205,9 @@ abstract class _UserTag implements UserTag {
   @override
   @JsonKey(name: 'tag_id')
   int get tagId;
+  @override
+  @JsonKey(name: 'tag')
+  TagModel? get tagModel;
   @override
   @JsonKey(ignore: true)
   _$$UserTagImplCopyWith<_$UserTagImpl> get copyWith =>

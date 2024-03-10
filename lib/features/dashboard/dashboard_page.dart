@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rwid/core/constant/colors.dart';
+import 'package:rwid/features/dashboard/bloc/dashboard_bloc.dart';
 import 'package:rwid/features/dashboard/utils/dashboard_utils.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -40,9 +42,14 @@ class DashboardPageState extends State<DashboardPage> {
         showBackDialog(context);
       },
       child: Scaffold(
-        body: PageView(
-          controller: pageController,
-          children: pages.map((e) => e.$1).toList(),
+        /*body: PageView(
+      controller: pageController,
+      children: pages.map((e) => e.$1).toList(),
+              ),*/
+        body: BlocBuilder<DashboardBloc, DashboardState>(
+          builder: (context, state) {
+            return pages[state.indexPage].$1;
+          },
         ),
         bottomNavigationBar: buildBottomNavigationBar(pages),
       ),
@@ -50,24 +57,27 @@ class DashboardPageState extends State<DashboardPage> {
   }
 
   Widget buildBottomNavigationBar(List<(Widget, String, Icon, Icon)> pages) {
-    return AnimatedBuilder(
-        animation: pageController,
-        builder: (context, child) {
-          return NavigationBar(
-            backgroundColor: Colors.white,
-            elevation: 3,
-            destinations: pages
-                .map((e) => NavigationDestination(
-                      icon: e.$3,
-                      selectedIcon: e.$4,
-                      label: e.$2,
-                    ))
-                .toList(),
-            height: 60,
-            surfaceTintColor: CustomColors.lightPrimaryMain,
-            selectedIndex: pageController.page?.toInt() ?? 0,
-            onDestinationSelected: pageController.jumpToPage,
-          );
-        });
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) {
+        return NavigationBar(
+          backgroundColor: Colors.white,
+          elevation: 3,
+          destinations: pages
+              .map((e) => NavigationDestination(
+                    icon: e.$3,
+                    selectedIcon: e.$4,
+                    label: e.$2,
+                  ))
+              .toList(),
+          height: 60,
+          surfaceTintColor: CustomColors.lightPrimaryMain,
+          // selectedIndex: pageController.page?.toInt() ?? 0,
+          selectedIndex: state.indexPage,
+          // onDestinationSelected: pageController.jumpToPage,
+          onDestinationSelected: (page) =>
+              context.read<DashboardBloc>().add(SelectPage(page: page)),
+        );
+      },
+    );
   }
 }

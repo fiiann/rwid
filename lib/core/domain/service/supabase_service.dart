@@ -6,13 +6,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
+import 'package:rwid/features/auth/model/user_tag_model.dart';
 import 'package:rwid/features/bookmarks/models/bookmark_model.dart';
 import 'package:rwid/features/posts/models/models.dart';
 import 'package:rwid/features/posts/models/post_model.dart';
 import 'package:rwid/features/tag/model/tag_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-import '../../../features/auth/model/user_tag_model.dart';
 
 class SupabaseService {
   final SupabaseClient _client;
@@ -92,9 +91,10 @@ class SupabaseService {
     }
   }
 
-  Future<BaseResponse<List<UserTag>?>?> getUserTag() async {
+  Future<BaseResponse<List<UserTag>?>> getUserTag() async {
     try {
-      final data = await _client.from('user_tags').select();
+      final data = await _client.from('user_tags').select('*, tag!inner(*)');
+      print('log');
       logger.log(data.toString());
       return BaseResponse.ok(parseUserTagListFromMap(data));
     } catch (e) {

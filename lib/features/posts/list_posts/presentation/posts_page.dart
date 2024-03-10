@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/extention/string_ext.dart';
+import 'package:rwid/core/widget/custom_tab_bar.dart';
 import 'package:rwid/core/widget/custom_text_field.dart';
 import 'package:rwid/core/widget/error_widget.dart';
 import 'package:rwid/core/widget/no_data_widget.dart';
@@ -29,6 +30,7 @@ class _PostsPageState extends State<PostsPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<ListPostBloc>().add(const TopicFetched());
       context.read<ListPostBloc>().add(const PostFetched());
     });
     super.initState();
@@ -38,57 +40,78 @@ class _PostsPageState extends State<PostsPage> {
   Widget build(BuildContext context) {
     final box = Hive.box(authBoxName);
     final user = box.get('user');
-    return Scaffold(
-      appBar: _buildAppBar(user, context),
-      floatingActionButton: _buildFloatingActionButton(context),
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-      body: RefreshIndicator(
-        onRefresh: () async {
-          return context
-              .read<ListPostBloc>()
-              .add(const PostFetched(isRefresh: true));
-        },
-        child: BlocListener<ListPostBloc, ListPostState>(
-          listenWhen: (previous, current) =>
-              previous.stateBookmark.state != current.stateBookmark.state,
-          listener: (context, state) {
-            if (state.stateBookmark.state == ResponseState.error) {
-              'Error bookmark, try again'.failedBar(context);
-            } else if (state.stateBookmark.state == ResponseState.ok) {
-              context
-                  .read<ListBookmarkBloc>()
-                  .add(const BookmarkPostFetched(isRefresh: true));
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                _searchForm(context),
-                Expanded(
-                  child: BlocBuilder<ListPostBloc, ListPostState>(
-                    buildWhen: (previous, current) =>
-                        previous.stateList.state != current.stateList.state,
-                    builder: (context, state) {
-                      switch (state.stateList.state) {
-                        case ResponseState.error:
-                          return const ErrorListWidget(errorMessage: 'Error');
-                        case ResponseState.ok:
-                          if (state.listPosts.isEmpty) {
-                            return const NoDataListWidget();
-                          }
-                          return const PostList();
-                        default:
-                          return const PostLoadingList();
-                      }
-                    },
+    return BlocBuilder<ListPostBloc, ListPostState>(
+      buildWhen: (previous, current) =>
+          previous.stateTag.state != current.stateTag.state,
+      builder: (context, stateTag) {
+        return DefaultTabController(
+          length: stateTag.stateTag.data == null
+              ? 0
+              : stateTag.stateTag.data!.length,
+          child: Scaffold(
+            appBar: _buildAppBar(user, context),
+            floatingActionButton: _buildFloatingActionButton(context),
+            floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+            body: RefreshIndicator(
+              onRefresh: () async {
+                return context
+                    .read<ListPostBloc>()
+                    .add(const PostFetched(isRefresh: true));
+              },
+              child: BlocListener<ListPostBloc, ListPostState>(
+                listenWhen: (previous, current) =>
+                    previous.stateBookmark.state != current.stateBookmark.state,
+                listener: (context, state) {
+                  if (state.stateBookmark.state == ResponseState.error) {
+                    'Error bookmark, try again'.failedBar(context);
+                  } else if (state.stateBookmark.state == ResponseState.ok) {
+                    context
+                        .read<ListBookmarkBloc>()
+                        .add(const BookmarkPostFetched(isRefresh: true));
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      CustomTabBar(
+                        listTab: stateTag.stateTag.data == null
+                            ? []
+                            : stateTag.stateTag.data!
+                                .map((e) => e.tagModel?.name ?? '')
+                                .toList(),
+                      ),
+                      _searchForm(context),
+                      Expanded(
+                        child: BlocBuilder<ListPostBloc, ListPostState>(
+                          buildWhen: (previous, current) =>
+                              previous.stateList.state !=
+                              current.stateList.state,
+                          builder: (context, state) {
+                            switch (state.stateList.state) {
+                              case ResponseState.error:
+                                return const ErrorListWidget(
+                                    errorMessage: 'Error');
+                              case ResponseState.ok:
+                                if (state.listPosts.isEmpty) {
+                                  return const NoDataListWidget();
+                                }
+                                return const TabBarView(
+                                    children: [PostList(), PostList()]);
+                              default:
+                                return const PostLoadingList();
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

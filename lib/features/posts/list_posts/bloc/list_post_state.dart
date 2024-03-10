@@ -8,6 +8,7 @@ class ListPostState with _$ListPostState {
     @Default(false) bool hasReachMax,
     String? keyword,
     @Default(BaseResponse()) BaseResponse<void> stateBookmark,
+    @Default(BaseResponse()) BaseResponse<List<UserTag>?> stateTag,
   }) = _ListPostState;
 
   List<PostModel> get listPosts {

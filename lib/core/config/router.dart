@@ -12,6 +12,7 @@ import 'package:rwid/core/enum/enum.dart';
 import 'package:rwid/core/widget/no_page.dart';
 import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/bookmarks/bloc/list_bookmark_bloc.dart';
+import 'package:rwid/features/dashboard/bloc/dashboard_bloc.dart';
 import 'package:rwid/features/dashboard/dashboard_page.dart';
 import 'package:rwid/features/posts/add_post/bloc/add_post_cubit.dart';
 import 'package:rwid/features/posts/add_post/presentation/add_post_page.dart';
@@ -64,6 +65,9 @@ final GoRouter routerConfig = GoRouter(
           path: DashboardPage.routeName,
           builder: (context, state) => MultiBlocProvider(
                 providers: [
+                  BlocProvider<DashboardBloc>(
+                    create: (context) => DashboardBloc(),
+                  ),
                   BlocProvider<ListPostBloc>(
                       create: (context) =>
                           ListPostBloc(supabaseService: context.read())),

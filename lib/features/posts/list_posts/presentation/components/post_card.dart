@@ -21,26 +21,9 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        final detail =
-            await context.push(PostDetailPage.routeName, extra: post.id);
-        if (detail != null && detail is bool) {
-          if (detail) {
-            if (context.mounted) {
-              //TODO IN FUTURE NO CALL API, JUST UPDATE LOCAL STATE
-              // print(detail);
-              // var posts = context.read<ListPostBloc>().state.listPosts;
-              // var post = posts[index].copyWith(count: posts[index].count + 1);
-              // posts[index] = post;
-              // var newPost = [...posts];
-              context
-                  .read<ListPostBloc>()
-                  .add(const PostFetched(isRefresh: true));
-              // context.read<ListPostBloc>().state.stateList.data = newPost;
-            }
-          }
-        }
+        toDetail(context);
       },
-      child: Card(
+      child: Container(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -160,6 +143,24 @@ class PostCard extends StatelessWidget {
           );
         },
       );
+    }
+  }
+
+  void toDetail(BuildContext context) async {
+    final detail = await context.push(PostDetailPage.routeName, extra: post.id);
+    if (detail != null && detail is bool) {
+      if (detail) {
+        if (context.mounted) {
+          //TODO IN FUTURE NO CALL API, JUST UPDATE LOCAL STATE
+          // print(detail);
+          // var posts = context.read<ListPostBloc>().state.listPosts;
+          // var post = posts[index].copyWith(count: posts[index].count + 1);
+          // posts[index] = post;
+          // var newPost = [...posts];
+          context.read<ListPostBloc>().add(const PostFetched(isRefresh: true));
+          // context.read<ListPostBloc>().state.stateList.data = newPost;
+        }
+      }
     }
   }
 }

@@ -45,8 +45,8 @@ class _PostListState extends State<PostList> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ListPostBloc, ListPostState>(
-      buildWhen: (previous, current) =>
-          previous.stateList.data != current.stateList.data,
+      // buildWhen: (previous, current) =>
+      //     previous.hasReachMax != current.hasReachMax,
       builder: (context, state) {
         return ListView.builder(
             controller: _scrollController,

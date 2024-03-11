@@ -31,7 +31,6 @@ class _PostsPageState extends State<PostsPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<ListPostBloc>().add(const TopicFetched());
-      context.read<ListPostBloc>().add(const PostFetched());
     });
     super.initState();
   }
@@ -84,9 +83,9 @@ class _PostsPageState extends State<PostsPage> {
                       _searchForm(context),
                       Expanded(
                         child: BlocBuilder<ListPostBloc, ListPostState>(
-                          buildWhen: (previous, current) =>
-                              previous.stateList.state !=
-                              current.stateList.state,
+                          /* buildWhen: (previous, current) =>
+                              previous.stateListPost.state !=
+                              current.stateListPost.state,*/
                           builder: (context, state) {
                             switch (state.stateList.state) {
                               case ResponseState.error:
@@ -96,8 +95,13 @@ class _PostsPageState extends State<PostsPage> {
                                 if (state.listPosts.isEmpty) {
                                   return const NoDataListWidget();
                                 }
-                                return const TabBarView(
-                                    children: [PostList(), PostList()]);
+                                return TabBarView(
+                                    children: state.stateTag.data
+                                            ?.map((e) => PostList(
+                                                  tag: state.selectedTag!,
+                                                ))
+                                            .toList() ??
+                                        []);
                               default:
                                 return const PostLoadingList();
                             }

@@ -13,7 +13,8 @@ final class TopicFetched extends ListPostEvent {
 final class PostFetched extends ListPostEvent {
   final String? keyword;
   final bool isRefresh;
-  const PostFetched({this.keyword, this.isRefresh = false});
+  final UserTag? tag;
+  const PostFetched({this.tag, this.keyword, this.isRefresh = false});
   @override
   List<Object?> get props => [keyword, isRefresh];
 }

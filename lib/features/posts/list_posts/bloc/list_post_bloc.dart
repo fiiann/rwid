@@ -27,7 +27,7 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
     on<TopicFetched>(_onTopicFetched);
   }
   final SupabaseService _client;
-  FutureOr<void> _onPostFetched(
+  /*FutureOr<void> _onPostFetched(
       PostFetched event, Emitter<ListPostState> emit) async {
     if (event.isRefresh) {
       emit(const ListPostState());
@@ -48,6 +48,46 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
           hasReachMax: false,
           stateList: BaseResponse.ok(
               List.of(state.listPosts)..addAll(response2.data ?? []))));
+    }
+  }*/
+  FutureOr<void> _onPostFetched(
+      PostFetched event, Emitter<ListPostState> emit) async {
+    if (event.isRefresh) {
+      emit(const ListPostState());
+      emit(ListPostState(keyword: event.keyword));
+    }
+    if (state.hasReachMaxPost[event.tag?.tagModel?.name ?? ''] ?? true) return;
+    // if (state.stateList.state == ResponseState.initial) {
+    if (state.stateListPost[event.tag?.tagModel?.name ?? '']!.state ==
+        ResponseState.initial) {
+      final response = await _client.getPosts(
+          tagId: state.selectedTag?.tagModel?.id ?? 0, keyword: state.keyword);
+      // emit(state.copyWith(stateList: response, hasReachMax: false));
+      var oldMap = state.stateListPost;
+      oldMap[event.tag?.tagModel?.name ?? ''] = response;
+      emit(state.copyWith(
+          stateListPost: oldMap,
+          hasReachMax: state.hasReachMaxPost[event.tag?.tagModel?.name ?? ''] =
+              false));
+    }
+    final response2 = await _client.getPosts(
+        tagId: state.selectedTag?.tagModel?.id ?? 0,
+        keyword: state.keyword,
+        startIndex: state.listPosts.length);
+
+    if (response2.data!.isEmpty) {
+      return emit(state.copyWith(
+          hasReachMax: state.hasReachMaxPost[event.tag?.tagModel?.name ?? ''] =
+              true));
+      // return emit(state.copyWith(hasReachMax: true));
+    } else {
+      return emit(state.copyWith(
+          // hasReachMax: false,
+          hasReachMax: state.hasReachMaxPost[event.tag?.tagModel?.name ?? ''] =
+              false,
+          stateList: BaseResponse.ok(List.of(
+              state.stateListPost[event.tag?.tagModel?.name ?? '']?.data ?? [])
+            ..addAll(response2.data ?? []))));
     }
   }
 
@@ -91,14 +131,19 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
     final responseTag = await _client.getUserTag();
     emit(state.copyWith(stateTag: responseTag));
     if (responseTag.state == ResponseState.ok) {
-      if (responseTag.data != null && responseTag.data!.isNotEmpty) {}
-      // List<Map<String, Base>> statePost = [];
-      // List<Map<String, bool>> stateHasReachMax = [];
-      // for(UserTag tag in responseTag.data??[]){
-      //   statePost.add({tag.tagModel?.name??'': []});
-      //   stateHasReachMax.add({tag.tagModel?.name??'': false});
-      // }
-      // emit(state.copyWith(stateListPost: statePost));
+      if (responseTag.data != null && responseTag.data!.isNotEmpty) {
+        Map<String, BaseResponse<List<PostModel>>> statePost = {};
+        Map<String, bool> stateHasReachMax = {};
+        for (UserTag tag in responseTag.data ?? []) {
+          statePost[tag.tagModel?.name ?? ''] = BaseResponse.loading();
+          stateHasReachMax[tag.tagModel?.name ?? ''] = false;
+        }
+        emit(state.copyWith(
+          selectedTag: responseTag.data!.first,
+          stateListPost: statePost,
+          hasReachMaxPost: stateHasReachMax,
+        ));
+      }
     }
   }
 }

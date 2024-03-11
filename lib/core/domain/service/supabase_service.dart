@@ -92,11 +92,13 @@ class SupabaseService {
     }
   }
 
-  Future<BaseResponse<List<UserTag>?>?> getUserTag() async {
+  Future<BaseResponse<List<UserTag>?>> getUserTag() async {
     try {
-      final data = await _client.from('user_tags').select();
+      final data = await _client.from('user_tags').select('*, tag!inner(*)');
       logger.log(data.toString());
-      return BaseResponse.ok(parseUserTagListFromMap(data));
+      var newList = [UserTag.init()];
+      newList.addAll(parseUserTagListFromMap(data));
+      return BaseResponse.ok(newList);
     } catch (e) {
       if (kDebugMode) {
         print('error get user tag : ${e.toString()}');
@@ -107,24 +109,21 @@ class SupabaseService {
 
   ///POST
   Future<BaseResponse<List<PostModel>?>> getPosts(
-      {String? keyword, int startIndex = 0}) async {
+      {String? keyword, int startIndex = 0, int? tagId}) async {
     try {
-      late PostgrestList data;
+      if (tagId != null) print('ada tag id $tagId');
+      var query;
+      query = _client.from('posts').select('*, bookmarks!left(post_id)');
+      // .range(startIndex, startIndex + limitPage)
+      // .order('created_at', ascending: false);
       if (keyword != null && keyword.isNotEmpty) {
-        data = await _client
-            .from('posts')
-            .select('*, bookmarks!left(post_id)')
-            .ilike('title', '%$keyword%')
-            .range(startIndex, startIndex + limitPage)
-            .order('created_at', ascending: false);
-      } else {
-        data = await _client
-            .from('posts')
-            .select('*, bookmarks!left(post_id)')
-            .range(startIndex, startIndex + limitPage)
-            .order('created_at', ascending: false);
+        query = query.ilike('title', '%$keyword%');
       }
-      // logger.log(data.toString());
+      if (tagId != null && tagId != 0) query = query.eq('tag_id', tagId);
+      final data = await query
+          .range(startIndex, startIndex + limitPage)
+          .order('created_at', ascending: false);
+      // logger.log(query.toString());
       final listPost = parsePostListFromJson(data);
       //FOR COUNT VIEW POST
       final newList = await countView(listPost);

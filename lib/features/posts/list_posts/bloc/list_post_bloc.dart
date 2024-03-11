@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/service/supabase_service.dart';
+import 'package:rwid/features/auth/model/user_tag_model.dart';
 import 'package:rwid/features/posts/models/models.dart';
 
 import '../../../../core/extention/throttle.dart';
@@ -23,23 +24,30 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
     );
     on<ToggleBookmarkPostChanged>(_onToogleBookmarkChanged);
     on<KeywordChanged>(_onKeywordChanged);
+    on<TagChanged>(_onTagChanged);
+    on<TopicFetched>(_onTopicFetched);
   }
   final SupabaseService _client;
   FutureOr<void> _onPostFetched(
       PostFetched event, Emitter<ListPostState> emit) async {
     if (event.isRefresh) {
-      emit(const ListPostState());
-      emit(ListPostState(keyword: event.keyword));
+      emit(state.copyWith(
+          stateList: const BaseResponse(),
+          keyword: event.keyword,
+          hasReachMax: false));
     }
     if (state.hasReachMax) return;
     if (state.stateList.state == ResponseState.initial) {
-      final response = await _client.getPosts(keyword: state.keyword);
+      final response = await _client.getPosts(
+          keyword: state.keyword, tagId: state.selectedTag?.tagId);
       emit(state.copyWith(stateList: response, hasReachMax: false));
     }
     final response2 = await _client.getPosts(
-        keyword: state.keyword, startIndex: state.listPosts.length);
+        keyword: state.keyword,
+        startIndex: state.listPosts.length,
+        tagId: state.selectedTag?.tagId);
 
-    if (response2.data!.isEmpty) {
+    if (response2.data?.isEmpty ?? false) {
       return emit(state.copyWith(hasReachMax: true));
     } else {
       return emit(state.copyWith(
@@ -81,5 +89,22 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
   FutureOr<void> _onKeywordChanged(
       KeywordChanged event, Emitter<ListPostState> emit) {
     emit(state.copyWith(keyword: event.keyword));
+  }
+
+  FutureOr<void> _onTopicFetched(
+      TopicFetched event, Emitter<ListPostState> emit) async {
+    emit(state.copyWith(stateTag: BaseResponse.loading()));
+    final responseTag = await _client.getUserTag();
+    emit(state.copyWith(stateTag: responseTag));
+    if (responseTag.state == ResponseState.ok &&
+        responseTag.data != null &&
+        responseTag.data!.isNotEmpty) {
+      emit(state.copyWith(selectedTag: responseTag.data!.first));
+    }
+  }
+
+  FutureOr<void> _onTagChanged(TagChanged event, Emitter<ListPostState> emit) {
+    add(const PostFetched(isRefresh: true));
+    emit(state.copyWith(selectedTag: event.tag));
   }
 }

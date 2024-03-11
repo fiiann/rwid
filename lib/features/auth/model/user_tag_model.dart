@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rwid/features/tag/model/tag_model.dart';
 
 part 'user_tag_model.freezed.dart';
 part 'user_tag_model.g.dart';
@@ -12,8 +13,11 @@ class UserTag with _$UserTag {
   const factory UserTag({
     required int id,
     @JsonKey(name: 'tag_id') required int tagId,
+    @JsonKey(name: 'tag') TagModel? tagModel,
   }) = _UserTag;
 
+  factory UserTag.init() =>
+      const UserTag(id: 0, tagId: 0, tagModel: TagModel(id: 0, name: 'All'));
   factory UserTag.fromJson(Map<String, dynamic> json) =>
       _$UserTagFromJson(json);
   factory UserTag.fromMap(Map<String, dynamic> map) => _$UserTagFromJson(map);

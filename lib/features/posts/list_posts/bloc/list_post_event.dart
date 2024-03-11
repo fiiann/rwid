@@ -4,6 +4,12 @@ sealed class ListPostEvent extends Equatable {
   const ListPostEvent();
 }
 
+final class TopicFetched extends ListPostEvent {
+  const TopicFetched();
+  @override
+  List<Object?> get props => [];
+}
+
 final class PostFetched extends ListPostEvent {
   final String? keyword;
   final bool isRefresh;
@@ -26,4 +32,13 @@ final class KeywordChanged extends ListPostEvent {
 
   @override
   List<Object?> get props => [keyword];
+}
+
+final class TagChanged extends ListPostEvent {
+  final UserTag? tag;
+
+  const TagChanged(this.tag);
+
+  @override
+  List<Object?> get props => [tag];
 }

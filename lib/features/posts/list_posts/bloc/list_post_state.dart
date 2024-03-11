@@ -5,12 +5,13 @@ class ListPostState with _$ListPostState {
   const ListPostState._();
   const factory ListPostState({
     @Default(BaseResponse()) BaseResponse<List<PostModel>?> stateList,
-    @Default([]) List<Map<String, BaseResponse<List<PostModel>>>> stateListPost,
+    @Default({}) Map<String, BaseResponse<List<PostModel>>> stateListPost,
     @Default(false) bool hasReachMax,
-    @Default([]) List<Map<String, bool>> hasReachMaxPost,
+    @Default({}) Map<String, bool> hasReachMaxPost,
     String? keyword,
     @Default(BaseResponse()) BaseResponse<void> stateBookmark,
     @Default(BaseResponse()) BaseResponse<List<UserTag>?> stateTag,
+    UserTag? selectedTag,
   }) = _ListPostState;
 
   List<PostModel> get listPosts {

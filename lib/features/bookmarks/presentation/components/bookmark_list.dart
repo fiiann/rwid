@@ -45,8 +45,6 @@ class _BookmardkListState extends State<BookmardkList> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ListBookmarkBloc, ListBookmarkState>(
-      buildWhen: (previous, current) =>
-          previous.stateList.data != current.stateList.data,
       builder: (context, state) {
         return ListView.builder(
             controller: _scrollController,

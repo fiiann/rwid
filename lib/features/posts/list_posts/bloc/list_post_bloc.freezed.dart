@@ -18,7 +18,13 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ListPostState {
   BaseResponse<List<PostModel>?> get stateList =>
       throw _privateConstructorUsedError;
+
+  List<Map<String, BaseResponse<List<PostModel>>>> get stateListPost =>
+      throw _privateConstructorUsedError;
   bool get hasReachMax => throw _privateConstructorUsedError;
+
+  List<Map<String, bool>> get hasReachMaxPost =>
+      throw _privateConstructorUsedError;
   String? get keyword => throw _privateConstructorUsedError;
   BaseResponse<void> get stateBookmark => throw _privateConstructorUsedError;
   BaseResponse<List<UserTag>?> get stateTag =>
@@ -37,7 +43,9 @@ abstract class $ListPostStateCopyWith<$Res> {
   @useResult
   $Res call(
       {BaseResponse<List<PostModel>?> stateList,
+      List<Map<String, BaseResponse<List<PostModel>>>> stateListPost,
       bool hasReachMax,
+      List<Map<String, bool>> hasReachMaxPost,
       String? keyword,
       BaseResponse<void> stateBookmark,
       BaseResponse<List<UserTag>?> stateTag});
@@ -57,7 +65,9 @@ class _$ListPostStateCopyWithImpl<$Res, $Val extends ListPostState>
   @override
   $Res call({
     Object? stateList = null,
+    Object? stateListPost = null,
     Object? hasReachMax = null,
+    Object? hasReachMaxPost = null,
     Object? keyword = freezed,
     Object? stateBookmark = null,
     Object? stateTag = null,
@@ -67,10 +77,18 @@ class _$ListPostStateCopyWithImpl<$Res, $Val extends ListPostState>
           ? _value.stateList
           : stateList // ignore: cast_nullable_to_non_nullable
               as BaseResponse<List<PostModel>?>,
+      stateListPost: null == stateListPost
+          ? _value.stateListPost
+          : stateListPost // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, BaseResponse<List<PostModel>>>>,
       hasReachMax: null == hasReachMax
           ? _value.hasReachMax
           : hasReachMax // ignore: cast_nullable_to_non_nullable
               as bool,
+      hasReachMaxPost: null == hasReachMaxPost
+          ? _value.hasReachMaxPost
+          : hasReachMaxPost // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, bool>>,
       keyword: freezed == keyword
           ? _value.keyword
           : keyword // ignore: cast_nullable_to_non_nullable
@@ -97,7 +115,9 @@ abstract class _$$ListPostStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {BaseResponse<List<PostModel>?> stateList,
+      List<Map<String, BaseResponse<List<PostModel>>>> stateListPost,
       bool hasReachMax,
+      List<Map<String, bool>> hasReachMaxPost,
       String? keyword,
       BaseResponse<void> stateBookmark,
       BaseResponse<List<UserTag>?> stateTag});
@@ -115,7 +135,9 @@ class __$$ListPostStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? stateList = null,
+    Object? stateListPost = null,
     Object? hasReachMax = null,
+    Object? hasReachMaxPost = null,
     Object? keyword = freezed,
     Object? stateBookmark = null,
     Object? stateTag = null,
@@ -125,10 +147,18 @@ class __$$ListPostStateImplCopyWithImpl<$Res>
           ? _value.stateList
           : stateList // ignore: cast_nullable_to_non_nullable
               as BaseResponse<List<PostModel>?>,
+      stateListPost: null == stateListPost
+          ? _value._stateListPost
+          : stateListPost // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, BaseResponse<List<PostModel>>>>,
       hasReachMax: null == hasReachMax
           ? _value.hasReachMax
           : hasReachMax // ignore: cast_nullable_to_non_nullable
               as bool,
+      hasReachMaxPost: null == hasReachMaxPost
+          ? _value._hasReachMaxPost
+          : hasReachMaxPost // ignore: cast_nullable_to_non_nullable
+              as List<Map<String, bool>>,
       keyword: freezed == keyword
           ? _value.keyword
           : keyword // ignore: cast_nullable_to_non_nullable
@@ -150,18 +180,43 @@ class __$$ListPostStateImplCopyWithImpl<$Res>
 class _$ListPostStateImpl extends _ListPostState {
   const _$ListPostStateImpl(
       {this.stateList = const BaseResponse(),
+      final List<Map<String, BaseResponse<List<PostModel>>>> stateListPost =
+          const [],
       this.hasReachMax = false,
+      final List<Map<String, bool>> hasReachMaxPost = const [],
       this.keyword,
       this.stateBookmark = const BaseResponse(),
       this.stateTag = const BaseResponse()})
-      : super._();
+      : _stateListPost = stateListPost,
+        _hasReachMaxPost = hasReachMaxPost,
+        super._();
 
   @override
   @JsonKey()
   final BaseResponse<List<PostModel>?> stateList;
+  final List<Map<String, BaseResponse<List<PostModel>>>> _stateListPost;
+
+  @override
+  @JsonKey()
+  List<Map<String, BaseResponse<List<PostModel>>>> get stateListPost {
+    if (_stateListPost is EqualUnmodifiableListView) return _stateListPost;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_stateListPost);
+  }
+
   @override
   @JsonKey()
   final bool hasReachMax;
+  final List<Map<String, bool>> _hasReachMaxPost;
+
+  @override
+  @JsonKey()
+  List<Map<String, bool>> get hasReachMaxPost {
+    if (_hasReachMaxPost is EqualUnmodifiableListView) return _hasReachMaxPost;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_hasReachMaxPost);
+  }
+
   @override
   final String? keyword;
   @override
@@ -173,7 +228,7 @@ class _$ListPostStateImpl extends _ListPostState {
 
   @override
   String toString() {
-    return 'ListPostState(stateList: $stateList, hasReachMax: $hasReachMax, keyword: $keyword, stateBookmark: $stateBookmark, stateTag: $stateTag)';
+    return 'ListPostState(stateList: $stateList, stateListPost: $stateListPost, hasReachMax: $hasReachMax, hasReachMaxPost: $hasReachMaxPost, keyword: $keyword, stateBookmark: $stateBookmark, stateTag: $stateTag)';
   }
 
   @override
@@ -183,8 +238,12 @@ class _$ListPostStateImpl extends _ListPostState {
             other is _$ListPostStateImpl &&
             (identical(other.stateList, stateList) ||
                 other.stateList == stateList) &&
+            const DeepCollectionEquality()
+                .equals(other._stateListPost, _stateListPost) &&
             (identical(other.hasReachMax, hasReachMax) ||
                 other.hasReachMax == hasReachMax) &&
+            const DeepCollectionEquality()
+                .equals(other._hasReachMaxPost, _hasReachMaxPost) &&
             (identical(other.keyword, keyword) || other.keyword == keyword) &&
             (identical(other.stateBookmark, stateBookmark) ||
                 other.stateBookmark == stateBookmark) &&
@@ -194,7 +253,14 @@ class _$ListPostStateImpl extends _ListPostState {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, stateList, hasReachMax, keyword, stateBookmark, stateTag);
+      runtimeType,
+      stateList,
+      const DeepCollectionEquality().hash(_stateListPost),
+      hasReachMax,
+      const DeepCollectionEquality().hash(_hasReachMaxPost),
+      keyword,
+      stateBookmark,
+      stateTag);
 
   @JsonKey(ignore: true)
   @override
@@ -206,7 +272,9 @@ class _$ListPostStateImpl extends _ListPostState {
 abstract class _ListPostState extends ListPostState {
   const factory _ListPostState(
       {final BaseResponse<List<PostModel>?> stateList,
+      final List<Map<String, BaseResponse<List<PostModel>>>> stateListPost,
       final bool hasReachMax,
+      final List<Map<String, bool>> hasReachMaxPost,
       final String? keyword,
       final BaseResponse<void> stateBookmark,
       final BaseResponse<List<UserTag>?> stateTag}) = _$ListPostStateImpl;
@@ -214,8 +282,14 @@ abstract class _ListPostState extends ListPostState {
 
   @override
   BaseResponse<List<PostModel>?> get stateList;
+
+  @override
+  List<Map<String, BaseResponse<List<PostModel>>>> get stateListPost;
   @override
   bool get hasReachMax;
+
+  @override
+  List<Map<String, bool>> get hasReachMaxPost;
   @override
   String? get keyword;
   @override

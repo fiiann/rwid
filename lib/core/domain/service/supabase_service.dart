@@ -107,7 +107,7 @@ class SupabaseService {
 
   ///POST
   Future<BaseResponse<List<PostModel>?>> getPosts(
-      {String? keyword, int startIndex = 0}) async {
+      {String? keyword, int? tagId, int startIndex = 0}) async {
     try {
       late PostgrestList data;
       if (keyword != null && keyword.isNotEmpty) {
@@ -115,12 +115,14 @@ class SupabaseService {
             .from('posts')
             .select('*, bookmarks!left(post_id)')
             .ilike('title', '%$keyword%')
+            // .ilike('tag_id', '%${tagId ?? ""}%')
             .range(startIndex, startIndex + limitPage)
             .order('created_at', ascending: false);
       } else {
         data = await _client
             .from('posts')
             .select('*, bookmarks!left(post_id)')
+            // .ilike('tag_id', '%${tagId ?? ""}%')
             .range(startIndex, startIndex + limitPage)
             .order('created_at', ascending: false);
       }

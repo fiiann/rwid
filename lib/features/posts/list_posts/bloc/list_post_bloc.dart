@@ -7,7 +7,6 @@ import 'package:rwid/core/domain/model/base_response.dart';
 import 'package:rwid/core/domain/service/supabase_service.dart';
 import 'package:rwid/features/auth/model/user_tag_model.dart';
 import 'package:rwid/features/posts/models/models.dart';
-import 'package:rwid/features/tag/model/tag_model.dart';
 
 import '../../../../core/extention/throttle.dart';
 
@@ -91,5 +90,15 @@ class ListPostBloc extends Bloc<ListPostEvent, ListPostState> {
     emit(state.copyWith(stateTag: BaseResponse.loading()));
     final responseTag = await _client.getUserTag();
     emit(state.copyWith(stateTag: responseTag));
+    if (responseTag.state == ResponseState.ok) {
+      if (responseTag.data != null && responseTag.data!.isNotEmpty) {}
+      // List<Map<String, Base>> statePost = [];
+      // List<Map<String, bool>> stateHasReachMax = [];
+      // for(UserTag tag in responseTag.data??[]){
+      //   statePost.add({tag.tagModel?.name??'': []});
+      //   stateHasReachMax.add({tag.tagModel?.name??'': false});
+      // }
+      // emit(state.copyWith(stateListPost: statePost));
+    }
   }
 }

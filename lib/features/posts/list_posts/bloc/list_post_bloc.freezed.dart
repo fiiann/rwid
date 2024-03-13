@@ -21,6 +21,9 @@ mixin _$ListPostState {
   bool get hasReachMax => throw _privateConstructorUsedError;
   String? get keyword => throw _privateConstructorUsedError;
   BaseResponse<void> get stateBookmark => throw _privateConstructorUsedError;
+  BaseResponse<List<UserTag>?> get stateTag =>
+      throw _privateConstructorUsedError;
+  UserTag? get selectedTag => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ListPostStateCopyWith<ListPostState> get copyWith =>
@@ -37,7 +40,11 @@ abstract class $ListPostStateCopyWith<$Res> {
       {BaseResponse<List<PostModel>?> stateList,
       bool hasReachMax,
       String? keyword,
-      BaseResponse<void> stateBookmark});
+      BaseResponse<void> stateBookmark,
+      BaseResponse<List<UserTag>?> stateTag,
+      UserTag? selectedTag});
+
+  $UserTagCopyWith<$Res>? get selectedTag;
 }
 
 /// @nodoc
@@ -57,6 +64,8 @@ class _$ListPostStateCopyWithImpl<$Res, $Val extends ListPostState>
     Object? hasReachMax = null,
     Object? keyword = freezed,
     Object? stateBookmark = null,
+    Object? stateTag = null,
+    Object? selectedTag = freezed,
   }) {
     return _then(_value.copyWith(
       stateList: null == stateList
@@ -75,7 +84,27 @@ class _$ListPostStateCopyWithImpl<$Res, $Val extends ListPostState>
           ? _value.stateBookmark
           : stateBookmark // ignore: cast_nullable_to_non_nullable
               as BaseResponse<void>,
+      stateTag: null == stateTag
+          ? _value.stateTag
+          : stateTag // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<List<UserTag>?>,
+      selectedTag: freezed == selectedTag
+          ? _value.selectedTag
+          : selectedTag // ignore: cast_nullable_to_non_nullable
+              as UserTag?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserTagCopyWith<$Res>? get selectedTag {
+    if (_value.selectedTag == null) {
+      return null;
+    }
+
+    return $UserTagCopyWith<$Res>(_value.selectedTag!, (value) {
+      return _then(_value.copyWith(selectedTag: value) as $Val);
+    });
   }
 }
 
@@ -91,7 +120,12 @@ abstract class _$$ListPostStateImplCopyWith<$Res>
       {BaseResponse<List<PostModel>?> stateList,
       bool hasReachMax,
       String? keyword,
-      BaseResponse<void> stateBookmark});
+      BaseResponse<void> stateBookmark,
+      BaseResponse<List<UserTag>?> stateTag,
+      UserTag? selectedTag});
+
+  @override
+  $UserTagCopyWith<$Res>? get selectedTag;
 }
 
 /// @nodoc
@@ -109,6 +143,8 @@ class __$$ListPostStateImplCopyWithImpl<$Res>
     Object? hasReachMax = null,
     Object? keyword = freezed,
     Object? stateBookmark = null,
+    Object? stateTag = null,
+    Object? selectedTag = freezed,
   }) {
     return _then(_$ListPostStateImpl(
       stateList: null == stateList
@@ -127,6 +163,14 @@ class __$$ListPostStateImplCopyWithImpl<$Res>
           ? _value.stateBookmark
           : stateBookmark // ignore: cast_nullable_to_non_nullable
               as BaseResponse<void>,
+      stateTag: null == stateTag
+          ? _value.stateTag
+          : stateTag // ignore: cast_nullable_to_non_nullable
+              as BaseResponse<List<UserTag>?>,
+      selectedTag: freezed == selectedTag
+          ? _value.selectedTag
+          : selectedTag // ignore: cast_nullable_to_non_nullable
+              as UserTag?,
     ));
   }
 }
@@ -138,7 +182,9 @@ class _$ListPostStateImpl extends _ListPostState {
       {this.stateList = const BaseResponse(),
       this.hasReachMax = false,
       this.keyword,
-      this.stateBookmark = const BaseResponse()})
+      this.stateBookmark = const BaseResponse(),
+      this.stateTag = const BaseResponse(),
+      this.selectedTag})
       : super._();
 
   @override
@@ -152,10 +198,15 @@ class _$ListPostStateImpl extends _ListPostState {
   @override
   @JsonKey()
   final BaseResponse<void> stateBookmark;
+  @override
+  @JsonKey()
+  final BaseResponse<List<UserTag>?> stateTag;
+  @override
+  final UserTag? selectedTag;
 
   @override
   String toString() {
-    return 'ListPostState(stateList: $stateList, hasReachMax: $hasReachMax, keyword: $keyword, stateBookmark: $stateBookmark)';
+    return 'ListPostState(stateList: $stateList, hasReachMax: $hasReachMax, keyword: $keyword, stateBookmark: $stateBookmark, stateTag: $stateTag, selectedTag: $selectedTag)';
   }
 
   @override
@@ -169,12 +220,16 @@ class _$ListPostStateImpl extends _ListPostState {
                 other.hasReachMax == hasReachMax) &&
             (identical(other.keyword, keyword) || other.keyword == keyword) &&
             (identical(other.stateBookmark, stateBookmark) ||
-                other.stateBookmark == stateBookmark));
+                other.stateBookmark == stateBookmark) &&
+            (identical(other.stateTag, stateTag) ||
+                other.stateTag == stateTag) &&
+            (identical(other.selectedTag, selectedTag) ||
+                other.selectedTag == selectedTag));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, stateList, hasReachMax, keyword, stateBookmark);
+  int get hashCode => Object.hash(runtimeType, stateList, hasReachMax, keyword,
+      stateBookmark, stateTag, selectedTag);
 
   @JsonKey(ignore: true)
   @override
@@ -188,7 +243,9 @@ abstract class _ListPostState extends ListPostState {
       {final BaseResponse<List<PostModel>?> stateList,
       final bool hasReachMax,
       final String? keyword,
-      final BaseResponse<void> stateBookmark}) = _$ListPostStateImpl;
+      final BaseResponse<void> stateBookmark,
+      final BaseResponse<List<UserTag>?> stateTag,
+      final UserTag? selectedTag}) = _$ListPostStateImpl;
   const _ListPostState._() : super._();
 
   @override
@@ -199,6 +256,10 @@ abstract class _ListPostState extends ListPostState {
   String? get keyword;
   @override
   BaseResponse<void> get stateBookmark;
+  @override
+  BaseResponse<List<UserTag>?> get stateTag;
+  @override
+  UserTag? get selectedTag;
   @override
   @JsonKey(ignore: true)
   _$$ListPostStateImplCopyWith<_$ListPostStateImpl> get copyWith =>

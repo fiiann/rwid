@@ -98,7 +98,14 @@ class PostCard extends StatelessWidget {
         ),
         Row(
           children: [
+            const Icon(
+              Icons.remove_red_eye,
+              size: 18,
+            ),
             CustomText('$countView'),
+            const SizedBox(
+              width: 10,
+            ),
             bookmarkWidget(page),
           ],
         )

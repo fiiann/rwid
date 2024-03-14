@@ -30,13 +30,15 @@ class PostModel with _$PostModel {
       @JsonKey(name: 'tag_id') int? tag,
       @JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: true)
       List<BookmarkModel>? bookmarks,
-      @JsonKey(
-          includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
       @Default(0)
       @JsonKey(includeFromJson: false, includeToJson: false)
       int count,
-      @Default(false) bool isBookmark}) = _PostModel;
+      @JsonKey(
+          includeToJson: false, includeFromJson: false, name: 'is_bookmarked')
+      @Default(false)
+      bool isBookmark}) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);

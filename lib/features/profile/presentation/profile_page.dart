@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rwid/core/constant/constant.dart';
 import 'package:rwid/core/domain/model/user_rwid.dart';
 import 'package:rwid/core/widget/custom_text.dart';
+import 'package:rwid/features/auth/bloc/auth_cubit.dart';
+import 'package:rwid/features/auth/page/login_page.dart';
 import 'package:rwid/features/profile/presentation/components/custom_cupertino_section.dart';
 import 'package:rwid/features/profile/presentation/edit_profile_page.dart';
 import 'package:rwid/features/profile/presentation/profile_utils.dart';
@@ -26,8 +29,27 @@ class ProfilePage extends StatelessWidget {
           ];
 
           final listSetting = [
-            ('Theme Mode', 'White Theme', Icons.dark_mode_outlined, () {}),
+            (
+              'Theme Mode',
+              'White Theme',
+              Icons.dark_mode_outlined,
+              () async {
+                print('change theme');
+              }
+            ),
             ('Language', 'English', Icons.language, () {})
+          ];
+
+          final logout = [
+            (
+              'Logout',
+              '',
+              Icons.logout_rounded,
+              () {
+                context.read<AuthCubit>().logout();
+                context.go(LoginPage.route);
+              }
+            ),
           ];
           return CustomScrollView(
             slivers: [
@@ -35,6 +57,7 @@ class ProfilePage extends StatelessWidget {
               buildPhoto(user),
               buildInfoProfile(listProfile, context),
               buildInfoSetting(listSetting, context),
+              buildLogout(logout, context),
             ],
           );
         },
@@ -42,8 +65,8 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  SliverToBoxAdapter buildInfoProfile(List<ProfileTuple> list,
-      BuildContext context) {
+  SliverToBoxAdapter buildInfoProfile(
+      List<ProfileTuple> list, BuildContext context) {
     return SliverToBoxAdapter(
       child: CustomCupertinoSection(
         title: 'Personal Information',
@@ -56,11 +79,21 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  SliverToBoxAdapter buildInfoSetting(List<ProfileTuple> list,
-      BuildContext context) {
+  SliverToBoxAdapter buildInfoSetting(
+      List<ProfileTuple> list, BuildContext context) {
     return SliverToBoxAdapter(
       child: CustomCupertinoSection(
         title: 'Setting',
+        data: list,
+      ),
+    );
+  }
+
+  SliverToBoxAdapter buildLogout(
+      List<ProfileTuple> list, BuildContext context) {
+    return SliverToBoxAdapter(
+      child: CustomCupertinoSection(
+        title: '',
         data: list,
       ),
     );

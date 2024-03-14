@@ -31,10 +31,11 @@ mixin _$PostModel {
   String? get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: true)
   List<BookmarkModel>? get bookmarks => throw _privateConstructorUsedError;
-  @JsonKey(includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
   @JsonKey(includeFromJson: false, includeToJson: false)
   int get count => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false, includeFromJson: false, name: 'is_bookmarked')
   bool get isBookmark => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,11 +57,11 @@ abstract class $PostModelCopyWith<$Res> {
       @JsonKey(name: 'tag_id') int? tag,
       @JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: true)
       List<BookmarkModel>? bookmarks,
+      @JsonKey(includeFromJson: false, includeToJson: false) int count,
       @JsonKey(
-          includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      int count,
+          includeToJson: false, includeFromJson: false, name: 'is_bookmarked')
       bool isBookmark});
 }
 
@@ -149,11 +150,11 @@ abstract class _$$PostModelImplCopyWith<$Res>
       @JsonKey(name: 'tag_id') int? tag,
       @JsonKey(name: 'user_id') String? userId,
       @JsonKey(name: 'created_at', includeToJson: false) DateTime? createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: true)
       List<BookmarkModel>? bookmarks,
+      @JsonKey(includeFromJson: false, includeToJson: false) int count,
       @JsonKey(
-          includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      int count,
+          includeToJson: false, includeFromJson: false, name: 'is_bookmarked')
       bool isBookmark});
 }
 
@@ -235,11 +236,11 @@ class _$PostModelImpl extends _PostModel {
       @JsonKey(name: 'tag_id') this.tag,
       @JsonKey(name: 'user_id') this.userId,
       @JsonKey(name: 'created_at', includeToJson: false) this.createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: true)
       final List<BookmarkModel>? bookmarks,
+      @JsonKey(includeFromJson: false, includeToJson: false) this.count = 0,
       @JsonKey(
-          includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      this.count = 0,
+          includeToJson: false, includeFromJson: false, name: 'is_bookmarked')
       this.isBookmark = false})
       : _bookmarks = bookmarks,
         super._();
@@ -267,6 +268,7 @@ class _$PostModelImpl extends _PostModel {
   final DateTime? createdAt;
   final List<BookmarkModel>? _bookmarks;
   @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
   List<BookmarkModel>? get bookmarks {
     final value = _bookmarks;
     if (value == null) return null;
@@ -276,11 +278,10 @@ class _$PostModelImpl extends _PostModel {
   }
 
   @override
-  @JsonKey(includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
   @JsonKey(includeFromJson: false, includeToJson: false)
   final int count;
   @override
-  @JsonKey()
+  @JsonKey(includeToJson: false, includeFromJson: false, name: 'is_bookmarked')
   final bool isBookmark;
 
   @override
@@ -347,11 +348,11 @@ abstract class _PostModel extends PostModel {
       @JsonKey(name: 'user_id') final String? userId,
       @JsonKey(name: 'created_at', includeToJson: false)
       final DateTime? createdAt,
+      @JsonKey(includeToJson: false, includeFromJson: true)
       final List<BookmarkModel>? bookmarks,
+      @JsonKey(includeFromJson: false, includeToJson: false) final int count,
       @JsonKey(
-          includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
-      @JsonKey(includeFromJson: false, includeToJson: false)
-      final int count,
+          includeToJson: false, includeFromJson: false, name: 'is_bookmarked')
       final bool isBookmark}) = _$PostModelImpl;
   const _PostModel._() : super._();
 
@@ -377,12 +378,13 @@ abstract class _PostModel extends PostModel {
   @JsonKey(name: 'created_at', includeToJson: false)
   DateTime? get createdAt;
   @override
+  @JsonKey(includeToJson: false, includeFromJson: true)
   List<BookmarkModel>? get bookmarks;
   @override
-  @JsonKey(includeToJson: false, includeFromJson: true, name: 'is_bookmarked')
   @JsonKey(includeFromJson: false, includeToJson: false)
   int get count;
   @override
+  @JsonKey(includeToJson: false, includeFromJson: false, name: 'is_bookmarked')
   bool get isBookmark;
   @override
   @JsonKey(ignore: true)

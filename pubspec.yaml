@@ -48,14 +48,14 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/image/icon_rwid.jpg"
+  image_path: "assets/image/icon_apps.png"
   min_sdk_android: 21 # android
 
 flutter_native_splash:
-  image: assets/image/icon_rwid.jpg
+  image: assets/image/icon_apps.png
   color: "#ffffff"
   android_12:
-    image: assets/image/icon_rwid.jpg
+    image: assets/image/icon_apps.png
     color: "#a7bbc7"
 
 flutter:

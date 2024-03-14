@@ -16,7 +16,7 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoListTile(
-      onTap: () {},
+      onTap: data.$4,
       title: CustomText(
         data.$1,
         style: CustomTextStyle.lightTypographyBody2,

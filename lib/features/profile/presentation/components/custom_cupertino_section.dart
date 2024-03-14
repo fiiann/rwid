@@ -15,7 +15,9 @@ class CustomCupertinoSection extends StatelessWidget {
     return CupertinoListSection.insetGrouped(
       backgroundColor: CupertinoColors.white,
       header: edit == null
-          ? CustomText(title)
+          ? title == ''
+              ? null
+              : CustomText(title)
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [CustomText(title), edit!],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rwid/core/widget/primary_button.dart';
 
 const kModalBottomShape = RoundedRectangleBorder(
   borderRadius: BorderRadius.only(
@@ -74,18 +75,19 @@ Future<bool?> showConfirmationBottomSheet({
               children: [
                 const SizedBox(width: 16),
                 Expanded(
-                  child: OutlinedButton(
-                    child: Text(negativeButton),
-                    onPressed: () {
+                  child: PrimaryButton(
+                    buttonPrimaryType: ButtonPrimaryType.outlinedPrimary,
+                    label: negativeButton,
+                    onTap: () {
                       Navigator.pop(context, false);
                     },
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: ElevatedButton(
-                    child: Text(positiveButton),
-                    onPressed: () {
+                  child: PrimaryButton(
+                    label: positiveButton,
+                    onTap: () {
                       Navigator.pop(context, true);
                     },
                   ),

@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthCubit>(create: (_) => locator()),
       ],
       child: MaterialApp.router(
-        title: 'RWID POSTS',
+        debugShowCheckedModeBanner: false,
+        title: 'Articelly',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
           useMaterial3: true,
